@@ -13,7 +13,14 @@ namespace Tester
 
             var window = Window.New(WindowType.TopLevel);
             Window.SetTitle(window, "Örstes Fänster 😎😎👌");
-            Widget.Show(window);
+            Container.SetBorderWidth(window, 10);
+            Widget.SetSizeRequest(window, 200, 100);
+
+            var label = Label.New("Hellö Wörld 😎👌");
+            Label.SetSelectable(label, true);
+            Container.Add(window, label);
+
+            Widget.ShowAll(window);
 
             Gtk.Main();
 
