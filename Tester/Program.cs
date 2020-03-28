@@ -13,21 +13,22 @@ namespace Tester
             
             Gtk.Init();
 
-            var window = Window.New(WindowType.TopLevel);
-            Window.SetTitle(window, "Örstes Fänster 😎😎👌");
-            Container.SetBorderWidth(window, 10);
-            Widget.SetSizeRequest(window, 200, 100);
+            var builder = Builder.New();
+            var res = Builder.AddFromFile(builder, "glade", IntPtr.Zero);
 
+            var window = Builder.GetObject(builder, "window");
             Action destroyAction = () => Gtk.MainQuit();
             Gtk.SignalConnect(window, "destroy", destroyAction);
             BoolFunc deleteEventFunc = () => false; // true cancels the destroy request!
             Gtk.SignalConnect(window, "delete_event", deleteEventFunc);
 
-            var label = Label.New("Hellö Wörld 😎👌");
-            Label.SetSelectable(label, true);
-            Container.Add(window, label);
+            var button = Builder.GetObject(builder, "button");
+            Action clickedAction = () => Button.SetLabel(button, "Thank You!");
+            Gtk.SignalConnect(button, "clicked", clickedAction);
 
-            Widget.ShowAll(window);
+            GObject.Unref(builder);
+
+            Widget.Show(window);
 
             Gtk.Main();
 
