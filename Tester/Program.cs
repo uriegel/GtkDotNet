@@ -9,30 +9,27 @@ namespace Tester
         
         static void Main(string[] args)
         {
-            Console.WriteLine("Program started 😎😎👌");
-            
             Gtk.Init();
 
-            var builder = Builder.New();
-            var res = Builder.AddFromFile(builder, "glade", IntPtr.Zero);
+            var window = Window.New(WindowType.TopLevel);
+            Window.SetTitle(window, "Web View 😎😎👌");            
+            Window.SetDefaultSize(window, 800, 600);
+            Widget.SetSizeRequest(window, 200, 100);
 
-            var window = Builder.GetObject(builder, "window");
+            // sudo apt install libwebkit2gtk-4.0-dev
+            var webView = WebKit.New();
+            Container.Add(window, webView);
+
             Action destroyAction = () => Gtk.MainQuit();
             Gtk.SignalConnect(window, "destroy", destroyAction);
             BoolFunc deleteEventFunc = () => false; // true cancels the destroy request!
             Gtk.SignalConnect(window, "delete_event", deleteEventFunc);
+            
+            Widget.ShowAll(window);
 
-            var button = Builder.GetObject(builder, "button");
-            Action clickedAction = () => Button.SetLabel(button, "Thank You!");
-            Gtk.SignalConnect(button, "clicked", clickedAction);
-
-            GObject.Unref(builder);
-
-            Widget.Show(window);
+            WebKit.LoadUri(webView, "https://google.de");
 
             Gtk.Main();
-
-            Console.WriteLine("Program finished!");
         }
     }
 }
