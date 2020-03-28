@@ -20,6 +20,8 @@ namespace Tester
 
             // sudo apt install libwebkit2gtk-4.0-dev
             var webView = WebKit.New();
+            var settings = WebKit.GetSettings(webView);
+            GObject.SetBool(settings, "enable-developer-extras", true);
             Container.Add(window, webView);
 
             Action destroyAction = () => Gtk.MainQuit();
@@ -30,16 +32,27 @@ namespace Tester
             ScripDialogFunc scripDialogFunc = (_, dialog) => {
                 var ptr = WebKit.ScriptDialogGetMessage(dialog);
                 var text = Marshal.PtrToStringUTF8(ptr);
-                if (text == "anfang") 
-                    WebKit.RunJavascript(webView, "var affe = 'Ein Äffchen'");
-                else 
-                    Console.WriteLine($"---ALERT--- {text}");
+                switch (text) 
+                {
+                    case "anfang":
+                        WebKit.RunJavascript(webView, "var affe = 'Ein Äffchen'");
+                        break;
+                    case "devTools":
+                        var inspector = WebKit.GetInspector(webView);
+                        WebKit.InspectorShow(inspector);
+                        break;
+                    default:
+                        Console.WriteLine($"---ALERT--- {text}");
+                        break;
+                }
                 return true;
             };
             Gtk.SignalConnect(webView, "script-dialog", scripDialogFunc);
             BoolFunc contextMenuFunc = () => true; // true cancels the context menu request
             Gtk.SignalConnect(webView, "context-menu", contextMenuFunc);
             Widget.ShowAll(window);
+
+
 
             //WebKit.LoadUri(webView, "https://google.de");
             WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/webroot/index.html");

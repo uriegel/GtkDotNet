@@ -7,6 +7,13 @@ namespace GtkDotNet
     {
         [DllImport(Globals.LibGtk, EntryPoint="g_object_unref", CallingConvention = CallingConvention.Cdecl)]
         public extern static void Unref(IntPtr obj);
+
+        public static void SetBool(IntPtr settings, string name, bool value)
+            => SetBool(settings, name, value, IntPtr.Zero);
+
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_object_set", CallingConvention = CallingConvention.Cdecl)]
+        extern static void SetBool(IntPtr settings, string name, bool value, IntPtr end);
     }
 }
 
