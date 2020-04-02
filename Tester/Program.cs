@@ -8,15 +8,17 @@ namespace Tester
     { 
         delegate bool BoolFunc();
         delegate bool ScripDialogFunc(IntPtr webView, IntPtr dialog);
-        
+        delegate bool ConfigureEventFunc(IntPtr widget, IntPtr evt);
+       
         static void Main(string[] args)
         {
             Gtk.Init();
 
             var window = Window.New(WindowType.TopLevel);
             Window.SetTitle(window, "Web View 😎😎👌");            
-            Window.SetDefaultSize(window, 800, 600);
+            Window.SetDefaultSize(window, 400, 600);
             Widget.SetSizeRequest(window, 200, 100);
+            Window.Move(window,2900, 456);
 
             // sudo apt install libwebkit2gtk-4.0-dev
             var webView = WebKit.New();
@@ -28,6 +30,12 @@ namespace Tester
             Gtk.SignalConnect(window, "destroy", destroyAction);
             BoolFunc deleteEventFunc = () => false; // true cancels the destroy request!
             Gtk.SignalConnect(window, "delete_event", deleteEventFunc);
+            ConfigureEventFunc configureEventFunc = (w, e) => {
+                var evt = Marshal.PtrToStructure<ConfigureEvent>(e);
+                Console.WriteLine("Configure " + evt.Width.ToString() + " " + evt.Height.ToString());
+                return false;
+            }; // true cancels the destroy request!
+            Gtk.SignalConnect(window, "configure_event", configureEventFunc);
 
             ScripDialogFunc scripDialogFunc = (_, dialog) => {
                 var ptr = WebKit.ScriptDialogGetMessage(dialog);
