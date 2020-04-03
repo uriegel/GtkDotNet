@@ -14,7 +14,10 @@ namespace Tester
         {
             Gtk.Init();
 
-            var window = Window.New(WindowType.TopLevel);
+            var builder = Builder.New();
+            var res = Builder.AddFromFile(builder, "Tester/glade", IntPtr.Zero);
+            var window = Builder.GetObject(builder, "window");
+
             Window.SetTitle(window, "Web View 😎😎👌");            
             Window.SetDefaultSize(window, 400, 600);
             Widget.SetSizeRequest(window, 200, 100);
@@ -60,7 +63,10 @@ namespace Tester
             Gtk.SignalConnect(webView, "context-menu", contextMenuFunc);
             Widget.ShowAll(window);
 
-
+            var button = Builder.GetObject(builder, "menudrücker");
+            var popupMenu = Builder.GetObject(builder, "menu");
+            Action clickedAction = () => Popover.Popup(popupMenu);
+            Gtk.SignalConnect(button, "clicked", clickedAction);
 
             //WebKit.LoadUri(webView, "https://google.de");
             WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/webroot/index.html");
