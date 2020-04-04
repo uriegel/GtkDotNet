@@ -68,6 +68,13 @@ namespace Tester
             Action clickedAction = () => Popover.Popup(popupMenu);
             Gtk.SignalConnect(button, "clicked", clickedAction);
 
+            var menu1 = Builder.GetObject(builder, "selectall");
+            var menu2 = Builder.GetObject(builder, "abschuss");
+            Action clickedAction1 = () => Console.WriteLine("Aktion 1");
+            Action clickedAction2 = () => Console.WriteLine("Aktion 2");
+            Gtk.SignalConnect(menu1, "clicked", clickedAction1);
+            Gtk.SignalConnect(menu2, "clicked", clickedAction2);
+
             //WebKit.LoadUri(webView, "https://google.de");
             WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/webroot/index.html");
 
@@ -75,3 +82,8 @@ namespace Tester
         }
     }
 }
+// TODO: Icon in Button
+// TODO: Focus webwiew
+// TODO: Show Accelerators
+// TODO: Accelerators load
+// TODO: Close Window

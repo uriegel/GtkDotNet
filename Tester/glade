@@ -19,10 +19,11 @@
         </child>
         <child>
           <object class="GtkButton" id="menudrücker">
-            <property name="label" translatable="yes">Menü</property>
+            <property name="label" translatable="yes">_Menü</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="use_underline">True</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -136,11 +137,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkModelButton">
+          <object class="GtkModelButton" id="selectall">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="text" translatable="yes">Alles _Selektieren</property>
+            <accelerator key="F5" signal="clicked"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -149,11 +151,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkModelButton">
+          <object class="GtkModelButton" id="abschuss">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="text" translatable="yes">_Abschießen</property>
+            <accelerator key="F6" signal="clicked"/>
           </object>
           <packing>
             <property name="expand">False</property>
