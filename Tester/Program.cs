@@ -84,3 +84,4 @@ namespace Tester
 }
 // TODO: Show Accelerators
 // TODO: Accelerators load
+// TODO: MenuItem hide (Show Dev Tools in Release)
