@@ -82,8 +82,5 @@ namespace Tester
         }
     }
 }
-// TODO: Icon in Button
-// TODO: Focus webwiew
 // TODO: Show Accelerators
 // TODO: Accelerators load
-// TODO: Close Window
