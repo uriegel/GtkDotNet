@@ -165,6 +165,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="action_name">app.test3</property>
             <property name="text" translatable="yes">Alles _Selektieren</property>
             <accelerator key="F5" signal="clicked"/>
           </object>
