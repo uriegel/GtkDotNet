@@ -28,6 +28,7 @@ namespace Tester
                 var res = Builder.AddFromFile(builder, "Tester/glade", IntPtr.Zero);
                 var window = Builder.GetObject(builder, "window");
                 menu = Builder.GetObject(builder, "menu");
+                GObject.Unref(builder);
                 Application.AddWindow(app, window);
 
                 Window.SetTitle(window, "Web View 😎😎👌");            
