@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace GtkDotNet
@@ -30,9 +31,13 @@ namespace GtkDotNet
         [DllImport(Globals.LibGtk, EntryPoint="gtk_main_quit", CallingConvention = CallingConvention.Cdecl)]
         public extern static void MainQuit();
 
-        public static void SignalConnect(IntPtr widget, string name, Delegate callback)
-            => SignalConnect(widget, name, Marshal.GetFunctionPointerForDelegate(callback), IntPtr.Zero, IntPtr.Zero, 0);
-
+        public static void SignalConnect<TDelegate>(IntPtr widget, string name, TDelegate callback) where TDelegate : Delegate
+        {
+            var delegat = callback as Delegate;
+            Delegates.Add(delegat);
+            SignalConnect(widget, name, Marshal.GetFunctionPointerForDelegate(callback), IntPtr.Zero, IntPtr.Zero, 0);
+        }
+            
         [DllImport(Globals.LibGtk, EntryPoint="gtk_init", CallingConvention = CallingConvention.Cdecl)]
         private extern static void init (ref int argc, ref IntPtr argv);
 

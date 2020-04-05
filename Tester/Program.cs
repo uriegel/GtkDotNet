@@ -13,16 +13,21 @@ namespace Tester
         static int Main(string[] args)
         {
             var app = Application.New("de.uriegel.test");
+            IntPtr menu = IntPtr.Zero;
 
-            Action testAction = () => Console.WriteLine("Ein Test");
-            Action test2Action = () => Console.WriteLine("Ein Test 2");
-            Action test3Action = () => Console.WriteLine("Ein Test 3");
-            Application.AddActions(app, new [] { new GtkAction("quit", testAction, "<Ctrl>Q"), new GtkAction("test", test2Action),new GtkAction("test3", test3Action, "F5")});
+            Application.AddActions(app, new [] { 
+                new GtkAction("destroy", () => Application.Quit(app), "<Ctrl>Q"), 
+                new GtkAction("menuopen", () => Popover.Popup(menu)),
+                new GtkAction("test", () => Console.WriteLine("Ein Test"), "F6"), 
+                new GtkAction("test2", () => Console.WriteLine("Ein Test 2")),
+                new GtkAction("test3", () => Console.WriteLine("Ein Test 3"), "F5")
+            });
 
             return Application.Run(app, () => {
                 var builder = Builder.New();
                 var res = Builder.AddFromFile(builder, "Tester/glade", IntPtr.Zero);
                 var window = Builder.GetObject(builder, "window");
+                menu = Builder.GetObject(builder, "menu");
                 Application.AddWindow(app, window);
 
                 Window.SetTitle(window, "Web View 😎😎👌");            
@@ -36,16 +41,12 @@ namespace Tester
                 GObject.SetBool(settings, "enable-developer-extras", true);
                 Container.Add(window, webView);
 
-                Action destroyAction = () => Application.Quit(app);
-                Gtk.SignalConnect(window, "destroy", destroyAction);
-                BoolFunc deleteEventFunc = () => false; // true cancels the destroy request!
-                Gtk.SignalConnect(window, "delete_event", deleteEventFunc);
-                ConfigureEventFunc configureEventFunc = (w, e) => {
+                Gtk.SignalConnect<BoolFunc>(window, "delete_event", () => false);// true cancels the destroy request!
+                Gtk.SignalConnect<ConfigureEventFunc>(window, "configure_event", (w, e) => {
                     var evt = Marshal.PtrToStructure<ConfigureEvent>(e);
                     Console.WriteLine("Configure " + evt.Width.ToString() + " " + evt.Height.ToString());
                     return false;
-                }; // true cancels the destroy request!
-                Gtk.SignalConnect(window, "configure_event", configureEventFunc);
+                });
 
                 ScripDialogFunc scripDialogFunc = (_, dialog) => {
                     var ptr = WebKit.ScriptDialogGetMessage(dialog);
@@ -66,22 +67,11 @@ namespace Tester
                     return true;
                 };
                 Gtk.SignalConnect(webView, "script-dialog", scripDialogFunc);
-                BoolFunc contextMenuFunc = () => true; // true cancels the context menu request
-                Gtk.SignalConnect(webView, "context-menu", contextMenuFunc);
+                Gtk.SignalConnect<BoolFunc>(webView, "context-menu", () => true);
                 Widget.ShowAll(window);
 
-                var button = Builder.GetObject(builder, "menudrücker");
-                var popupMenu = Builder.GetObject(builder, "menu");
-
-                Action clickedAction = () => Popover.Popup(popupMenu);
-                Gtk.SignalConnect(button, "clicked", clickedAction);
-
-                var menu2 = Builder.GetObject(builder, "abschuss");
-
-                Widget.Hide(menu2);
-
-                Action clickedAction2 = () => Console.WriteLine("Aktion 2");
-                Gtk.SignalConnect(menu2, "clicked", clickedAction2);
+                // var menu2 = Builder.GetObject(builder, "abschuss");
+                // Widget.Hide(menu2);
 
                 //WebKit.LoadUri(webView, "https://google.de");
                 WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/webroot/index.html");

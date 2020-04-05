@@ -34,7 +34,7 @@ namespace GtkDotNet
             Nil6 = IntPtr.Zero;
         }
         string ActionName;
-        IntPtr Action;
+        internal IntPtr Action;
         IntPtr Nil1;
         IntPtr Nil2;
         IntPtr Nil3;
@@ -61,7 +61,8 @@ namespace GtkDotNet
 
         public static void AddActions(IntPtr app, IEnumerable<GtkAction> actions)
         {
-
+            foreach (var action in actions)
+                Delegates.Add(action.Action);
             var appEntries = actions.Select(n => new AppEntry(n.Name, n.Action)).ToArray();  
             Application.AddEntriesToActionMap(app, appEntries, appEntries.Length, IntPtr.Zero);
 
