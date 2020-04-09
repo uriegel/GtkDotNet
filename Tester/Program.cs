@@ -13,26 +13,24 @@ namespace Tester
         static int Main(string[] args)
         {
             var app = Application.New("de.uriegel.test");
-            IntPtr menu = IntPtr.Zero;
 
             Application.AddActions(app, new [] { 
                 new GtkAction("destroy", () => Application.Quit(app), "<Ctrl>Q"), 
-                new GtkAction("menuopen", () => Popover.Popup(menu)),
+                new GtkAction("menuopen", () => Console.WriteLine("Menu open")),
                 new GtkAction("test", () => Console.WriteLine("Ein Test"), "F6"), 
                 new GtkAction("test2", () => Console.WriteLine("Ein Test 2")),
                 new GtkAction("test3", () => Console.WriteLine("Ein Test 3"), "F5")
             });
 
-            return Application.Run(app, () => {
+            var ret =  Application.Run(app, () => {
                 var builder = Builder.New();
-                var res = Builder.AddFromFile(builder, "Tester/glade", IntPtr.Zero);
+                var res = Builder.AddFromFile(builder, "glade", IntPtr.Zero);
                 var window = Builder.GetObject(builder, "window");
-                menu = Builder.GetObject(builder, "menu");
                 GObject.Unref(builder);
                 Application.AddWindow(app, window);
 
                 Window.SetTitle(window, "Web View 😎😎👌");            
-                Window.SetDefaultSize(window, 400, 600);
+                Window.SetDefaultSize(window, 300, 300);
                 Widget.SetSizeRequest(window, 200, 100);
                 Window.Move(window,2900, 456);
 
@@ -46,6 +44,10 @@ namespace Tester
                 Gtk.SignalConnect<ConfigureEventFunc>(window, "configure_event", (w, e) => {
                     var evt = Marshal.PtrToStructure<ConfigureEvent>(e);
                     Console.WriteLine("Configure " + evt.Width.ToString() + " " + evt.Height.ToString());
+
+                    Window.GetSize(window, out var ww, out var hh);
+                    Console.WriteLine("Configure- " + ww.ToString() + " " + hh.ToString());
+
                     return false;
                 });
 
@@ -75,8 +77,11 @@ namespace Tester
                 // Widget.Hide(menu2);
 
                 //WebKit.LoadUri(webView, "https://google.de");
-                WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/webroot/index.html");
+                WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");
             });
+
+            Console.WriteLine("Das wars");
+            return ret;
         }
     }
 }

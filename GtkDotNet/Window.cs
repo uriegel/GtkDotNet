@@ -16,6 +16,9 @@ namespace GtkDotNet
 
         [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_title", CallingConvention = CallingConvention.Cdecl)]
         public extern static void SetTitle(IntPtr window, string title);
+
+        [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_get_size", CallingConvention = CallingConvention.Cdecl)]
+        public extern static void GetSize(IntPtr window, out int width, out int height);        
     }
 }
  
