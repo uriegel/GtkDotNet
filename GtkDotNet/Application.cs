@@ -153,7 +153,7 @@ namespace GtkDotNet
         extern static IntPtr NewInt(int value);
 
         [DllImport(Globals.LibGtk, EntryPoint="g_variant_new_string", CallingConvention = CallingConvention.Cdecl)]
-        public extern static IntPtr NewString(string value);
+        extern static IntPtr NewString(string value);
 
         [DllImport(Globals.LibGtk, EntryPoint="g_action_map_add_action", CallingConvention = CallingConvention.Cdecl)]
         extern static void AddAction(IntPtr app, IntPtr action);
