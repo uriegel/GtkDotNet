@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using GtkDotNet;
 
@@ -10,26 +11,35 @@ namespace Tester
         delegate bool ScriptDialogFunc(IntPtr webView, IntPtr dialog);
         delegate bool ConfigureEventFunc(IntPtr widget, IntPtr evt);
 
-        [DllImport("libgtk-3.so.0", EntryPoint="gtk_actionable_set_action_target_value", CallingConvention = CallingConvention.Cdecl)]
-        extern static void SetTarget(IntPtr widget, IntPtr target);
-
-
-        static int Main(string[] args)
+        static int Main()
         {
             var app = Application.New("de.uriegel.test");
+            if (Environment.CurrentDirectory.Contains("netcoreapp"))
+                Environment.CurrentDirectory = Path.Combine(Environment.CurrentDirectory, "../../../");
 
-            Application.AddActions(app, new GtkActionBase [] { 
+            Application.AddActions(app, new [] { 
                 new GtkAction("destroy", () => Application.Quit(app), "<Ctrl>Q"), 
                 new GtkAction("menuopen", () => Console.WriteLine("Menu open")),
                 new GtkAction("test", () => Console.WriteLine("Ein Test"), "F6"), 
                 new GtkAction("test2", () => Console.WriteLine("Ein Test 2")),
                 new GtkAction("test3", () => Console.WriteLine("Ein Test 3"), "F5"),
-                new GtkBoolStateAction("showhidden", true, s => Console.WriteLine($"State: {s}"), "<Ctrl>H")
+                new GtkAction("showhidden", true, 
+                    (a, s) => 
+                    {
+                        var state = GtkAction.HandleBoolState(a, s);
+                        Console.WriteLine(state);
+                    }, "<Ctrl>H"),
+                new GtkAction("theme", "yaru", 
+                    (a, s) => 
+                    {
+                        var state = GtkAction.HandleStringState(a, s);
+                        Console.WriteLine(state);
+                    })
             });
 
             var ret =  Application.Run(app, () => {
                 var builder = Builder.New();
-                var res = Builder.AddFromFile(builder, "../../../glade", IntPtr.Zero);
+                var res = Builder.AddFromFile(builder, "glade", IntPtr.Zero);
                 var window = Builder.GetObject(builder, "window");
                 Builder.ConnectSignals(builder, (IntPtr builder, IntPtr obj, string signal, string handleName, IntPtr connectObj, int flags) =>
                 {
