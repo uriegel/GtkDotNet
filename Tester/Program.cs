@@ -9,7 +9,11 @@ namespace Tester
         delegate bool BoolFunc();
         delegate bool ScriptDialogFunc(IntPtr webView, IntPtr dialog);
         delegate bool ConfigureEventFunc(IntPtr widget, IntPtr evt);
-       
+
+        [DllImport("libgtk-3.so.0", EntryPoint="gtk_actionable_set_action_target_value", CallingConvention = CallingConvention.Cdecl)]
+        extern static void SetTarget(IntPtr widget, IntPtr target);
+
+
         static int Main(string[] args)
         {
             var app = Application.New("de.uriegel.test");
@@ -27,7 +31,19 @@ namespace Tester
                 var builder = Builder.New();
                 var res = Builder.AddFromFile(builder, "../../../glade", IntPtr.Zero);
                 var window = Builder.GetObject(builder, "window");
+                Builder.ConnectSignals(builder, (IntPtr builder, IntPtr obj, string signal, string handleName, IntPtr connectObj, int flags) =>
+                {
+                    switch (handleName) 
+                    {
+                        case "app.delete":
+                            Gtk.SignalConnectObject<BoolFunc>(obj, signal, () => {
+                                return false;
+                            }, connectObj);
+                        break;                       
+                    }
+                });
                 GObject.Unref(builder);
+
                 Application.AddWindow(app, window);
 
                 Window.SetTitle(window, "Web View 😎😎👌");            
@@ -73,9 +89,6 @@ namespace Tester
                 Gtk.SignalConnect(webView, "script-dialog", scripDialogFunc);
                 Gtk.SignalConnect<BoolFunc>(webView, "context-menu", () => true);
                 Widget.ShowAll(window);
-
-                // var menu2 = Builder.GetObject(builder, "abschuss");
-                // Widget.Hide(menu2);
 
                 //WebKit.LoadUri(webView, "https://google.de");
                 WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");

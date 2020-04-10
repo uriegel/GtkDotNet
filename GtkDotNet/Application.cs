@@ -86,7 +86,6 @@ namespace GtkDotNet
         static void StateChanged(IntPtr action, IntPtr state)
         {
             Console.WriteLine("Bin gedrückt");
-            //ActionSetState(action, NewBool(0));
             ActionSetState(action, state);
         }
         
@@ -114,10 +113,15 @@ namespace GtkDotNet
             foreach (var action in boolStateActions)
             {
                 Delegates.Add(action.ChangeState);
-                var simpleAction = NewStatefulAction(action.Name, IntPtr.Zero, NewBool(-1));
+                var simpleAction = NewStatefulAction(action.Name, null, NewBool(-1));
                 Gtk.SignalConnect<StateChangedDelegate>(simpleAction, "change-state", StateChanged);
                 AddAction(app, simpleAction);
             }
+
+                var radioAction = NewStatefulAction("theme", "s", NewString("blue"));
+                Gtk.SignalConnect<StateChangedDelegate>(radioAction, "change-state", StateChanged);
+                AddAction(app, radioAction);
+
             
             var accelEntries = 
                 actions
@@ -140,10 +144,16 @@ namespace GtkDotNet
         extern static void SetAccelsForAction(IntPtr app, string action, [In] string[] accels);
 
         [DllImport(Globals.LibGtk, EntryPoint="g_simple_action_new_stateful", CallingConvention = CallingConvention.Cdecl)]
-        extern static IntPtr NewStatefulAction(string action, IntPtr p, IntPtr state);
+        extern static IntPtr NewStatefulAction(string action, string p, IntPtr state);
 
         [DllImport(Globals.LibGtk, EntryPoint="g_variant_new_boolean", CallingConvention = CallingConvention.Cdecl)]
         extern static IntPtr NewBool(int value);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_variant_new_int32", CallingConvention = CallingConvention.Cdecl)]
+        extern static IntPtr NewInt(int value);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_variant_new_string", CallingConvention = CallingConvention.Cdecl)]
+        public extern static IntPtr NewString(string value);
 
         [DllImport(Globals.LibGtk, EntryPoint="g_action_map_add_action", CallingConvention = CallingConvention.Cdecl)]
         extern static void AddAction(IntPtr app, IntPtr action);

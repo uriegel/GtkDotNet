@@ -38,11 +38,20 @@ namespace GtkDotNet
             SignalConnect(widget, name, Marshal.GetFunctionPointerForDelegate(callback), IntPtr.Zero, IntPtr.Zero, 0);
         }
             
+        public static void SignalConnectObject<TDelegate>(IntPtr widget, string name, TDelegate callback, IntPtr obj) where TDelegate : Delegate
+        {
+            var delegat = callback as Delegate;
+            Delegates.Add(delegat);
+            SignalConnect(widget, name, Marshal.GetFunctionPointerForDelegate(callback), obj, 0);
+        }
+
         [DllImport(Globals.LibGtk, EntryPoint="gtk_init", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void init (ref int argc, ref IntPtr argv);
+        extern static void init (ref int argc, ref IntPtr argv);
 
         [DllImport(Globals.LibGtk, EntryPoint="g_signal_connect_data", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr n, IntPtr n2, int n3);
+        extern static void SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr n, IntPtr n2, int n3);
+        [DllImport(Globals.LibGtk, EntryPoint="g_signal_connect_object", CallingConvention = CallingConvention.Cdecl)]
+        extern static void SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr obj, int n3);
     }
 }
 
