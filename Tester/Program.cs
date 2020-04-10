@@ -25,7 +25,7 @@ namespace Tester
 
             var ret =  Application.Run(app, () => {
                 var builder = Builder.New();
-                var res = Builder.AddFromFile(builder, "glade", IntPtr.Zero);
+                var res = Builder.AddFromFile(builder, "../../../glade", IntPtr.Zero);
                 var window = Builder.GetObject(builder, "window");
                 GObject.Unref(builder);
                 Application.AddWindow(app, window);
