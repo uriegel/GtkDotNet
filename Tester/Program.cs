@@ -7,19 +7,20 @@ namespace Tester
     class Program
     { 
         delegate bool BoolFunc();
-        delegate bool ScripDialogFunc(IntPtr webView, IntPtr dialog);
+        delegate bool ScriptDialogFunc(IntPtr webView, IntPtr dialog);
         delegate bool ConfigureEventFunc(IntPtr widget, IntPtr evt);
        
         static int Main(string[] args)
         {
             var app = Application.New("de.uriegel.test");
 
-            Application.AddActions(app, new [] { 
+            Application.AddActions(app, new GtkActionBase [] { 
                 new GtkAction("destroy", () => Application.Quit(app), "<Ctrl>Q"), 
                 new GtkAction("menuopen", () => Console.WriteLine("Menu open")),
                 new GtkAction("test", () => Console.WriteLine("Ein Test"), "F6"), 
                 new GtkAction("test2", () => Console.WriteLine("Ein Test 2")),
-                new GtkAction("test3", () => Console.WriteLine("Ein Test 3"), "F5")
+                new GtkAction("test3", () => Console.WriteLine("Ein Test 3"), "F5"),
+                new GtkBoolStateAction("showhidden", true, s => Console.WriteLine($"State: {s}"), "<Ctrl>H")
             });
 
             var ret =  Application.Run(app, () => {
@@ -51,7 +52,7 @@ namespace Tester
                     return false;
                 });
 
-                ScripDialogFunc scripDialogFunc = (_, dialog) => {
+                ScriptDialogFunc scripDialogFunc = (_, dialog) => {
                     var ptr = WebKit.ScriptDialogGetMessage(dialog);
                     var text = Marshal.PtrToStringUTF8(ptr);
                     switch (text) 
