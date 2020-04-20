@@ -45,6 +45,17 @@ namespace GtkDotNet
             SignalConnect(widget, name, Marshal.GetFunctionPointerForDelegate(callback), obj, 0);
         }
 
+        public static string GuessContentType(string filename)
+        {
+            var ptr = Gtk.GuessContentType(filename, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            var text = Marshal.PtrToStringUTF8(ptr);
+            GObject.Free(ptr);
+            return text;
+        }
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_content_type_guess", CallingConvention = CallingConvention.Cdecl)]
+        extern static IntPtr GuessContentType(string filename, IntPtr nil1,  IntPtr nil2, IntPtr nil3);
+
         [DllImport(Globals.LibGtk, EntryPoint="gtk_init", CallingConvention = CallingConvention.Cdecl)]
         extern static void init (ref int argc, ref IntPtr argv);
 

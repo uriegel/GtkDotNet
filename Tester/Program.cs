@@ -38,6 +38,21 @@ namespace Tester
             });
 
             var ret =  Application.Run(app, () => {
+
+
+                var type = Gtk.GuessContentType("/home/uwe/Dokumente/hypovereinsbank.pdf");
+                var type1 = Gtk.GuessContentType("x.fs");
+                var type2 = Gtk.GuessContentType("x.cs");
+                type = Gtk.GuessContentType("x.pdf");
+                var icon = Icon.Get(type);
+                var theme = Theme.GetDefault();
+                var names = Icon.GetNames(icon);
+                // GTK_ICON_LOOKUP_FORCE_SVG
+                var iconInfo = Theme.ChooseIcon(theme, names, 48, IconInfo.Flags.ForceSvg);
+                var filename = IconInfo.GetFileName(iconInfo);
+                var text = Marshal.PtrToStringUTF8(filename);
+                GObject.Unref(icon);
+                
                 var builder = Builder.New();
                 var res = Builder.AddFromFile(builder, "glade", IntPtr.Zero);
                 var window = Builder.GetObject(builder, "window");
