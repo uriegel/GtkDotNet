@@ -10,6 +10,8 @@ namespace Tester
         delegate bool BoolFunc();
         delegate bool ScriptDialogFunc(IntPtr webView, IntPtr dialog);
         delegate bool ConfigureEventFunc(IntPtr widget, IntPtr evt);
+        delegate void DragMotionFunc(IntPtr widget, IntPtr context, int x, int y);
+        delegate void DragDataReceivedFunc(IntPtr widget, IntPtr context, int x, int y, IntPtr data);
 
         static int Main()
         {
@@ -82,6 +84,26 @@ namespace Tester
                 GObject.SetBool(settings, "enable-developer-extras", true);
                 Container.Add(window, webView);
 
+                var target = TargetEntry.New("text/plain", TargetEntry.Flags.OtherApp, 0);
+                DragDrop.UnSet(webView);
+                DragDrop.SetDestination(window, DragDrop.DefaultDestination.Drop | DragDrop.DefaultDestination.Highlight| DragDrop.DefaultDestination.Motion, 
+                        target, 1, DragDrop.DragActions.Move);
+                TargetEntry.Free(target);
+                Gtk.SignalConnect<DragDataReceivedFunc>(window, "drag-data-received", 
+                    (w, context, x, y, data) => 
+                    {
+                        var text = SelectionData.GetText(data);
+                        Console.WriteLine(text);
+                    }
+                );
+
+                Gtk.SignalConnect<DragMotionFunc>(window, "drag-motion", 
+                    (w, context, x, y) => 
+                    {
+                        Console.WriteLine("motion");
+                    }
+                );
+                
                 Gtk.SignalConnect<BoolFunc>(window, "delete_event", () => false);// true cancels the destroy request!
                 Gtk.SignalConnect<ConfigureEventFunc>(window, "configure_event", (w, e) => {
                     var evt = Marshal.PtrToStructure<ConfigureEvent>(e);
