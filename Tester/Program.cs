@@ -14,6 +14,7 @@ namespace Tester
         delegate void DragDataReceivedFunc(IntPtr widget, IntPtr context, int x, int y, IntPtr data);
 
         static IntPtr window;
+        static IntPtr headerBar;
 
         static int Main()
         {
@@ -38,7 +39,7 @@ namespace Tester
                 }),
                 new GtkAction("test", () => Console.WriteLine("Ein Test"), "F6"), 
                 new GtkAction("test2", () => Console.WriteLine("Ein Test 2")),
-                new GtkAction("test3", () => Console.WriteLine("Ein Test 3"), "F5"),
+                new GtkAction("test3", () => HeaderBar.SetSubtitle(headerBar, "Das ist der neue Subtitle"), "F5"),
                 new GtkAction("showhidden", true, 
                     (a, s) => 
                     {
@@ -70,6 +71,7 @@ namespace Tester
                 var builder = Builder.New();
                 var res = Builder.AddFromFile(builder, "glade", IntPtr.Zero);
                 window = Builder.GetObject(builder, "window");
+                headerBar = Builder.GetObject(builder, "headerbar");
                 Builder.ConnectSignals(builder, (IntPtr builder, IntPtr obj, string signal, string handleName, IntPtr connectObj, int flags) =>
                 {
                     switch (handleName) 
