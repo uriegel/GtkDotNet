@@ -16,5 +16,7 @@ namespace GtkDotNet
 
         [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_size_request", CallingConvention = CallingConvention.Cdecl)]
         public extern static void SetSizeRequest(IntPtr widget, int width, int height);
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_destroy", CallingConvention = CallingConvention.Cdecl)]
+        public extern static void Destroy(IntPtr widget);
     }
 }

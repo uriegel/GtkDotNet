@@ -13,6 +13,8 @@ namespace Tester
         delegate void DragMotionFunc(IntPtr widget, IntPtr context, int x, int y);
         delegate void DragDataReceivedFunc(IntPtr widget, IntPtr context, int x, int y, IntPtr data);
 
+        static IntPtr window;
+
         static int Main()
         {
             var app = Application.New("de.uriegel.test");
@@ -21,7 +23,19 @@ namespace Tester
 
             Application.AddActions(app, new [] { 
                 new GtkAction("destroy", () => Application.Quit(app), "<Ctrl>Q"), 
-                new GtkAction("menuopen", () => Console.WriteLine("Menu open")),
+                new GtkAction("menuopen", () => {
+                    var dialog = Dialog.NewFileChooser("Datei öffnen", window, Dialog.FileChooserAction.Open,
+                    "_Abbrechen", Dialog.ResponseId.Cancel, "_Öffnen", Dialog.ResponseId.Ok, IntPtr.Zero);
+                    var res = Dialog.Run(dialog);
+                    if (res == Dialog.ResponseId.Ok) {
+                        var ptr = Dialog.FileChooserGetFileName(dialog);
+                        string file = Marshal.PtrToStringUTF8(ptr);
+                        Console.WriteLine(file);
+                        GObject.Free(ptr);
+
+                    }
+                    Widget.Destroy(dialog);
+                }),
                 new GtkAction("test", () => Console.WriteLine("Ein Test"), "F6"), 
                 new GtkAction("test2", () => Console.WriteLine("Ein Test 2")),
                 new GtkAction("test3", () => Console.WriteLine("Ein Test 3"), "F5"),
@@ -40,8 +54,6 @@ namespace Tester
             });
 
             var ret =  Application.Run(app, () => {
-
-
                 var type = Gtk.GuessContentType("/home/uwe/Dokumente/hypovereinsbank.pdf");
                 var type1 = Gtk.GuessContentType("x.fs");
                 var type2 = Gtk.GuessContentType("x.cs");
@@ -57,7 +69,7 @@ namespace Tester
                 
                 var builder = Builder.New();
                 var res = Builder.AddFromFile(builder, "glade", IntPtr.Zero);
-                var window = Builder.GetObject(builder, "window");
+                window = Builder.GetObject(builder, "window");
                 Builder.ConnectSignals(builder, (IntPtr builder, IntPtr obj, string signal, string handleName, IntPtr connectObj, int flags) =>
                 {
                     switch (handleName) 
