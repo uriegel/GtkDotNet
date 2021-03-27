@@ -92,7 +92,6 @@ namespace Tester
                 Widget.SetSizeRequest(window, 200, 100);
                 Window.Move(window,2900, 456);
 
-                // sudo apt install libwebkit2gtk-4.0-dev
                 var webView = WebKit.New();
                 var settings = WebKit.GetSettings(webView);
                 GObject.SetBool(settings, "enable-developer-extras", true);
@@ -152,7 +151,8 @@ namespace Tester
                 Widget.ShowAll(window);
 
                 //WebKit.LoadUri(webView, "https://google.de");
-                WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");
+                WebKit.LoadUri(webView, "http://localhost:3000/");
+                // WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");
             });
 
             Console.WriteLine("Das wars");
