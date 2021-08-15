@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using GtkDotNet;
+using GtkDotNet.Raw;
 
 namespace Tester
 {
@@ -84,6 +84,8 @@ namespace Tester
                     }
                 });
                 GObject.Unref(builder);
+
+                var gioSettings = GioSettings.New("de.uriegel.commander");
 
                 Application.AddWindow(app, window);
 

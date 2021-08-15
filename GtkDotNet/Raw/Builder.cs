@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace GtkDotNet
+namespace GtkDotNet.Raw
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void ConnectDelegate(IntPtr builder, IntPtr obj, string signal, string handleName, IntPtr connectObj, int flags);
