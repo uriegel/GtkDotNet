@@ -27,6 +27,9 @@ app.Run(() =>
 
     app.AddWindow(window);
     window.SetTitle("Web View 😎😎👌");
+    window.SetDefaultSize(300, 300);
+    window.SetSizeRequest(200, 100);
+    window.Move(2900, 456);
     window.ShowAll();
 });
 
