@@ -21,9 +21,41 @@ namespace GtkDotNet.Raw
         [DllImport(Globals.LibGtk, EntryPoint="g_application_quit", CallingConvention = CallingConvention.Cdecl)]
         public extern static void Quit(IntPtr app);
 
-        public static void AddActions(IntPtr app, IEnumerable<GtkAction> actions)
+        public static void AddActions(IntPtr app, IEnumerable<GtkDotNet.GtkAction> actions)
         {
-            var gtkActions = actions.OfType<GtkAction>();
+            var gtkActions = actions.OfType<GtkDotNet.GtkAction>();
+            foreach (var action in gtkActions)
+            {
+                if (action.Action != null)
+                {
+                    Delegates.Add(action.Action);
+                    var simpleAction = NewAction(action.Name, null);
+                    Gtk.SignalConnect<Action>(simpleAction, "activate", action.Action);
+                    AddAction(app, simpleAction);                    
+                }
+                else 
+                {
+                    Delegates.Add(action.StateChanged);
+                    var state = action.StateParameterType == "s" 
+                        ? NewString(action.State as string)
+                        : NewBool((bool)action.State == true ? -1 : 0);
+                    var simpleAction = NewStatefulAction(action.Name, action.StateParameterType, state);
+                    Gtk.SignalConnect<GtkAction.StateChangedDelegate>(simpleAction, "change-state", action.StateChanged);
+                    AddAction(app, simpleAction);
+                }
+            }
+
+            var accelEntries = 
+                actions
+                .Where(n => n.Accelerator != null)
+                .Select(n => new { Name = "app." + n.Name, n.Accelerator});  
+            foreach (var accelEntry in accelEntries)
+                Application.SetAccelsForAction(app, accelEntry.Name, new [] { accelEntry.Accelerator, null});
+        }
+
+        public static void AddActions(IntPtr app, IEnumerable<GtkDotNet.Raw.GtkAction> actions)
+        {
+            var gtkActions = actions.OfType<GtkDotNet.Raw.GtkAction>();
             foreach (var action in gtkActions)
             {
                 if (action.Action != null)
