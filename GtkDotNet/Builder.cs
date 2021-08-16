@@ -4,9 +4,14 @@ namespace GtkDotNet
 {
     public class Builder : IDisposable
     {
+        public static Builder FromResource(string pathToGlade)
+            => new Builder(Raw.Builder.FromResource(pathToGlade));
+
         public Builder() => builder = Raw.Builder.New();
 
-        public void AddFromFile(string gladeFile)
+        Builder(IntPtr builder) => this.builder = builder;
+
+        public void FromFile(string gladeFile)
             => Raw.Builder.AddFromFile(builder, gladeFile, IntPtr.Zero);
 
         public GObject GetObject(string objectName)

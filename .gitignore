@@ -5,3 +5,4 @@ GtkDotNet/bin
 GtkDotNet/obj
 Tester/bin
 Tester/obj
+resources/resources.gresource

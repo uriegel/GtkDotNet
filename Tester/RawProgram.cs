@@ -85,7 +85,7 @@ namespace Tester
                 });
                 GObject.Unref(builder);
 
-                var gioSettings = GioSettings.New("de.uriegel.commander");
+                //var gioSettings = GioSettings.New("de.uriegel.commander");
 
                 Application.AddWindow(app, window);
 

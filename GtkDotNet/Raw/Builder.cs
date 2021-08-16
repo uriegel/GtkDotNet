@@ -13,6 +13,9 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="gtk_builder_add_from_file", CallingConvention = CallingConvention.Cdecl)]
         public extern static int AddFromFile(IntPtr builder, string file, IntPtr nil);
+        
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_builder_new_from_resource", CallingConvention = CallingConvention.Cdecl)]
+        public extern static IntPtr FromResource(string path);
 
         [DllImport(Globals.LibGtk, EntryPoint="gtk_builder_get_object", CallingConvention = CallingConvention.Cdecl)]
         public extern static IntPtr GetObject(IntPtr builder, string objectName);

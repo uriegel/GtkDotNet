@@ -1,12 +1,17 @@
 using System;
 using System.IO;
+using System.Reflection;
 using GtkDotNet;
 
 var app = new Application("de.uriegel.test");
 app.Run(() =>
 {
-    using var builder = new Builder();
-    builder.AddFromFile("glade");
+    //using var builder = new Builder();
+    //builder.FromFile("glade");
+
+    var resources = new Resources("Tester");
+    using var builder = Builder.FromResource("/de/uriegel/test/main_window.glade");
+
     var window = new Window(builder.GetObject("window"));
     var headerBar = new HeaderBar(builder.GetObject("headerbar"));
 
