@@ -38,6 +38,12 @@ app.Run(() =>
     EventHandler<DeleteEventArgs> deleteEvent = (s, de) => de.Cancel = true;
     window.Delete += deleteEvent;
     window.Delete -= deleteEvent;
+    window.Configure += (s, e) => 
+    {
+        Console.WriteLine($"Configure {e.Width} {e.Height}");
+        var (w, h) = (s as Window).Size;
+        Console.WriteLine($"Configure- {w} {h}");
+    };    
 
     app.AddWindow(window);
     window.SetTitle("Web View 😎😎👌");

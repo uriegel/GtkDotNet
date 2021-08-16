@@ -1,9 +1,12 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace GtkDotNet
 {
     public class Window : Container
     {
+        #region Events
+        
         public event EventHandler<DeleteEventArgs> Delete
         { 
             add 
@@ -27,6 +30,50 @@ namespace GtkDotNet
         event EventHandler<DeleteEventArgs> delete;
         BoolFunc deleteFunc;
 
+        public event EventHandler<ConfigureEventArgs> Configure
+        { 
+            add 
+            {
+                configure += value;
+                configureFunc = (w, e) => 
+                {
+                    var evt = Marshal.PtrToStructure<Raw.ConfigureEvent>(e);
+                    var cea = new ConfigureEventArgs()
+                    {
+                        EventType = evt.EventType,
+                        Height = evt.Height,
+                        Width = evt.Width,
+                        SendEvent = evt.SendEvent,
+                        X = evt.X,
+                        Y = evt.Y
+
+                    };
+                    configure?.Invoke(this, cea);
+                    return false;
+                };
+                Raw.Gtk.SignalConnect<ConfigureEventFunc>(handle, "configure_event", configureFunc);
+            }
+            remove 
+            {
+                configure -= value;
+                Raw.Gtk.SignalDisconnect<ConfigureEventFunc>(handle, "configure_event", configureFunc);
+                configureFunc = null;
+            }
+        }
+        event EventHandler<ConfigureEventArgs> configure;
+        ConfigureEventFunc configureFunc;
+
+        #endregion
+
+        public (int, int) Size 
+        { 
+            get  
+            {
+                Raw.Window.GetSize(handle, out var w, out var h);
+                return (w, h);
+            }
+        }       
+
         public Window(GObject obj) : base(obj) {}
         public void SetTitle(string title) => Raw.Window.SetTitle(handle, title);
         public void ShowAll() => Raw.Widget.ShowAll(handle);
@@ -34,5 +81,6 @@ namespace GtkDotNet
         public void Move(int x, int y) => Raw.Window.Move(handle, x, y);
 
         delegate bool BoolFunc();
+        delegate bool ConfigureEventFunc(IntPtr widget, IntPtr evt);
     }
 }

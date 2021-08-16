@@ -1,7 +1,9 @@
+using System;
+
 namespace GtkDotNet
 {
-    public class DeleteEventArgs
+    public class DeleteEventArgs : EventArgs
     {
         public bool Cancel { get; set; }
-    }
+   }
 }
