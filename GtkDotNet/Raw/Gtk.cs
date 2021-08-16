@@ -34,16 +34,23 @@ namespace GtkDotNet.Raw
         public static void SignalConnect<TDelegate>(IntPtr widget, string name, TDelegate callback) where TDelegate : Delegate
         {
             var delegat = callback as Delegate;
-            Delegates.Add(delegat);
-            SignalConnect(widget, name, Marshal.GetFunctionPointerForDelegate(callback), IntPtr.Zero, IntPtr.Zero, 0);
+            var id = SignalConnect(widget, name, Marshal.GetFunctionPointerForDelegate(callback), IntPtr.Zero, IntPtr.Zero, 0);
+            Delegates.Add(id, delegat);
         }
-            
+
         public static void SignalConnectObject<TDelegate>(IntPtr widget, string name, TDelegate callback, IntPtr obj) where TDelegate : Delegate
         {
             var delegat = callback as Delegate;
-            Delegates.Add(delegat);
-            SignalConnect(widget, name, Marshal.GetFunctionPointerForDelegate(callback), obj, 0);
+            var id = SignalConnect(widget, name, Marshal.GetFunctionPointerForDelegate(callback), obj, 0);
+            Delegates.Add(id, delegat);
         }
+
+        public static void SignalDisconnect<TDelegate>(IntPtr widget, string name, TDelegate callback) where TDelegate : Delegate
+        {
+            var delegat = callback as Delegate;
+            var id = Delegates.Remove(delegat);
+            SignalDisconnect(widget, id);
+        }            
 
         public static string GuessContentType(string filename)
         {
@@ -60,9 +67,11 @@ namespace GtkDotNet.Raw
         extern static void init (ref int argc, ref IntPtr argv);
 
         [DllImport(Globals.LibGtk, EntryPoint="g_signal_connect_data", CallingConvention = CallingConvention.Cdecl)]
-        extern static void SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr n, IntPtr n2, int n3);
+        extern static long SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr n, IntPtr n2, int n3);
         [DllImport(Globals.LibGtk, EntryPoint="g_signal_connect_object", CallingConvention = CallingConvention.Cdecl)]
-        extern static void SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr obj, int n3);
+        extern static long SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr obj, int n3);
+        [DllImport(Globals.LibGtk, EntryPoint="g_signal_handler_disconnect", CallingConvention = CallingConvention.Cdecl)]
+        extern static void SignalDisconnect(IntPtr widget, long id);
     }
 }
 

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using GtkDotNet;
 
 var app = new Application("de.uriegel.test");
@@ -24,6 +25,19 @@ app.Run(() =>
         new GtkAction("showhidden", true, state =>  Console.WriteLine(state), "<Ctrl>H"),
         new GtkDotNet.GtkAction("theme", "yaru", state => Console.WriteLine(state))
     });
+
+    var webView = new WebView();
+    window.Add(webView);
+    webView.LoadUri($"file://{Directory.GetCurrentDirectory()}/../webroot/index.html");
+    var ede = webView.Settings.EnableDeveloperExtras;
+    webView.Settings.EnableDeveloperExtras = false;
+    ede = webView.Settings.EnableDeveloperExtras;
+    webView.Settings.EnableDeveloperExtras = true;
+    ede = webView.Settings.EnableDeveloperExtras;
+
+    EventHandler<DeleteEventArgs> deleteEvent = (s, de) => de.Cancel = true;
+    window.Delete += deleteEvent;
+    window.Delete -= deleteEvent;
 
     app.AddWindow(window);
     window.SetTitle("Web View 😎😎👌");
