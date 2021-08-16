@@ -35,6 +35,22 @@ app.Run(() =>
     webView.Settings.EnableDeveloperExtras = true;
     ede = webView.Settings.EnableDeveloperExtras;
 
+    webView.ScriptDialog += (s, e) => 
+    {
+        switch (e.Message) 
+        {
+            case "anfang":
+                webView.RunJavascript("var affe = 'Ein Äffchen 😎👌'");
+                break;
+            case "devTools":
+                webView.Inspector.Show();
+                break;
+            default:
+                Console.WriteLine($"---ALERT--- {e.Message}");
+                break;
+        }
+    };
+
     EventHandler<DeleteEventArgs> deleteEvent = (s, de) => de.Cancel = true;
     window.Delete += deleteEvent;
     window.Delete -= deleteEvent;

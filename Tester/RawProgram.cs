@@ -153,8 +153,8 @@ namespace Tester
                 Widget.ShowAll(window);
 
                 //WebKit.LoadUri(webView, "https://google.de");
-                WebKit.LoadUri(webView, "http://localhost:3000/");
-                // WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");
+                //WebKit.LoadUri(webView, "http://localhost:3000/");
+                WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");
             });
 
             Console.WriteLine("Das wars");
