@@ -10,6 +10,6 @@
 
 ## Installation of GTK Schema
 ```
-    sudo install -D de.uriegel.commander.gschema.xml /usr/share/glib-2.0/schemas/
+    sudo install -D de.uriegel.test.gschema.xml /usr/share/glib-2.0/schemas/
     sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 ```     

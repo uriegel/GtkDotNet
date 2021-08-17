@@ -78,6 +78,8 @@ namespace GtkDotNet
         public void SetTitle(string title) => Raw.Window.SetTitle(handle, title);
         public void ShowAll() => Raw.Widget.ShowAll(handle);
         public void SetDefaultSize(int width, int height) => Raw.Window.SetDefaultSize(handle, width, height);
+        public void Maximize() => Raw.Window.Maximize(handle);
+        public bool IsMaximized() => Raw.Window.IsMaximized(handle);
         public void Move(int x, int y) => Raw.Window.Move(handle, x, y);
 
         delegate bool BoolFunc();

@@ -19,6 +19,13 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_get_size", CallingConvention = CallingConvention.Cdecl)]
         public extern static void GetSize(IntPtr window, out int width, out int height);        
+
+        [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_maximize", CallingConvention = CallingConvention.Cdecl)]
+        public extern static void Maximize(IntPtr window);        
+
+        [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_is_maximized", CallingConvention = CallingConvention.Cdecl)]
+        public extern static bool IsMaximized(IntPtr window);        
+        
     }
 }
  

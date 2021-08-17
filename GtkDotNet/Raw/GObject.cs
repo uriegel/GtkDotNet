@@ -19,10 +19,24 @@ namespace GtkDotNet.Raw
             return value;
         }
 
+        public static void SetInt(IntPtr obj, string name, int value)
+            => SetInt(obj, name, value, IntPtr.Zero);
+        public static int GetInt(IntPtr obj, string name)
+        {
+            GetInt(obj, name, out var value, IntPtr.Zero);
+            return value;
+        }
+
         [DllImport(Globals.LibGtk, EntryPoint="g_object_set", CallingConvention = CallingConvention.Cdecl)]
         extern static void SetBool(IntPtr obj, string name, bool value, IntPtr end);
         [DllImport(Globals.LibGtk, EntryPoint="g_object_get", CallingConvention = CallingConvention.Cdecl)]
         extern static bool GetBool(IntPtr obj, string name, out bool value, IntPtr end);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_object_set", CallingConvention = CallingConvention.Cdecl)]
+        extern static void SetInt(IntPtr obj, string name, int value, IntPtr end);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_object_get", CallingConvention = CallingConvention.Cdecl)]
+        extern static bool GetInt(IntPtr obj, string name, out int value, IntPtr end);
     }
 }
 

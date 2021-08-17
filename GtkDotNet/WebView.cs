@@ -45,8 +45,8 @@ namespace GtkDotNet
         {
             public bool EnableDeveloperExtras 
             {
-                get => this["enable-developer-extras"];
-                set => this["enable-developer-extras"] = value;
+                get => GetBool("enable-developer-extras");
+                set => SetBool("enable-developer-extras", value);
             }
 
             internal WebKitSettings(WebView webView) : base(new GObject(Raw.WebKit.GetSettings(webView.handle))) { }

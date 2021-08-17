@@ -16,5 +16,17 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="g_resources_get_info", CallingConvention = CallingConvention.Cdecl)]
         public extern static bool ResourcesGetInfo(string path, int none, out long size, out int flags, IntPtr err);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_settings_set_boolean", CallingConvention = CallingConvention.Cdecl)]
+        public extern static bool SettingsSetBool(IntPtr obj, string name, bool value);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_settings_get_boolean", CallingConvention = CallingConvention.Cdecl)]
+        public extern static bool SettingsGetBool(IntPtr obj, string name);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_settings_set_int", CallingConvention = CallingConvention.Cdecl)]
+        public extern static bool SettingsSetInt(IntPtr obj, string name, int value);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_settings_get_int", CallingConvention = CallingConvention.Cdecl)]
+        public extern static int SettingsGetInt(IntPtr obj, string name);
     }
 }

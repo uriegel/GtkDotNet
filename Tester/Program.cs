@@ -56,6 +56,8 @@ app.Run(() =>
         }
     };
 
+    var settings = new Settings("de.uriegel.test");
+
     EventHandler<DeleteEventArgs> deleteEvent = (s, de) => de.Cancel = true;
     window.Delete += deleteEvent;
     window.Delete -= deleteEvent;
@@ -63,13 +65,21 @@ app.Run(() =>
     {
         Console.WriteLine($"Configure {e.Width} {e.Height}");
         var (w, h) = (s as Window).Size;
+        settings.SetInt("window-width", w);
+        settings.SetInt("window-height", h);
+        settings.SetBool("is-maximized", window.IsMaximized());
         Console.WriteLine($"Configure- {w} {h}");
     };    
 
     app.AddWindow(window);
-    window.SetTitle("Web View 😎😎👌");
-    window.SetDefaultSize(300, 300);
-    window.SetSizeRequest(200, 100);
+    window.SetTitle("Web Viewuuu 😎😎👌");
+
+    var w = settings.GetInt("window-width");
+    var h = settings.GetInt("window-height");
+    window.SetDefaultSize(w, h);
+    if (settings.GetBool("is-maximized"))
+        window.Maximize();
+    //window.SetSizeRequest(200, 100);
     window.Move(2900, 456);
     window.ShowAll();
 });

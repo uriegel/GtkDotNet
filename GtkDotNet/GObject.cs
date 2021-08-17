@@ -8,11 +8,12 @@ namespace GtkDotNet
         internal GObject(IntPtr handle) => this.handle = handle;
         public GObject(GObject obj) => handle = obj.handle;
 
-        public bool this[string key] 
-        { 
-            set => Raw.GObject.SetBool(handle, key, value);
-            get => Raw.GObject.GetBool(handle, key);
-        }
+        public int GetInt(string key) => Raw.GObject.GetInt(handle, key);
+        public void SetInt(string key, int value) => Raw.GObject.SetInt(handle, key, value);
+
+        public bool GetBool(string key) => Raw.GObject.GetBool(handle, key);
+        public void SetBool(string key, bool value) => Raw.GObject.SetBool(handle, key, value);
+
         internal readonly IntPtr handle;
     }
 }
