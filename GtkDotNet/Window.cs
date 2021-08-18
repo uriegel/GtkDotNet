@@ -81,6 +81,13 @@ namespace GtkDotNet
         public void Maximize() => Raw.Window.Maximize(handle);
         public bool IsMaximized() => Raw.Window.IsMaximized(handle);
         public void Move(int x, int y) => Raw.Window.Move(handle, x, y);
+        public (int, int) GetPosition() 
+        {
+            Raw.Window.GetPosition(handle, out var x, out var y);
+            return (x, y);
+        } 
+
+        public void Close() => Raw.Window.Close(handle);
 
         delegate bool BoolFunc();
         delegate bool ConfigureEventFunc(IntPtr widget, IntPtr evt);

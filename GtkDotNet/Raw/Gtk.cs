@@ -60,6 +60,9 @@ namespace GtkDotNet.Raw
             return text;
         }
 
+        [DllImport(Globals.LibGtk, EntryPoint="g_idle_add_full", CallingConvention = CallingConvention.Cdecl)]
+        public extern static void IdleAddFull(int priority, IntPtr func, IntPtr nil, IntPtr nil2);
+
         [DllImport(Globals.LibGtk, EntryPoint="g_content_type_guess", CallingConvention = CallingConvention.Cdecl)]
         extern static IntPtr GuessContentType(string filename, IntPtr nil1,  IntPtr nil2, IntPtr nil3);
 
@@ -70,6 +73,7 @@ namespace GtkDotNet.Raw
         extern static long SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr n, IntPtr n2, int n3);
         [DllImport(Globals.LibGtk, EntryPoint="g_signal_connect_object", CallingConvention = CallingConvention.Cdecl)]
         extern static long SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr obj, int n3);
+        
         [DllImport(Globals.LibGtk, EntryPoint="g_signal_handler_disconnect", CallingConvention = CallingConvention.Cdecl)]
         extern static void SignalDisconnect(IntPtr widget, long id);
     }

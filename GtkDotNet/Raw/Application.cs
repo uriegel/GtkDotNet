@@ -30,6 +30,7 @@ namespace GtkDotNet.Raw
                 {
                     Delegates.Add(action.Action);
                     var simpleAction = NewAction(action.Name, null);
+                    action.action = simpleAction;
                     Gtk.SignalConnect<Action>(simpleAction, "activate", action.Action);
                     AddAction(app, simpleAction);                    
                 }
@@ -40,6 +41,7 @@ namespace GtkDotNet.Raw
                         ? NewString(action.State as string)
                         : NewBool((bool)action.State == true ? -1 : 0);
                     var simpleAction = NewStatefulAction(action.Name, action.StateParameterType, state);
+                    action.action = simpleAction;
                     Gtk.SignalConnect<GtkAction.StateChangedDelegate>(simpleAction, "change-state", action.StateChanged);
                     AddAction(app, simpleAction);
                 }

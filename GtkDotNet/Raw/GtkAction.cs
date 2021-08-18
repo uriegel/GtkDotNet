@@ -8,12 +8,12 @@ namespace GtkDotNet.Raw
         public static bool HandleBoolState(IntPtr action, IntPtr state)
         {
             ActionSetState(action, state);
-            return GetBool(state) != 0;
+            return Variant.GetBool(state) != 0;
         }
         public static string HandleStringState(IntPtr action, IntPtr state)
         {
             ActionSetState(action, state);
-            var strptr = GetString(state, IntPtr.Zero);
+            var strptr = Variant.GetString(state, IntPtr.Zero);
             return Marshal.PtrToStringAuto(strptr);
         }
 
@@ -50,11 +50,6 @@ namespace GtkDotNet.Raw
         internal StateChangedDelegate StateChanged;
 
         [DllImport(Globals.LibGtk, EntryPoint="g_simple_action_set_state", CallingConvention = CallingConvention.Cdecl)]
-        extern static void ActionSetState(IntPtr action, IntPtr state);
-
-        [DllImport(Globals.LibGtk, EntryPoint="g_variant_get_boolean", CallingConvention = CallingConvention.Cdecl)]
-        extern static int GetBool(IntPtr value);
-        [DllImport(Globals.LibGtk, EntryPoint="g_variant_get_string", CallingConvention = CallingConvention.Cdecl)]
-        extern static IntPtr GetString(IntPtr value, IntPtr size);
+        public extern static void ActionSetState(IntPtr action, IntPtr state);
     }
 }

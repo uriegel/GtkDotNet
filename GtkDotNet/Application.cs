@@ -39,6 +39,27 @@ namespace GtkDotNet
             Raw.Gio.RegisterResources(res); 
         }
 
+        /// <summary>
+        /// Run the specified Action in the main GTK thread
+        /// </summary>
+        /// <param name="priority">Between 100 (high), 200 (idle) and 300 (low)</param>
+        /// <param name="action">Action which runs in main thread</param>
+        public void BeginInvoke(int priority, Action action)
+        {
+            IdleFunctionDelegate mainFunction = _ =>
+            {
+                action();
+                mainFunction = null;
+                action = null;
+                return false;
+            };
+            var delegat = mainFunction as Delegate;
+            var funcPtr = Marshal.GetFunctionPointerForDelegate(delegat);
+            Raw.Gtk.IdleAddFull(priority, funcPtr, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        delegate bool IdleFunctionDelegate(IntPtr zero);
+
         readonly IntPtr app;
     }   
 }

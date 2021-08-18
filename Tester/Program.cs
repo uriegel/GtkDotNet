@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-using System.Reflection;
 using System.Text;
+using System.Threading;
 using GtkDotNet;
 
 var app = new Application("de.uriegel.test");
@@ -16,8 +16,11 @@ app.Run(() =>
     var window = new Window(builder.GetObject("window"));
     var headerBar = new HeaderBar(builder.GetObject("headerbar"));
 
+    var showHiddenAction = new GtkAction("showhidden", true, state => Console.WriteLine(state), "<Ctrl>H");
+    var themeAction = new GtkDotNet.GtkAction("theme", "yaru", state => Console.WriteLine(state));
+
     app.AddActions(new[] {
-        new GtkAction("destroy", () => app.Quit(), "<Ctrl>Q"), 
+        new GtkAction("destroy", () => window.Close(), "<Ctrl>Q"), 
         new GtkAction("menuopen", () => {
             using var dialog = new FileChooserDialog("Datei öffnen", window, Dialog.FileChooserAction.Open,
                 "_Abbrechen", Dialog.ResponseId.Cancel, "_Öffnen", Dialog.ResponseId.Ok);
@@ -25,11 +28,21 @@ app.Run(() =>
             if (res == Dialog.ResponseId.Ok) 
                 Console.WriteLine(dialog.FileName);
         }),
-        new GtkAction("test", () => Console.WriteLine("Ein Test"), "F6"),
+        new GtkAction("test", () => 
+        {
+            Console.WriteLine("Ein Test");
+            new Thread(() => app.BeginInvoke(100, () =>
+            {
+                headerBar.SetSubtitle("Das ist aus einem anderen Thread gesetzt");
+                showHiddenAction.SetBoolState(true);
+                themeAction.SetStringState("yarudark");
+            })).Start();
+            
+        }, "F6"),
         new GtkAction("test2", () => Console.WriteLine("Ein Test 2")),
         new GtkAction("test3", () => headerBar.SetSubtitle("Das ist der neue Subtitle"), "F5"),
-        new GtkAction("showhidden", true, state =>  Console.WriteLine(state), "<Ctrl>H"),
-        new GtkDotNet.GtkAction("theme", "yaru", state => Console.WriteLine(state))
+        showHiddenAction,
+        themeAction
     });
 
     var webView = new WebView();
@@ -59,21 +72,31 @@ app.Run(() =>
 
     var settings = new Settings("de.uriegel.test");
 
-    EventHandler<DeleteEventArgs> deleteEvent = (s, de) => de.Cancel = true;
-    window.Delete += deleteEvent;
-    window.Delete -= deleteEvent;
-    window.Configure += (s, e) => 
+    EventHandler<DeleteEventArgs> deleteEvent = (s, de) =>
     {
-        Console.WriteLine($"Configure {e.Width} {e.Height}");
         var (w, h) = (s as Window).Size;
         settings.SetInt("window-width", w);
         settings.SetInt("window-height", h);
+        var (x, y) = (s as Window).GetPosition();
+        settings.SetInt("window-position-x", x);
+        settings.SetInt("window-position-y", y);
         settings.SetBool("is-maximized", window.IsMaximized());
-        Console.WriteLine($"Configure- {w} {h}");
-    };    
+        //de.Cancel = true;
+    };
+    window.Delete += deleteEvent;
+    //window.Delete -= deleteEvent;
+    // window.Configure += (s, e) => 
+    // {
+    //     Console.WriteLine($"Configure {e.Width} {e.Height}");
+    //     var (w, h) = (s as Window).Size;
+    //     settings.SetInt("window-width", w);
+    //     settings.SetInt("window-height", h);
+    //     settings.SetBool("is-maximized", window.IsMaximized());
+    //     Console.WriteLine($"Configure- {w} {h}");
+    // };    
 
     app.AddWindow(window);
-    window.SetTitle("Web Viewuuu 😎😎👌");
+    window.SetTitle("Web View 😎😎👌");
 
     using var resourceStream = new ResourceStream("/de/uriegel/test/web/index.html");
     var size = resourceStream.Length;
@@ -87,11 +110,14 @@ app.Run(() =>
 
     var w = settings.GetInt("window-width");
     var h = settings.GetInt("window-height");
+    var x = settings.GetInt("window-position-x");
+    var y = settings.GetInt("window-position-y");
     window.SetDefaultSize(w, h);
     if (settings.GetBool("is-maximized"))
         window.Maximize();
-    //window.SetSizeRequest(200, 100);
-    window.Move(2900, 456);
+    // window.SetSizeRequest(200, 100);        
+    if (x != -1 && y != -1)
+        window.Move(x, y);    
     window.ShowAll();
 });
 

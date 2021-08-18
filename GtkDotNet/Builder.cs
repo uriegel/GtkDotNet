@@ -27,17 +27,17 @@ namespace GtkDotNet
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects)
+                    // dispose managed state (managed objects)
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
+                // free unmanaged resources (unmanaged objects) and override finalizer
+                // set large fields to null
                 Raw.GObject.Unref(builder);
                 disposedValue = true;
             }
         }
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         ~Builder()
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             => Dispose(disposing: false);

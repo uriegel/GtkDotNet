@@ -35,6 +35,26 @@ namespace GtkDotNet
             };
         }
 
+        public void SetBoolState(bool state)
+        {
+            if (action != IntPtr.Zero)
+            {
+                var var = Raw.Variant.NewBool(state);
+                Raw.GtkAction.ActionSetState(action, var);
+            }
+        }
+
+        public void SetStringState(string state)
+        {
+            if (action != IntPtr.Zero)
+            {
+                var var = Raw.Variant.NewString(state);
+                Raw.GtkAction.ActionSetState(action, var);
+            }
+        }
+
+        internal IntPtr action { get; set; } = IntPtr.Zero;
+
         public delegate void BoolStateChangedDelegate(bool newState);
         public delegate void StringStateChangedDelegate(string newState);
 
