@@ -3,5 +3,6 @@
   <gresource prefix="/de/uriegel/test">
     <file>main_window.glade</file>
     <file>kirk.png</file>
+    <file>web/index.html</file>
   </gresource>
 </gresources>

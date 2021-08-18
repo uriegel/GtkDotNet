@@ -1,5 +1,3 @@
-using System;
-
 namespace GtkDotNet
 {
     public class Container : Widget 

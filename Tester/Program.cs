@@ -9,7 +9,7 @@ app.Run(() =>
     //using var builder = new Builder();
     //builder.FromFile("glade");
 
-    var resources = new Resources("Tester");
+    app.RegisterResources();
     using var builder = Builder.FromResource("/de/uriegel/test/main_window.glade");
 
     var window = new Window(builder.GetObject("window"));
@@ -73,6 +73,9 @@ app.Run(() =>
 
     app.AddWindow(window);
     window.SetTitle("Web Viewuuu 😎😎👌");
+
+    using var resourceStream = new ResourceStream("/de/uriegel/test/web/index.html");
+    var size = resourceStream.Length;
 
     var w = settings.GetInt("window-width");
     var h = settings.GetInt("window-height");

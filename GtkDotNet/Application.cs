@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace GtkDotNet
 {
@@ -17,6 +20,25 @@ namespace GtkDotNet
         public void Quit() => Raw.Application.Quit(app);
 
         public void AddWindow(Window window) => Raw.Application.AddWindow(app, window.handle);
+
+        public void RegisterResources()
+        {
+            var assembly = Assembly.GetEntryAssembly();
+            var stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.resources.gresource");
+            var memIntPtr = Marshal.AllocHGlobal((int)stream.Length);
+            unsafe 
+            {
+                var memBytePtr = (byte*)memIntPtr.ToPointer();
+                var writeStream = new UnmanagedMemoryStream(memBytePtr, stream.Length, stream.Length, FileAccess.Write);
+                stream.CopyTo(writeStream);
+            }
+            var gbytes = Raw.GBytes.New(memIntPtr, stream.Length);
+            Marshal.FreeHGlobal(memIntPtr);
+            var res = Raw.Gio.NewResourceFromData(gbytes, IntPtr.Zero);
+            Raw.GBytes.Unref(gbytes);
+            Raw.Gio.RegisterResources(res); 
+        }
+
         readonly IntPtr app;
     }   
 }
