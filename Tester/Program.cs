@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using GtkDotNet;
 
 var app = new Application("de.uriegel.test");
@@ -76,6 +77,13 @@ app.Run(() =>
 
     using var resourceStream = new ResourceStream("/de/uriegel/test/web/index.html");
     var size = resourceStream.Length;
+
+    var buffer = new byte[40000];
+    var prefix = "Hello Wörld";
+    int offset = Encoding.UTF8.GetBytes(prefix, 0, prefix.Length, buffer, 0);
+
+    var read = resourceStream.Read(buffer, offset, buffer.Length - offset);
+    var text = Encoding.UTF8.GetString(buffer, 0, read + offset);
 
     var w = settings.GetInt("window-width");
     var h = settings.GetInt("window-height");

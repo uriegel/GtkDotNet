@@ -31,5 +31,8 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="g_settings_get_int", CallingConvention = CallingConvention.Cdecl)]
         public extern static int SettingsGetInt(IntPtr obj, string name);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_input_stream_read", CallingConvention = CallingConvention.Cdecl)]
+        public extern static long StreamRead(IntPtr stream, IntPtr buffer, long count, IntPtr zero, IntPtr zero2);
     }
 }
