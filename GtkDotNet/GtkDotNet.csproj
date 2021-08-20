@@ -3,9 +3,9 @@
   <PropertyGroup>
     <OutputType>library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-		<Version>5.1.0</Version>
-		<FileVersion>5.1.0.0</FileVersion>
-		<AssemblyVersion>5.1.0.0</AssemblyVersion>
+		<Version>5.2.0</Version>
+		<FileVersion>5.2.0.0</FileVersion>
+		<AssemblyVersion>5.2.0.0</AssemblyVersion>
 		<Authors>Uwe Riegel</Authors>
     	<Company>Uwe Riegel</Company>		
 		<Description>.NET 5 Bindings for GTK+</Description>
