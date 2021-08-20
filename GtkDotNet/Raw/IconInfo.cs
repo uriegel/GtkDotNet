@@ -6,13 +6,10 @@ namespace GtkDotNet.Raw
 {
     public class IconInfo
     {
-        public enum Flags
-        {
-            None = 0,
-            ForceSvg = 2
-        }
-
         [DllImport(Globals.LibGtk, EntryPoint="gtk_icon_info_get_filename", CallingConvention = CallingConvention.Cdecl)]
         public extern static IntPtr GetFileName(IntPtr iconInfo);
+
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_icon_info_free", CallingConvention = CallingConvention.Cdecl)]
+        public extern static void Free(IntPtr iconInfo);
     }
 }

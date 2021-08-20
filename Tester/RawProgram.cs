@@ -63,7 +63,7 @@ namespace Tester
                 var theme = Theme.GetDefault();
                 var names = Icon.GetNames(icon);
                 // GTK_ICON_LOOKUP_FORCE_SVG
-                var iconInfo = Theme.ChooseIcon(theme, names, 48, IconInfo.Flags.ForceSvg);
+                var iconInfo = Theme.ChooseIcon(theme, names, 48, GtkDotNet.IconLookup.ForceSvg);
                 var filename = IconInfo.GetFileName(iconInfo);
                 var text = Marshal.PtrToStringUTF8(filename);
                 GObject.Unref(icon);

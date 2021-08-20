@@ -19,6 +19,9 @@ app.Run(() =>
     var showHiddenAction = new GtkAction("showhidden", true, state => Console.WriteLine(state), "<Ctrl>H");
     var themeAction = new GtkDotNet.GtkAction("theme", "yaru", state => Console.WriteLine(state));
 
+    using var iconInfo = IconInfo.Choose(".pdf", 64, IconLookup.ForceSvg);
+    var iconFile = iconInfo.GetFileName();
+
     app.AddActions(new[] {
         new GtkAction("destroy", () => window.Close(), "<Ctrl>Q"), 
         new GtkAction("menuopen", () => {
