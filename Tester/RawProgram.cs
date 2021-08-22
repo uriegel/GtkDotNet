@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if RAW
+
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using GtkDotNet.Raw;
@@ -16,7 +18,7 @@ namespace Tester
         static IntPtr window;
         static IntPtr headerBar;
 
-        static int Main2()
+        static int Main()
         {
             var app = Application.New("de.uriegel.test");
             if (Environment.CurrentDirectory.Contains("netcoreapp"))
@@ -163,3 +165,4 @@ namespace Tester
     }
 }
 
+#endif

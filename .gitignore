@@ -6,3 +6,4 @@ GtkDotNet/obj
 Tester/bin
 Tester/obj
 resources/resources.gresource
+resources/listview.glade~

@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading;
 using GtkDotNet;
 
+#if WEBVIEW
+
 var app = new Application("de.uriegel.test");
 app.Run(() =>
 {
@@ -124,3 +126,4 @@ app.Run(() =>
     window.ShowAll();
 });
 
+#endif

@@ -1,3 +1,6 @@
+#define LISTVIEW
+#if LISTVIEW
+
 using System;
 using System.Runtime.InteropServices;
 
@@ -64,3 +67,5 @@ namespace GtkDotNet
         #endregion
     }
 }
+
+#endif
