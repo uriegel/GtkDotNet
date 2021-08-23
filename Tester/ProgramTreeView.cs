@@ -97,8 +97,9 @@ class Folder
 
     public void Fill()
     {
-        var model = new ListStore(new[] { GType.String, GType.Int });
-        model.Append("Einen wundervollen schönen guten Morgen", 987654);
+        var model = new ListStore(new[] { GType.String, GType.Int, GType.String });
+        model.Append("Einen wundervollen schönen guten Morgen", 987654, "Noch was");
+        model.Append("Hello", 1, "Noch was am Ende");
         treeView.SetModel(model);
     }
 
