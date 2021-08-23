@@ -97,21 +97,8 @@ class Folder
 
     public void Fill()
     {
-        //var model = new ListStore(new[] { GType.String, GType.Int });
-        var model = new ListStore(new[] { GType.String });
-
-        var dummy = new GValueDummy();
-        var affe = Marshal.SizeOf(dummy);
-        var gvalue = GtkDotNet.Raw.GValue.Init(ref dummy, GType.String);
-        GtkDotNet.Raw.GValue.SetString(gvalue, "Einen wundervollen schönen guten Morgen");
-        var zurück = Marshal.PtrToStringUTF8(GtkDotNet.Raw.GValue.GetString(gvalue));
-
-        var dummy2 = new GValueDummy();
-        var gvalue2 = GtkDotNet.Raw.GValue.Init(ref dummy2, GType.Int);
-        GtkDotNet.Raw.GValue.SetInt(gvalue2, 45);
-
-        //model.InsertWithValues(-1, new[] { 0, 1 }, new[] { gvalue, gvalue2 });
-        model.InsertWithValues(-1, new[] { 0 }, new[] { gvalue });
+        var model = new ListStore(new[] { GType.String, GType.Int });
+        model.Append("Einen wundervollen schönen guten Morgen", 987654);
         treeView.SetModel(model);
     }
 
