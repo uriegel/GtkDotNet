@@ -13,30 +13,25 @@ namespace GtkDotNet
         public void Append(params object[] items)
         {
             int index = 0;
-            var dummies = new Raw.GValue.GValueDummy[items.Length];
+            var intPtr = Marshal.AllocHGlobal(24 * items.Length);
+            Marshal.Copy(new byte[24 * items.Length], 0, intPtr, 24 * items.Length);
+
             var columns = Enumerable.Range(0, items.Length).ToArray();
             foreach (var item in items)
             {
                 var type = types[index];
-                dummies[index] = new Raw.GValue.GValueDummy();
+                var nextPtr = intPtr + 24 * index;
                 switch (type)
                 {
                     case GType.Int:
-                        GtkDotNet.Raw.GValue.Init(ref dummies[index], GType.Int);
-                        GtkDotNet.Raw.GValue.SetInt(ref dummies[index], (int)items[index]);
+                        GtkDotNet.Raw.GValue.Init(nextPtr, GType.Int);
+                        GtkDotNet.Raw.GValue.SetInt(nextPtr, (int)items[index]);
                         break;
                     case GType.String:
-                        GtkDotNet.Raw.GValue.Init(ref dummies[index], GType.String);
-                        GtkDotNet.Raw.GValue.SetString(ref dummies[index], (string)items[index]);
+                        GtkDotNet.Raw.GValue.Init(nextPtr, GType.String);
+                        GtkDotNet.Raw.GValue.SetString(nextPtr, (string)items[index]);
                         break;
                 }
-                index++;
-            }
-            var intPtr = Marshal.AllocHGlobal(24 * items.Length);
-            index = 0;
-            foreach (var dummy in dummies)
-            {
-                Marshal.Copy(new[] { dummy.Part1, dummy.Part2, dummy.Part3 }, 0, intPtr + (index * 3 * 8), 3);
                 index++;
             }
             Raw.ListStore.InsertWithValues(handle, IntPtr.Zero, -1, columns, intPtr, columns.Length);
