@@ -35,6 +35,9 @@ namespace GtkDotNet
                 index++;
             }
             Raw.ListStore.InsertWithValues(handle, IntPtr.Zero, -1, columns, intPtr, columns.Length);
+            for (var i = 0; i < items.Length; i++)
+                GtkDotNet.Raw.GValue.Unset(intPtr + 24 * i);
+
             Marshal.FreeHGlobal(intPtr);
         }
 

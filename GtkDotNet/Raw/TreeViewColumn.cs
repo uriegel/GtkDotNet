@@ -31,5 +31,9 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint = "gtk_cell_layout_add_attribute", CallingConvention = CallingConvention.Cdecl)]
         public extern static void AddAttribute(IntPtr handle, IntPtr cell, string attribute, int column);
-    }
+
+
+        [DllImport(Globals.LibGtk, EntryPoint = "gtk_tree_view_column_set_cell_data_func", CallingConvention = CallingConvention.Cdecl)]
+        public extern static void SetCellDataFunc(IntPtr handle, IntPtr cell, IntPtr callback, IntPtr zero, IntPtr zero2);
+}
 }

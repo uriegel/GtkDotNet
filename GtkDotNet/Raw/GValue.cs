@@ -19,5 +19,8 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="g_value_set_int", CallingConvention = CallingConvention.Cdecl)]
         public extern static void SetInt(IntPtr ptr, int value);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_value_unset", CallingConvention = CallingConvention.Cdecl)]
+        public extern static void Unset(IntPtr ptr);
     }
 }

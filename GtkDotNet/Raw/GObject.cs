@@ -37,6 +37,9 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="g_object_get", CallingConvention = CallingConvention.Cdecl)]
         extern static bool GetInt(IntPtr obj, string name, out int value, IntPtr end);
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_object_set", CallingConvention = CallingConvention.Cdecl)]
+        public extern static void SetString(IntPtr obj, string name, string value, IntPtr end);
     }
 }
 

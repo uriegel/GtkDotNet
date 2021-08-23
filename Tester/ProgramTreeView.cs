@@ -91,15 +91,17 @@ class Folder
         column.Expand = true;
         column.Resizable = true;
         column.PackStart(cell, true);
-        column.AddAttribute(cell, "text", 2);
+        //column.AddAttribute(cell, "text", 2);
+        column.SetCellCallback(cell);
         treeView.AppendColumn(column);
     }
 
     public void Fill()
     {
         var model = new ListStore(new[] { GType.String, GType.Int, GType.String });
-        model.Append("Einen wundervollen schönen guten Morgen", 987654, "Noch was");
-        model.Append("Hello", 1, "Noch was am Ende");
+        for (var i = 0; i < 10_000; i++)
+            model.Append($"{i} Einen wundervollen schönen guten Morgen", i, "Noch was");
+
         treeView.SetModel(model);
     }
 

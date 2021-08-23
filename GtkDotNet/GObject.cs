@@ -14,6 +14,8 @@ namespace GtkDotNet
         public bool GetBool(string key) => Raw.GObject.GetBool(handle, key);
         public void SetBool(string key, bool value) => Raw.GObject.SetBool(handle, key, value);
 
+        public void SetString(string key, string value) => Raw.GObject.SetString(handle, key, value, IntPtr.Zero);
+
         internal readonly IntPtr handle;
     }
 }

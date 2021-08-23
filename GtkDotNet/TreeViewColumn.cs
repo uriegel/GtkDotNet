@@ -31,6 +31,27 @@ namespace GtkDotNet
 
         public void AddAttribute(CellRenderer cell, string attribute, int column)
             => Raw.TreeViewColumn.AddAttribute(handle, cell.handle, attribute, column);        
+
+        public void SetCellCallback(CellRenderer cell)
+        {
+            cellDataFunc = CellDataCallback;
+            var funcptr = Marshal.GetFunctionPointerForDelegate(cellDataFunc);
+            Raw.TreeViewColumn.SetCellDataFunc(handle, cell.handle, funcptr, IntPtr.Zero, IntPtr.Zero);        
+        }
+
+        void CellDataCallback(IntPtr treeViewColumn, IntPtr cellRenderer, IntPtr treeModelPtr, IntPtr iter, IntPtr data)
+        {
+            var treeModel = new TreeModel(new GObject(treeModelPtr));
+            var value = treeModel.GetInt(iter, 1);
+            // TODO: Type, Col position
+            var cell = new CellRenderer(new GObject(cellRenderer));
+            cell.SetString("text", $"{value} - Das ist ja märchenhaft!");
+        }
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CellDataDelegate(IntPtr treeViewColumn, IntPtr cellRenderer, IntPtr treeModel, IntPtr iter, IntPtr data);
+
+        CellDataDelegate cellDataFunc;
     }
 }
 
