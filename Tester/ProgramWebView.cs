@@ -1,14 +1,15 @@
-//#define WEBVIEW
+#define WEBVIEW
 #if WEBVIEW
 
 using System;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using GtkDotNet;
 
 var app = new Application("de.uriegel.test");
-var ret =  Application.Run(app, () => {
+var ret =  app.Run(() => 
 {
     //using var builder = new Builder();
     //builder.FromFile("glade");
@@ -30,6 +31,7 @@ var ret =  Application.Run(app, () => {
     var window = new Window(builder.GetObject("window"));
     var headerBar = new HeaderBar(builder.GetObject("headerbar"));
     var revealer = new Revealer(builder.GetObject("ProgressRevealer"));
+    var progress = new ProgressControl(builder.GetObject("ProgressArea"));
 
     var showHiddenAction = new GtkAction("showhidden", true, state => Console.WriteLine(state), "<Ctrl>H");
     var themeAction = new GtkDotNet.GtkAction("theme", "yaru", state => Console.WriteLine(state));
@@ -57,10 +59,18 @@ var ret =  Application.Run(app, () => {
             })).Start();
             
         }, "F6"),
-        new GtkAction("test2", () => 
+        new GtkAction("test2", async () => 
         {
             Console.WriteLine($"is revealed: {revealer.IsRevealed}");
-            revealer.IsRevealed = !revealer.IsRevealed;
+            progress.Progress = 0;
+            revealer.IsRevealed = true;
+            for (var i = 0; i <= 100; i++)
+            {
+                await Task.Delay(200);
+                progress.Progress = i / 100.0;
+            }
+            await Task.Delay(2000);
+            revealer.IsRevealed = false;
         }),
         new GtkAction("test3", () => headerBar.SetSubtitle("Das ist der neue Subtitle"), "F5"),
         showHiddenAction,

@@ -34,5 +34,8 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_allocated_height", CallingConvention = CallingConvention.Cdecl)]
         public extern static int GetAllocatedHeight(IntPtr widget);
+
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_queue_draw", CallingConvention = CallingConvention.Cdecl)]
+        public extern static int QueueDraw(IntPtr widget);
     }
 }
