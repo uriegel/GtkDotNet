@@ -6,7 +6,7 @@ namespace GtkDotNet.Raw
     public class GFile
     {
         /// <summary>
-        /// Creates a  new GFile object. Free it with GObject.Unref
+        /// Creates a new GFile object. Free it with GObject.Unref
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>

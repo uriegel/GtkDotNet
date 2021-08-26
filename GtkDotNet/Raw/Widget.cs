@@ -28,5 +28,11 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_grab_focus", CallingConvention = CallingConvention.Cdecl)]
         public extern static void GrabFocus(IntPtr widget);
+
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_allocated_width", CallingConvention = CallingConvention.Cdecl)]
+        public extern static int GetAllocatedWidth(IntPtr widget);
+
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_allocated_height", CallingConvention = CallingConvention.Cdecl)]
+        public extern static int GetAllocatedHeight(IntPtr widget);
     }
 }

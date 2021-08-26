@@ -1,4 +1,4 @@
-#define WEBVIEW
+//#define WEBVIEW
 #if WEBVIEW
 
 using System;
@@ -8,16 +8,28 @@ using System.Threading;
 using GtkDotNet;
 
 var app = new Application("de.uriegel.test");
-app.Run(() =>
+var ret =  Application.Run(app, () => {
 {
     //using var builder = new Builder();
     //builder.FromFile("glade");
+
+    try 
+    {
+        //using var file = new GFile("/home/uwe/test/web.png");
+        using var file = new GFile("/etc");
+        file.Trash();
+    }
+    catch (GErrorException fe)
+    {
+        Console.Error.WriteLine($"Could not delete: {fe.Code}, {fe.Message}");
+    }
 
     app.RegisterResources();
     using var builder = Builder.FromResource("/de/uriegel/test/main_window.glade");
 
     var window = new Window(builder.GetObject("window"));
     var headerBar = new HeaderBar(builder.GetObject("headerbar"));
+    var revealer = new Revealer(builder.GetObject("ProgressRevealer"));
 
     var showHiddenAction = new GtkAction("showhidden", true, state => Console.WriteLine(state), "<Ctrl>H");
     var themeAction = new GtkDotNet.GtkAction("theme", "yaru", state => Console.WriteLine(state));
@@ -45,7 +57,11 @@ app.Run(() =>
             })).Start();
             
         }, "F6"),
-        new GtkAction("test2", () => Console.WriteLine("Ein Test 2")),
+        new GtkAction("test2", () => 
+        {
+            Console.WriteLine($"is revealed: {revealer.IsRevealed}");
+            revealer.IsRevealed = !revealer.IsRevealed;
+        }),
         new GtkAction("test3", () => headerBar.SetSubtitle("Das ist der neue Subtitle"), "F5"),
         showHiddenAction,
         themeAction
