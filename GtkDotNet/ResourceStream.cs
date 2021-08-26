@@ -9,7 +9,7 @@ namespace GtkDotNet
         public ResourceStream(string path)
         {
             this.path = path;
-            gstream = Raw.Gio.ResourcesOpenStream(path, 0, IntPtr.Zero);
+            gstream = Raw.Resource.OpenStream(path, 0, IntPtr.Zero);
         }
 
         protected override void Dispose(bool disposing)
@@ -34,7 +34,7 @@ namespace GtkDotNet
         {
             get 
             {
-                Raw.Gio.ResourcesGetInfo(path, 0, out var size, out var flags, IntPtr.Zero);
+                Raw.Resource.GetInfo(path, 0, out var size, out var flags, IntPtr.Zero);
                 return size;
             }
         }
@@ -51,7 +51,7 @@ namespace GtkDotNet
             var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
             IntPtr address = handle.AddrOfPinnedObject();
             address += offset;
-            var read = (int)Raw.Gio.StreamRead(gstream, address, count, IntPtr.Zero, IntPtr.Zero);
+            var read = (int)Raw.InputStream.Read(gstream, address, count, IntPtr.Zero, IntPtr.Zero);
             handle.Free();
             return read;
         }

@@ -1,3 +1,5 @@
+#if TREEVIEW
+
 using System;
 using System.Runtime.InteropServices;
 using GtkDotNet;
@@ -110,3 +112,5 @@ class Folder
     TreeView treeView;
     Entry entry;
 }               
+
+#endif

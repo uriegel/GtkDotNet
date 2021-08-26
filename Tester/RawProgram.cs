@@ -1,4 +1,5 @@
-﻿#if RAW
+﻿// #define RAW
+#if RAW
 
 using System;
 using System.IO;
@@ -57,6 +58,15 @@ namespace Tester
             });
 
             var ret =  Application.Run(app, () => {
+
+
+
+                var file = GFile.New("/home/uwe/notfound");
+                var error = IntPtr.Zero;
+                var deleted = GFile.FileTrash(file, IntPtr.Zero, ref error);
+                GObject.Unref(file);
+
+
                 var type = Gtk.GuessContentType("/home/uwe/Dokumente/hypovereinsbank.pdf");
                 var type1 = Gtk.GuessContentType("x.fs");
                 var type2 = Gtk.GuessContentType("x.cs");

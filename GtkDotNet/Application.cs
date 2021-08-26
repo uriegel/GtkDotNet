@@ -34,9 +34,10 @@ namespace GtkDotNet
             }
             var gbytes = Raw.GBytes.New(memIntPtr, stream.Length);
             Marshal.FreeHGlobal(memIntPtr);
-            var res = Raw.Gio.NewResourceFromData(gbytes, IntPtr.Zero);
+            var res = Raw.Resource.NewFromData(gbytes, IntPtr.Zero);
             Raw.GBytes.Unref(gbytes);
-            Raw.Gio.RegisterResources(res); 
+            Raw.Resource.Register(res); 
+            Raw.Resource.Unref(res); 
         }
 
         /// <summary>
