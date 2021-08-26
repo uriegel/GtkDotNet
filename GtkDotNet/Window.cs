@@ -74,6 +74,7 @@ namespace GtkDotNet
             }
         }       
 
+        public Window() : base(new GObject(Raw.Window.New(WindowType.TopLevel))) {}
         public Window(GObject obj) : base(obj) {}
         public void SetTitle(string title) => Raw.Window.SetTitle(handle, title);
         public void ShowAll() => Raw.Widget.ShowAll(handle);

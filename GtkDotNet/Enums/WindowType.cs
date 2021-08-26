@@ -1,4 +1,4 @@
-namespace GtkDotNet.Raw
+namespace GtkDotNet
 {
     public enum WindowType
     {

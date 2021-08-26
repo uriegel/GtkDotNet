@@ -63,6 +63,11 @@ namespace GtkDotNet
 
         public void GrabFocus() => Raw.Widget.GrabFocus(handle);
 
+        public int GetAllocatedWidth() => Raw.Widget.GetAllocatedWidth(handle);
+
+        public int GetAllocatedHeight() => Raw.Widget.GetAllocatedHeight(handle);
+
         delegate bool KeyPressEventFunc(IntPtr widget, IntPtr evt);
+       
     }
 }
