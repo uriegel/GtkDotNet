@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace GtkDotNet
 {
@@ -48,6 +49,9 @@ namespace GtkDotNet
             var screen = Raw.Display.GetDefaultScreen(display);
             Raw.StyleContext.AddProviderForScreen(screen, cssProvider, GtkDotNet.StyleProviderPriority.Application);
         }
+
+        public void EnableSynchronizationContext()
+            => SynchronizationContext.SetSynchronizationContext(new GtkSynchronizationContext(this));
 
         /// <summary>
         /// Run the specified Action in the main GTK thread

@@ -25,6 +25,7 @@ var ret =  app.Run(() =>
     }
 
     app.RegisterResources();
+    app.EnableSynchronizationContext();
     using var builder = Builder.FromResource("/de/uriegel/test/main_window.glade");
 
     var window = new Window(builder.GetObject("window"));
@@ -39,15 +40,15 @@ var ret =  app.Run(() =>
     var iconFile = iconInfo.GetFileName();
 
     app.AddActions(new[] {
-        new GtkAction("destroy", () => window.Close(), "<Ctrl>Q"), 
+        new GtkAction("destroy", () => window.Close(), "<Ctrl>Q"),
         new GtkAction("menuopen", () => {
             using var dialog = new FileChooserDialog("Datei öffnen", window, Dialog.FileChooserAction.Open,
                 "_Abbrechen", Dialog.ResponseId.Cancel, "_Öffnen", Dialog.ResponseId.Ok);
             var res = dialog.Run();
-            if (res == Dialog.ResponseId.Ok) 
+            if (res == Dialog.ResponseId.Ok)
                 Console.WriteLine(dialog.FileName);
         }),
-        new GtkAction("test", () => 
+        new GtkAction("test", () =>
         {
             Console.WriteLine("Ein Test");
             new Thread(() => app.BeginInvoke(100, () =>
@@ -56,10 +57,11 @@ var ret =  app.Run(() =>
                 showHiddenAction.SetBoolState(true);
                 themeAction.SetStringState("yarudark");
             })).Start();
-            
+
         }, "F6"),
-        new GtkAction("test2", async () => 
+        new GtkAction("test2", async () =>
         {
+            Console.WriteLine($"ThreadID start: {Thread.CurrentThread.ManagedThreadId}");
             Console.WriteLine($"is revealed: {revealer.IsRevealed}");
             progress.Progress = 0;
             revealer.IsRevealed = true;
@@ -73,7 +75,8 @@ var ret =  app.Run(() =>
             {
                 Console.WriteLine($"Could not copy: {e}");
             }
-            await Task.Delay(2000);
+            await Task.Delay(12000);
+            Console.WriteLine($"ThreadID end: {Thread.CurrentThread.ManagedThreadId}");
             revealer.IsRevealed = false;
         }),
         new GtkAction("test3", () => headerBar.SetSubtitle("Das ist der neue Subtitle"), "F5"),
