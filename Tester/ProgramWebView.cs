@@ -63,10 +63,16 @@ var ret =  app.Run(() =>
             Console.WriteLine($"is revealed: {revealer.IsRevealed}");
             progress.Progress = 0;
             revealer.IsRevealed = true;
-            await Task.Factory.StartNew(
-                () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/film.mp4", FileCopyFlags.None, 
-                    (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
-            );
+            try {
+                await Task.Factory.StartNew(
+                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/film.mp4", FileCopyFlags.None,
+                        (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
+                );
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Could not copy: {e}");
+            }
             await Task.Delay(2000);
             revealer.IsRevealed = false;
         }),
