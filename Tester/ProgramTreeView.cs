@@ -1,13 +1,14 @@
+#define TREEVIEW
 #if TREEVIEW
 
 using System;
-using System.Runtime.InteropServices;
 using GtkDotNet;
 
 var app = new Application("de.uriegel.test");
 app.Run(() =>
 {
     app.RegisterResources();
+    app.RegisterStylesFromResource("/de/uriegel/test/style.css");
     using var builder = Builder.FromResource("/de/uriegel/test/listview.glade");
 
     var window = new Window(builder.GetObject("window"));

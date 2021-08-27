@@ -40,6 +40,15 @@ namespace GtkDotNet
             Raw.Resource.Unref(res); 
         }
 
+        public void RegisterStylesFromResource(string path)
+        {
+            var cssProvider = Raw.CssProvider.New();
+            Raw.CssProvider.LoadFromResource(cssProvider, path);
+            var display = Raw.Display.GetDefault();
+            var screen = Raw.Display.GetDefaultScreen(display);
+            Raw.StyleContext.AddProviderForScreen(screen, cssProvider, GtkDotNet.StyleProviderPriority.Application);
+        }
+
         /// <summary>
         /// Run the specified Action in the main GTK thread
         /// </summary>

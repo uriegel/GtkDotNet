@@ -1,4 +1,4 @@
-﻿#define RAW
+﻿// #define RAW
 #if RAW
 
 using System;
@@ -83,8 +83,6 @@ var ret =  Application.Run(app, () => {
     var display = Display.GetDefault();
     var screen = Display.GetDefaultScreen(display);
     StyleContext.AddProviderForScreen(screen, cssProvider, GtkDotNet.StyleProviderPriority.Application);
-
-
 
     var type = Gtk.GuessContentType("/home/uwe/Dokumente/hypovereinsbank.pdf");
     var type1 = Gtk.GuessContentType("x.fs");
