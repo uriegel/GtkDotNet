@@ -1,8 +1,9 @@
-﻿// #define RAW
+﻿#define RAW
 #if RAW
 
 using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using GtkDotNet.Raw;
 
@@ -61,6 +62,30 @@ Application.AddActions(app, new [] {
 });
 
 var ret =  Application.Run(app, () => {
+    var assembly = Assembly.GetEntryAssembly();
+    var stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.resources.gresource");
+    var memIntPtr = Marshal.AllocHGlobal((int)stream.Length);
+    unsafe 
+    {
+        var memBytePtr = (byte*)memIntPtr.ToPointer();
+        var writeStream = new UnmanagedMemoryStream(memBytePtr, stream.Length, stream.Length, FileAccess.Write);
+        stream.CopyTo(writeStream);
+    }
+    var gbytes = GBytes.New(memIntPtr, stream.Length);
+    Marshal.FreeHGlobal(memIntPtr);
+    var res = Resource.NewFromData(gbytes, IntPtr.Zero);
+    GBytes.Unref(gbytes);
+    Resource.Register(res); 
+    Resource.Unref(res); 
+
+    var cssProvider = CssProvider.New();
+    CssProvider.LoadFromResource(cssProvider, "/de/uriegel/test/style.css");
+    var display = Display.GetDefault();
+    var screen = Display.GetDefaultScreen(display);
+    StyleContext.AddProviderForScreen(screen, cssProvider, GtkDotNet.StyleProviderPriority.Application);
+
+
+
     var type = Gtk.GuessContentType("/home/uwe/Dokumente/hypovereinsbank.pdf");
     var type1 = Gtk.GuessContentType("x.fs");
     var type2 = Gtk.GuessContentType("x.cs");
@@ -75,7 +100,7 @@ var ret =  Application.Run(app, () => {
     GObject.Unref(icon);
     
     var builder = Builder.New();
-    var res = Builder.AddFromFile(builder, "glade", IntPtr.Zero);
+    var result = Builder.AddFromFile(builder, "glade", IntPtr.Zero);
     window = Builder.GetObject(builder, "window");
     headerBar = Builder.GetObject(builder, "headerbar");
     Builder.ConnectSignals(builder, (IntPtr builder, IntPtr obj, string signal, string handleName, IntPtr connectObj, int flags) =>

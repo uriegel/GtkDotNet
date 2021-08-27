@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.InteropServices;
-using GtkDotNet.Raw;
 
 namespace GtkDotNet.Raw
 {

@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/de/uriegel/test">
     <file>main_window.glade</file>
+    <file>style.css</file>
     <file>listview.glade</file>
     <file>kirk.png</file>
     <file>web/index.html</file>
