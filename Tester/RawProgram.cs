@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using GtkDotNet.Raw;
 
 IntPtr window = IntPtr.Zero;
@@ -14,14 +15,14 @@ var app = Application.New("de.uriegel.test");
 
 var file = GFile.New("/home/uwe/notfound");
 var errorp = IntPtr.Zero;
-var deleted = GFile.FileTrash(file, IntPtr.Zero, ref errorp);
+var deleted = GFile.Trash(file, IntPtr.Zero, ref errorp);
 var error = Marshal.PtrToStructure<GtkDotNet.GError>(errorp);
 GError.Free(errorp);
 GObject.Unref(file);
 
 file = GFile.New("/home/uwe/notfound");
 errorp = IntPtr.Zero;
-deleted = GFile.FileTrash(file, IntPtr.Zero, ref errorp);
+deleted = GFile.Trash(file, IntPtr.Zero, ref errorp);
 error = Marshal.PtrToStructure<GtkDotNet.GError>(errorp);
 GObject.Unref(file);
 
@@ -45,7 +46,26 @@ Application.AddActions(app, new [] {
         Widget.Destroy(dialog);
     }),
     new GtkAction("test", () => Console.WriteLine("Ein Test"), "F6"), 
-    new GtkAction("test2", () => Console.WriteLine("Ein Test 2")),
+    new GtkAction("test2", () => 
+    {
+        Task.Factory.StartNew(() =>
+        {
+            var source = GFile.New("/home/uwe/Videos/Tatort - Hundstage.mp4");
+            var target = GFile.New("/home/uwe/film.mp4");
+            var errorp = IntPtr.Zero;
+            var copied = GFile.Copy(source, target, GtkDotNet.FileCopyFlags.None, IntPtr.Zero, (c, t, _) =>
+            {
+                Console.WriteLine($"Progress: {c}, {t}");
+            }, IntPtr.Zero, ref errorp);
+            if (errorp != IntPtr.Zero)
+            {
+                var copyerror = Marshal.PtrToStructure<GtkDotNet.GError>(errorp);
+                Console.WriteLine($"Error while copying: {copyerror.Message}");
+            }
+            GObject.Unref(source);
+            GObject.Unref(target);
+        });
+    }),
     new GtkAction("test3", () => HeaderBar.SetSubtitle(headerBar, "Das ist der neue Subtitle"), "F5"),
     new GtkAction("showhidden", true, 
         (a, s) => 

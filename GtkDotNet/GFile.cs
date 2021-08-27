@@ -4,16 +4,31 @@ namespace GtkDotNet
 {
     public class GFile : GObject, IDisposable
     {
-        public GFile(string path) : base(new GObject(Raw.GFile.New(path))) { }
-
-        public void Trash()
+        public delegate void ProgressCallback(long current, long total);
+        
+        public static void Copy(string source, string destination, FileCopyFlags flags, ProgressCallback cb)
         {
+            using var sourceFile = new GFile(source);
+            using var destinationFile = new GFile(destination);
             var errorp = IntPtr.Zero;
-            var deleted = Raw.GFile.FileTrash(handle, IntPtr.Zero, ref errorp);
+            Raw.GFile.FileProgressCallback rcb = cb != null ? (c, t, _) => cb(c, t) : null;
+            Raw.GFile.Copy(sourceFile.handle, destinationFile.handle, flags, IntPtr.Zero, rcb, IntPtr.Zero, ref errorp);
+            rcb = null;
+            // TODO Error Handling
+        }
+
+        public static void Trash(string path)
+        {
+            using var file = new GFile(path);
+            var errorp = IntPtr.Zero;
+            var deleted = Raw.GFile.Trash(file.handle, IntPtr.Zero, ref errorp);
             var error = new GError(errorp);
             if (!deleted)
                 throw GErrorException.New(error);
+            // TODO Error Handling                
         }
+
+        public GFile(string path) : base(new GObject(Raw.GFile.New(path))) { }
 
         #region IDisposable
 

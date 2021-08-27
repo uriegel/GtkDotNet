@@ -1,4 +1,4 @@
-// #define WEBVIEW
+#define WEBVIEW
 #if WEBVIEW
 
 using System;
@@ -16,9 +16,8 @@ var ret =  app.Run(() =>
 
     try 
     {
-        //using var file = new GFile("/home/uwe/test/web.png");
-        using var file = new GFile("/etc");
-        file.Trash();
+        GFile.Trash("/home/uwe/test/web.png");
+        GFile.Trash("/etc");
     }
     catch (GErrorException fe)
     {
@@ -64,11 +63,10 @@ var ret =  app.Run(() =>
             Console.WriteLine($"is revealed: {revealer.IsRevealed}");
             progress.Progress = 0;
             revealer.IsRevealed = true;
-            for (var i = 0; i <= 100; i++)
-            {
-                await Task.Delay(200);
-                progress.Progress = i / 100.0;
-            }
+            await Task.Factory.StartNew(
+                () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/film.mp4", FileCopyFlags.None, 
+                    (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
+            );
             await Task.Delay(2000);
             revealer.IsRevealed = false;
         }),
