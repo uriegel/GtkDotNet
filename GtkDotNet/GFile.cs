@@ -13,7 +13,7 @@ namespace GtkDotNet
             var error = IntPtr.Zero;
             Raw.GFile.FileProgressCallback rcb = cb != null ? (c, t, _) => cb(c, t) : null;
             if (!Raw.GFile.Copy(sourceFile.handle, destinationFile.handle, flags, IntPtr.Zero, rcb, IntPtr.Zero, ref error))
-                throw GErrorException.New(new GError(error));
+                throw GErrorException.New(new GError(error), source, destination);
         }
 
         public static void Move(string source, string destination, FileCopyFlags flags, ProgressCallback cb)
@@ -23,7 +23,7 @@ namespace GtkDotNet
             var error = IntPtr.Zero;
             Raw.GFile.FileProgressCallback rcb = cb != null ? (c, t, _) => cb(c, t) : null;
             if (!Raw.GFile.Move(sourceFile.handle, destinationFile.handle, flags, IntPtr.Zero, rcb, IntPtr.Zero, ref error))
-                throw GErrorException.New(new GError(error));
+                throw GErrorException.New(new GError(error), source, destination);
         }
 
         public static void Trash(string path)
@@ -31,7 +31,7 @@ namespace GtkDotNet
             using var file = new GFile(path);
             var error = IntPtr.Zero;
             if (!Raw.GFile.Trash(file.handle, IntPtr.Zero, ref error))
-                throw GErrorException.New(new GError(error));
+                throw GErrorException.New(new GError(error), path, null);
         }
 
         public GFile(string path) : base(new GObject(Raw.GFile.New(path))) { }

@@ -7,10 +7,10 @@ namespace GtkDotNet
         public uint Domain { get; }
         public int Code { get; }
 
-        internal static Exception New(GError error)
+        internal static Exception New(GError error, string source, string destination)
             => error.Domain switch
             {
-                226 => new FileException(error) as GErrorException,
+                232 => FileException.Create(error, source, destination),
                 _ => new GErrorException(error)
             };
 

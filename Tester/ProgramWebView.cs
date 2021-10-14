@@ -16,6 +16,7 @@ var ret =  app.Run(() =>
 
     try 
     {
+        GFile.Trash("/home/uwe/test/ablage12");
         GFile.Trash("/home/uwe/test/web.png");
         GFile.Trash("/etc");
     }
@@ -67,7 +68,18 @@ var ret =  app.Run(() =>
             revealer.IsRevealed = true;
             try {
                 await Task.Factory.StartNew(
-                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/film.mp4", FileCopyFlags.None,
+                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/etc/hunde", FileCopyFlags.None,
+                        (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
+                );
+            }
+            catch (AccessDeniedException e)
+            {
+                Console.WriteLine($"Access Denied: {e}");
+            }
+
+            try {
+                await Task.Factory.StartNew(
+                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/Videos/Tatort - Hundstage2.mp4", FileCopyFlags.None,
                         (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
                 );
             }
@@ -75,7 +87,44 @@ var ret =  app.Run(() =>
             {
                 Console.WriteLine($"Could not copy: {e}");
             }
-            await Task.Delay(12000);
+
+            try {
+                await Task.Factory.StartNew(
+                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/Videos/Tatort - Hundstage2.mp4", FileCopyFlags.None,
+                        (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
+                );
+            }
+            catch (TargetExistingException)
+            {
+                await Task.Factory.StartNew(
+                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/Videos/Tatort - Hundstage2.mp4", FileCopyFlags.Overwrite,
+                        (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
+                );
+            }
+
+            try {
+                await Task.Factory.StartNew(
+                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage nicht da.mp4", "/home/uwe/Videos/film.mp4", FileCopyFlags.None,
+                        (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
+                );
+            }
+            catch (SourceNotFoundException e)
+            {
+                Console.WriteLine($"Source not found: {e}");
+            }
+
+            try {
+                await Task.Factory.StartNew(
+                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/Videos/Abfälle/Haufen/film.mp4", FileCopyFlags.None,
+                        (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
+                );
+            }
+            catch (TargetNotFoundException e)
+            {
+                Console.WriteLine($"Target not found: {e}");
+            }
+
+            await Task.Delay(1000);
             Console.WriteLine($"ThreadID end: {Thread.CurrentThread.ManagedThreadId}");
             revealer.IsRevealed = false;
         }),
