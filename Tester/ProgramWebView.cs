@@ -114,14 +114,33 @@ var ret =  app.Run(() =>
             }
 
             try {
+                GFile.Trash("/home/uwe/Videos/Abfälle/Haufen");
+            } catch {}
+            try {
                 await Task.Factory.StartNew(
-                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/Videos/Abfälle/Haufen/film.mp4", FileCopyFlags.None,
+                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/Videos/Abfälle/Haufen/film.mp4", FileCopyFlags.None, 
                         (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
                 );
             }
             catch (TargetNotFoundException e)
             {
                 Console.WriteLine($"Target not found: {e}");
+            }
+
+            await Task.Factory.StartNew(
+                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/home/uwe/Videos/Abfälle/Haufen/film.mp4", FileCopyFlags.None, true,
+                    (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
+            );
+
+            try {
+                await Task.Factory.StartNew(
+                    () => GFile.Copy("/home/uwe/Videos/Tatort - Hundstage.mp4", "/etc/Videos/Abfälle/Haufen/film.mp4", FileCopyFlags.None, true,
+                        (c, t) => progress.Progress = (double)((decimal)c/(decimal)t))
+                );
+            }
+            catch (AccessDeniedException e)
+            {
+                Console.WriteLine($"Zugriff verweigert: {e}");
             }
 
             await Task.Delay(1000);

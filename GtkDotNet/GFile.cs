@@ -1,29 +1,71 @@
 using System;
+using System.IO;
 
 namespace GtkDotNet
 {
     public class GFile : GObject, IDisposable
     {
         public delegate void ProgressCallback(long current, long total);
-        
+
         public static void Copy(string source, string destination, FileCopyFlags flags, ProgressCallback cb)
+            => Copy(source, destination, flags, false, cb);
+        public static void Copy(string source, string destination, FileCopyFlags flags, bool createTargetPath, ProgressCallback cb)
         {
             using var sourceFile = new GFile(source);
             using var destinationFile = new GFile(destination);
             var error = IntPtr.Zero;
             Raw.GFile.FileProgressCallback rcb = cb != null ? (c, t, _) => cb(c, t) : null;
             if (!Raw.GFile.Copy(sourceFile.handle, destinationFile.handle, flags, IntPtr.Zero, rcb, IntPtr.Zero, ref error))
-                throw GErrorException.New(new GError(error), source, destination);
+            {
+                var gerror = new GError(error);
+                if (createTargetPath && gerror.Domain == 232 && gerror.Code == 1 && File.Exists(source))
+                {
+                    var fi = new FileInfo(destination);
+                    var path = fi.Directory;
+                    try 
+                    {
+                        path.Create();
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        throw GErrorException.New(new GError(232, 14, "Access Denied"), source, destination);
+                    }
+                    Copy(source, destination, flags, true, cb);
+                }
+                else
+                    throw GErrorException.New(gerror, source, destination);
+            }
         }
 
         public static void Move(string source, string destination, FileCopyFlags flags, ProgressCallback cb)
+            => Move(source, destination, flags, false, cb);
+
+        public static void Move(string source, string destination, FileCopyFlags flags, bool createTargetPath, ProgressCallback cb)
         {
             using var sourceFile = new GFile(source);
             using var destinationFile = new GFile(destination);
             var error = IntPtr.Zero;
             Raw.GFile.FileProgressCallback rcb = cb != null ? (c, t, _) => cb(c, t) : null;
             if (!Raw.GFile.Move(sourceFile.handle, destinationFile.handle, flags, IntPtr.Zero, rcb, IntPtr.Zero, ref error))
-                throw GErrorException.New(new GError(error), source, destination);
+            {
+                var gerror = new GError(error);
+                if (createTargetPath && gerror.Domain == 232 && gerror.Code == 1 && File.Exists(source))
+                {
+                    var fi = new FileInfo(destination);
+                    var path = fi.Directory;
+                    try 
+                    {
+                        path.Create();
+                    }
+                    catch (AccessDeniedException)
+                    {
+                        throw GErrorException.New(new GError(232, 14, "Access Denied"), source, destination);
+                    }
+                    Move(source, destination, flags, true, cb);
+                }
+                else
+                    throw GErrorException.New(gerror, source, destination);
+            }
         }
 
         public static void Trash(string path)

@@ -10,6 +10,13 @@ namespace GtkDotNet
         public int Code;
         public string Message;
 
+        internal GError(uint domain, int code, string message)
+        {
+            Domain = domain;
+            Code = code;
+            Message = message;
+        }
+
         internal GError(IntPtr error)
         {
             if (error != IntPtr.Zero)
