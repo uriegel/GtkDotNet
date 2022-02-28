@@ -1,4 +1,4 @@
-﻿//#define RAW
+﻿#define RAW
 #if RAW
 
 using System;
@@ -81,7 +81,7 @@ Application.AddActions(app, new [] {
         })
 });
 
-var ret =  Application.Run(app, () => {
+var ret = Application.Run(app, () => {
     var assembly = Assembly.GetEntryAssembly();
     var stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.resources.gresource");
     var memIntPtr = Marshal.AllocHGlobal((int)stream.Length);
@@ -141,7 +141,10 @@ var ret =  Application.Run(app, () => {
     Window.SetTitle(window, "Web View 😎😎👌");            
     Window.SetDefaultSize(window, 300, 300);
     Widget.SetSizeRequest(window, 200, 100);
-    Window.Move(window,2900, 456);
+    Window.Move(window, 2900, 456);
+
+    var pixbuf = Pixbuf.NewFromFile("../resources/kirk.png", IntPtr.Zero);
+    Window.SetIcon(window, pixbuf);
 
     var webView = WebKit.New();
     var settings = WebKit.GetSettings(webView);
