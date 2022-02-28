@@ -1,4 +1,4 @@
-// #define RAWKairo
+//#define RAWKairo
 #if RAWKairo
 
 using System;
@@ -7,7 +7,7 @@ using GtkDotNet.Raw;
 var app = Application.New("de.uriegel.test");
 Application.Run(app, () =>
 {
-    var window = Window.New(WindowType.TopLevel);
+    var window = Window.New(GtkDotNet.WindowType.TopLevel);
     Window.SetTitle(window, "Kairo");
 
     var kairo = DrawingArea.New();

@@ -1,4 +1,4 @@
-#define WEBVIEW
+//#define WEBVIEW
 #if WEBVIEW
 
 using System;
@@ -177,17 +177,17 @@ var ret =  app.Run(() =>
         }
     };
 
-    var settings = new Settings("de.uriegel.test");
+    //var settings = new Settings("de.uriegel.test");
 
     EventHandler<DeleteEventArgs> deleteEvent = (s, de) =>
     {
         var (w, h) = (s as Window).Size;
-        settings.SetInt("window-width", w);
-        settings.SetInt("window-height", h);
-        var (x, y) = (s as Window).GetPosition();
-        settings.SetInt("window-position-x", x);
-        settings.SetInt("window-position-y", y);
-        settings.SetBool("is-maximized", window.IsMaximized());
+        // settings.SetInt("window-width", w);
+        // settings.SetInt("window-height", h);
+        // var (x, y) = (s as Window).GetPosition();
+        // settings.SetInt("window-position-x", x);
+        // settings.SetInt("window-position-y", y);
+        // settings.SetBool("is-maximized", window.IsMaximized());
         //de.Cancel = true;
     };
     window.Delete += deleteEvent;
@@ -215,16 +215,16 @@ var ret =  app.Run(() =>
     var read = resourceStream.Read(buffer, offset, buffer.Length - offset);
     var text = Encoding.UTF8.GetString(buffer, 0, read + offset);
 
-    var w = settings.GetInt("window-width");
-    var h = settings.GetInt("window-height");
-    var x = settings.GetInt("window-position-x");
-    var y = settings.GetInt("window-position-y");
-    window.SetDefaultSize(w, h);
-    if (settings.GetBool("is-maximized"))
-        window.Maximize();
-    // window.SetSizeRequest(200, 100);        
-    if (x != -1 && y != -1)
-        window.Move(x, y);    
+    // var w = settings.GetInt("window-width");
+    // var h = settings.GetInt("window-height");
+    // var x = settings.GetInt("window-position-x");
+    // var y = settings.GetInt("window-position-y");
+    // window.SetDefaultSize(w, h);
+    // if (settings.GetBool("is-maximized"))
+    //     window.Maximize();
+    window.SetSizeRequest(800, 200);        
+    // if (x != -1 && y != -1)
+        window.Move(3200, 400);    
     window.ShowAll();
 });
 
