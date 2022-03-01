@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -10,7 +11,7 @@ namespace GtkDotNet
     public class Application
     {
         public Application(string id)
-            => app = Raw.Application.New(id);
+            => app = Raw.Application.New(id);       
 
         public int Run(Action onActivate)
             => Raw.Application.Run(app, onActivate);
@@ -22,10 +23,20 @@ namespace GtkDotNet
 
         public void AddWindow(Window window) => Raw.Application.AddWindow(app, window.handle);
 
-        public void RegisterResources()
+        public bool RegisterResources()
         {
             var assembly = Assembly.GetEntryAssembly();
-            var stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.resources.gresource");
+            var resources = assembly.GetManifestResourceNames();
+            var legacyName = $"{assembly.GetName().Name}.resources.gresource";
+            var actualName = "app.gresource";
+            var resourceName = resources.Contains(legacyName)
+                ? legacyName
+                : resources.Contains(actualName)
+                ? actualName
+                : null;
+            if (resourceName == null)
+                return false;
+            var stream = assembly.GetManifestResourceStream(resourceName);
             var memIntPtr = Marshal.AllocHGlobal((int)stream.Length);
             unsafe 
             {
@@ -39,6 +50,7 @@ namespace GtkDotNet
             Raw.GBytes.Unref(gbytes);
             Raw.Resource.Register(res); 
             Raw.Resource.Unref(res); 
+            return true;
         }
 
         public void RegisterStylesFromResource(string path)

@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="../resources/resources.gresource" />
+    <EmbeddedResource Include="../resources/resources.gresource">
+      <LogicalName>app.gresource</LogicalName>
+    </EmbeddedResource>  
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
