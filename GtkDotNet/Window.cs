@@ -88,6 +88,14 @@ namespace GtkDotNet
             return (x, y);
         } 
 
+        public void SetIcon(Pixbuf icon) => Raw.Window.SetIcon(handle, icon.handle);
+
+        public void SetIconFromResource(string path) 
+        {
+            using var pixbuf = Pixbuf.FromResource(path);
+            SetIcon(pixbuf);
+        } 
+
         public void Close() => Raw.Window.Close(handle);
 
         delegate bool BoolFunc();

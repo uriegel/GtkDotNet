@@ -1,4 +1,4 @@
-﻿#define RAW
+﻿//#define RAW
 #if RAW
 
 using System;
@@ -25,7 +25,6 @@ errorp = IntPtr.Zero;
 deleted = GFile.Trash(file, IntPtr.Zero, ref errorp);
 error = Marshal.PtrToStructure<GtkDotNet.GError>(errorp);
 GObject.Unref(file);
-
 
 if (Environment.CurrentDirectory.Contains("netcoreapp"))
     Environment.CurrentDirectory = Path.Combine(Environment.CurrentDirectory, "../../../");
@@ -143,8 +142,11 @@ var ret = Application.Run(app, () => {
     Widget.SetSizeRequest(window, 200, 100);
     Window.Move(window, 2900, 456);
 
-    var pixbuf = Pixbuf.NewFromFile("../resources/kirk.png", IntPtr.Zero);
+
+    //var pixbuf = Pixbuf.NewFromFile("../resources/kirk.png", IntPtr.Zero);
+    var pixbuf = Pixbuf.NewFromResource("/de/uriegel/test/kirk.png", IntPtr.Zero);
     Window.SetIcon(window, pixbuf);
+    GObject.Unref(pixbuf);
 
     var webView = WebKit.New();
     var settings = WebKit.GetSettings(webView);

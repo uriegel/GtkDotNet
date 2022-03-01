@@ -1,10 +1,11 @@
-// #define Kairo
+#define Kairo
 #if Kairo
 
 using System;
 using GtkDotNet;
 
 var app = new Application("de.uriegel.test");
+app.RegisterResources();
 app.Run(() =>
 {
     var window = new Window();
@@ -30,6 +31,7 @@ app.Run(() =>
         context.Fill();
     });
     window.Add(kairo);
+    window.SetIconFromResource("/de/uriegel/test/kirk.png");
     app.AddWindow(window);
     window.ShowAll();
 });
