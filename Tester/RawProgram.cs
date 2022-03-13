@@ -1,4 +1,4 @@
-﻿//#define RAW
+﻿#define RAW
 #if RAW
 
 using System;
@@ -81,22 +81,6 @@ Application.AddActions(app, new [] {
 });
 
 var ret = Application.Run(app, () => {
-    var assembly = Assembly.GetEntryAssembly();
-    var stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.resources.gresource");
-    var memIntPtr = Marshal.AllocHGlobal((int)stream.Length);
-    unsafe 
-    {
-        var memBytePtr = (byte*)memIntPtr.ToPointer();
-        var writeStream = new UnmanagedMemoryStream(memBytePtr, stream.Length, stream.Length, FileAccess.Write);
-        stream.CopyTo(writeStream);
-    }
-    var gbytes = GBytes.New(memIntPtr, stream.Length);
-    Marshal.FreeHGlobal(memIntPtr);
-    var res = Resource.NewFromData(gbytes, IntPtr.Zero);
-    GBytes.Unref(gbytes);
-    Resource.Register(res); 
-    Resource.Unref(res); 
-
     var cssProvider = CssProvider.New();
     CssProvider.LoadFromResource(cssProvider, "/de/uriegel/test/style.css");
     var display = Display.GetDefault();
