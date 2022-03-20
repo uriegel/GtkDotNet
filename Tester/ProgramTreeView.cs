@@ -1,4 +1,4 @@
-//#define TREEVIEW
+#define TREEVIEW
 #if TREEVIEW
 
 using System;
@@ -28,7 +28,7 @@ app.Run(() =>
         new GtkAction("viewer", false, v => viewer.Visible = v, "F3"),
     });        
 
-    using var iconInfo = IconInfo.Choose(".pdf", 64, IconLookup.ForceSvg);
+    using var iconInfo = IconInfo.Choose(".gpx", 64, IconLookup.NoSvg);
     var iconFile = iconInfo.GetFileName();
 
     app.AddWindow(window);

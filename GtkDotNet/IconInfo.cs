@@ -44,7 +44,7 @@ namespace GtkDotNet
 
                 // free unmanaged resources (unmanaged objects) and override finalizer
                 // set large fields to null
-                // Raw.IconInfo.Free(handle);
+                Raw.IconInfo.Free(handle);
                 disposedValue = true;
             }
         }
