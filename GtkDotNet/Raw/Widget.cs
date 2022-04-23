@@ -37,5 +37,11 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_queue_draw", CallingConvention = CallingConvention.Cdecl)]
         public extern static int QueueDraw(IntPtr widget);
+
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_halign", CallingConvention = CallingConvention.Cdecl)]
+        public extern static int SetHAlign(IntPtr widget, Align align);
+
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_valign", CallingConvention = CallingConvention.Cdecl)]
+        public extern static int SetVAlign(IntPtr widget, Align align);
     }
 }

@@ -15,6 +15,9 @@ namespace GtkDotNet.Raw
             return _Run(app, 0, IntPtr.Zero);
         }
 
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_application_window_new", CallingConvention = CallingConvention.Cdecl)]
+        public extern static IntPtr NewWindow(IntPtr app);
+
         [DllImport(Globals.LibGtk, EntryPoint="gtk_application_add_window", CallingConvention = CallingConvention.Cdecl)]
         public extern static void AddWindow(IntPtr app, IntPtr window);
 

@@ -34,6 +34,12 @@ namespace GtkDotNet.Raw
         
         [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_icon", CallingConvention = CallingConvention.Cdecl)]
         public extern static bool SetIcon(IntPtr window, IntPtr pixbuf);
+
+        [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_child", CallingConvention = CallingConvention.Cdecl)]
+        public extern static bool SetChild(IntPtr window, IntPtr child);
+
+        [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_application", CallingConvention = CallingConvention.Cdecl)]
+        public extern static void SetApplication(IntPtr window, IntPtr application);
     }
 }
  
