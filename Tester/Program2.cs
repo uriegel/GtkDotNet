@@ -13,18 +13,20 @@ Action onActivate = () =>
     Window.SetTitle(window, "Hellöchen Gtk👍");
     Window.SetDefaultSize(window, 200, 300);
 
-    var box = Box.New(GtkDotNet.Orientation.Vertical, 5);    
-    Widget.SetHAlign(box, GtkDotNet.Align.Center);
-    Widget.SetVAlign(box, GtkDotNet.Align.Center);
-    Window.SetChild(window, box);
+    var grid = Grid.New();    
+    Window.SetChild(window, grid);
 
-    var button = Button.NewWithLabel("Hello World");
+    var button = Button.NewWithLabel("Button 1");
     Gtk.SignalConnect(button, "clicked", () => Console.WriteLine("Hello Wörld"));    
+    Grid.Attach(grid, button, 0, 0, 1, 1);
 
-    var button2 = Button.NewWithLabel("Hello Gtk");
-    
-    Box.Append(box, button);
-    Box.Append(box, button2);
+    var button2 = Button.NewWithLabel("Button 2");
+    Gtk.SignalConnect(button2, "clicked", () => Console.WriteLine("Hello Wörld #2"));    
+    Grid.Attach(grid, button2, 1, 0, 1, 1);
+
+    var button3 = Button.NewWithLabel("Quit");
+    Gtk.SignalConnect(button3, "clicked", () => Window.Close(window));    
+    Grid.Attach(grid, button3, 0, 1, 2, 1);
     
     Widget.Show(window);
 };
