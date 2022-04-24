@@ -1,4 +1,4 @@
-#define Program
+// #define Program
 #if Program
 
 using System;

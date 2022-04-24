@@ -1,4 +1,4 @@
-//#define ProgramBuilder
+#define ProgramBuilder
 #if ProgramBuilder
 
 using System;
