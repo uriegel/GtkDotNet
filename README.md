@@ -5,9 +5,6 @@
 
 ### Ubuntu
 * sudo apt install libgtk-4-dev
-* sudo apt install libwebkit2gtk-4.0-dev
-### Fedora
-* sudo dnf install webkit2gtk3-devel.x86_64
 
 ## Installation of GTK Schema
 ```
