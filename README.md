@@ -6,6 +6,9 @@
 ### Ubuntu
 * sudo apt install libgtk-4-dev
 
+### Cambalache
+* Install Cambalache via flatpak. It is the GTK 4 replacement of glade
+
 ## Installation of GTK Schema
 ```
     sudo install -D de.uriegel.test.gschema.xml /usr/share/glib-2.0/schemas/
