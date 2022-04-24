@@ -12,20 +12,20 @@ app.Run(() =>
     using var builder = Builder.FromResource("/de/uriegel/test/listview.ui");
 
     var window = new Window(builder.GetObject("window"));
-    // var viewer = new Widget(builder.GetObject("viewer"));
-    // var leftFolder = new Folder(builder, "left");
-    // var rightFolder = new Folder(builder, "right");
+    var viewer = new Widget(builder.GetObject("viewer"));
+    var leftFolder = new Folder(builder, "left");
+    var rightFolder = new Folder(builder, "right");
 
-    // leftFolder.ShiftFocus += (s,_e) => rightFolder.GrabFocus();
-    // rightFolder.ShiftFocus += (s,_e) => leftFolder.GrabFocus();
+    leftFolder.ShiftFocus += (s,_e) => rightFolder.GrabFocus();
+    rightFolder.ShiftFocus += (s,_e) => leftFolder.GrabFocus();
 
-//    leftFolder.GrabFocus();
-//    viewer.Visible = false;
+    leftFolder.GrabFocus();
+    viewer.Visible = false;
 
     app.AddActions(new[] 
     {
         new GtkAction("destroy", window.Close, "<Ctrl>Q"), 
-  //      new GtkAction("viewer", false, v => viewer.Visible = v, "F3"),
+        new GtkAction("viewer", false, v => viewer.Visible = v, "F3"),
     });        
 
     // using var iconInfo = IconInfo.Choose(".gpx", 64, IconLookup.NoSvg);
@@ -53,7 +53,7 @@ class Folder
         entry = new Entry(builder.GetObject($"{id}-entry"));
         entry.Activate += (s, e) =>
         {
-            Console.WriteLine($"Activated: {entry.Text}");
+            // Console.WriteLine($"Activated: {entry.Text}");
             Prepare();
             Fill();
             treeView.GrabFocus();
