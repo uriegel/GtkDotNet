@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/de/uriegel/test">
-    <file>main_window.glade</file>
+    <file>builder.ui</file>
     <file>style.css</file>
-    <file>listview.glade</file>
+    <file>listview.ui</file>
     <file>kirk.png</file>
     <file>web/index.html</file>
   </gresource>

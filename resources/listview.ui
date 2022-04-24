@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.8.2 -->
+<interface>
+  <!-- interface-name builder.ui -->
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkApplicationWindow" id="window">
+    <property name="default-height">800</property>
+    <property name="default-width">600</property>
+    <property name="show-menubar">True</property>
+    <property name="title">Commander</property>
+    <child>
+      <object class="GtkPaned">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkPaned">
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label">Left Folder</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label">Right Folder</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="viewer">
+            <property name="label">Viewer</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
