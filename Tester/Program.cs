@@ -34,6 +34,15 @@ var status = Application.Run(app, onActivate);
 
 GObject.Unref(app);
 
+int type = 0;
+int GetType()
+{
+    if (type == 0)
+    {
+        
+    }
+}
+
 return status;
 
 #endif
