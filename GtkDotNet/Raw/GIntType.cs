@@ -5,20 +5,21 @@ namespace GtkDotNet.Raw;
 
 public class GIntType 
 {
+    public static long Type { get; }
     public static int GetValue(IntPtr intType) 
         => Marshal.ReadInt32(intType, 28); 
 
     public static void SetValue(IntPtr intType, int value) 
         => Marshal.WriteInt32(intType, 28, value); 
     
-    public static IntPtr New() => GObject.New(type, IntPtr.Zero);
+    public static IntPtr New() => GObject.New(Type, IntPtr.Zero);
 
     static GIntType()
     {
         var info = new GTypeInfo();
         info.class_size = (ushort)Marshal.SizeOf<IntTypeClass>();// 136
         info.instance_size = (ushort)Marshal.SizeOf<IntType>(); // 32
-        type = RegisterStatic(80, "GtkDotNetInt", ref info, 0);
+        Type = RegisterStatic(80, "GtkDotNetInt", ref info, 0);
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -38,6 +39,5 @@ public class GIntType
     
     [DllImport(Globals.LibGtk, EntryPoint="g_type_register_static", CallingConvention = CallingConvention.Cdecl)]
     extern static long RegisterStatic(int type, string typeName, ref GTypeInfo info, int flags);
-
-    static long type;
 }
+ 

@@ -4,9 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace GtkDotNet
 {
-    public class ListStore : GObject
+    public class GtkListStore : GObject
     {
-        public ListStore(GType[] types) : base(Raw.ListStore.New(types.Length, types))
+        public GtkListStore(GType[] types) : base(Raw.GtkListStore.New(types.Length, types))
             => this.types = types;
 
 
@@ -34,7 +34,7 @@ namespace GtkDotNet
                 }
                 index++;
             }
-            Raw.ListStore.InsertWithValues(handle, IntPtr.Zero, -1, columns, intPtr, columns.Length);
+            Raw.GtkListStore.InsertWithValues(handle, IntPtr.Zero, -1, columns, intPtr, columns.Length);
             for (var i = 0; i < items.Length; i++)
                 GtkDotNet.Raw.GValue.Unset(intPtr + 24 * i);
 

@@ -13,19 +13,41 @@ Action onActivate = () =>
     Window.SetTitle(window, "Listbox 👍");
     Window.SetDefaultSize(window, 600, 300);
 
-    var listbox = Listbox.New();
-    for (var i = 0; i < 10_000; i++)
+    var listStore = ListStore.New(GIntType.Type);
+    var count = 2_000_000;
+    var ints = new IntPtr[count];
+    for (var i = 0; i < count; i++)
     {
-        var label = Label.New($"Numero {i}");
-        Listbox.Prepend(listbox, label);
+        ints[i] = GIntType.New();
+        GIntType.SetValue(ints[i], i);
     }
+    ListStore.Splice(listStore, 0, 0, ints, ints.Length);
+    var item = ListStore.GetObject(listStore, 1);
+    var val = GIntType.GetValue(item);
+    
+    var modelFactory = SignalListItemFactory.New();
+    Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "setup", (_, listItem, _) => 
+    {
+        var label = Label.New("");
+        ListItem.SetChild(listItem, label);
+    });
+    Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "bind", (_, listItem, _) => 
+    {
+        var item = ListItem.GetItem(listItem);
+        var val = GIntType.GetValue(item);
+        var child = ListItem.GetChild(listItem);
+        Label.SetLabel(child, $"Eintrag # {val}");
+    });
 
+    var selectionModel = SingleSelection.New(listStore);
+    var listView = ListView.New(selectionModel, modelFactory);
+  
     var scrolledWindow = ScrolledWindow.New(IntPtr.Zero, IntPtr.Zero);
     ScrolledWindow.SetPolicy(scrolledWindow, GtkDotNet.PolicyType.Never, GtkDotNet.PolicyType.Automatic);
     ScrolledWindow.SetMinContentWidth(scrolledWindow, 360);
-    ScrolledWindow.SetChild(scrolledWindow, listbox);
+    ScrolledWindow.SetChild(scrolledWindow, listView);
     Window.SetChild(window, scrolledWindow);
-    
+
     Widget.Show(window);
 };
 

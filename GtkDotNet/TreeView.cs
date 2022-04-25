@@ -10,6 +10,6 @@ namespace GtkDotNet
 
         public int RemoveColumn(TreeViewColumn column) => Raw.TreeView.RemoveColumn(handle, column.handle);
 
-        public int SetModel(ListStore model) => Raw.TreeView.SetModel(handle, model.handle);
+        public int SetModel(GtkListStore model) => Raw.TreeView.SetModel(handle, model.handle);
     }
 }
