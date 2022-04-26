@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Launch Tutorial",
             "type": "coreclr",
             "request": "launch",
             "requireExactSource": true, 
@@ -13,6 +13,20 @@
             "program": "${workspaceFolder}/Tutorial/bin/Debug/net6.0/Tutorial.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Tutorial",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Launch Tutorial in F#",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/TutorialFs/bin/Debug/net6.0/TutorialFs.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/TutorialFs",
             "stopAtEntry": false,
             "justMyCode": false,
             "enableStepFiltering": true,
