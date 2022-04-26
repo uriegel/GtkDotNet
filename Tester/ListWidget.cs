@@ -14,16 +14,24 @@ Action onActivate = () =>
     Window.SetDefaultSize(window, 600, 300);
 
     var listStore = ListStore.New(GIntType.Type);
-    var count = 2_000_000;
+    var count = 2_000;
     var ints = new IntPtr[count];
     for (var i = 0; i < count; i++)
     {
         ints[i] = GIntType.New();
+        GObject.AddWeakRef(ints[i], (zero, obj) => 
+        {
+            Console.WriteLine("Bin im Finalisator");
+        }, IntPtr.Zero);
         GIntType.SetValue(ints[i], i);
     }
     ListStore.Splice(listStore, 0, 0, ints, ints.Length);
+    for (var i = 0; i < count; i++)
+        GObject.Unref(ints[i]);
+    
     var item = ListStore.GetObject(listStore, 1);
     var val = GIntType.GetValue(item);
+    GObject.Unref(item);
     
     var modelFactory = SignalListItemFactory.New();
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "setup", (_, listItem, _) => 
@@ -47,11 +55,13 @@ Action onActivate = () =>
     ScrolledWindow.SetMinContentWidth(scrolledWindow, 360);
     ScrolledWindow.SetChild(scrolledWindow, listView);
     Window.SetChild(window, scrolledWindow);
+    //GObject.Unref(window);
 
     Widget.Show(window);
 };
 
 
-return Application.Run(app, onActivate);
+var result =  Application.Run(app, onActivate);
+return result;
 
 #endif
