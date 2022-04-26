@@ -7,3 +7,5 @@ resources/resources.gresource
 resources/listview.glade~
 Tutorial/bin
 Tutorial/obj
+TutorialFs/bin
+TutorialFs/obj

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutorial", "Tutorial\Tutori
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtkDotNet", "GtkDotNet\GtkDotNet.csproj", "{480E5BFA-73A8-4DB5-9A67-EAD2019E09F4}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TutorialFs", "TutorialFs\TutorialFs.fsproj", "{6DA28CEE-7F56-4002-A9A7-4503918376D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{480E5BFA-73A8-4DB5-9A67-EAD2019E09F4}.Release|x64.Build.0 = Release|Any CPU
 		{480E5BFA-73A8-4DB5-9A67-EAD2019E09F4}.Release|x86.ActiveCfg = Release|Any CPU
 		{480E5BFA-73A8-4DB5-9A67-EAD2019E09F4}.Release|x86.Build.0 = Release|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Debug|x64.Build.0 = Debug|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Debug|x86.Build.0 = Debug|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Release|x64.ActiveCfg = Release|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Release|x64.Build.0 = Release|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Release|x86.ActiveCfg = Release|Any CPU
+		{6DA28CEE-7F56-4002-A9A7-4503918376D4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
