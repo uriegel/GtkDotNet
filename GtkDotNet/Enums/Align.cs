@@ -1,11 +1,10 @@
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public enum Align
 {
-    public enum Align
-    {
-        Fill,
-        Start,
-        End,
-        Center,
-        Baseline
-    }
+    Fill,
+    Start,
+    End,
+    Center,
+    Baseline
 }

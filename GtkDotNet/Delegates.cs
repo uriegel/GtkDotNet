@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+namespace GtkDotNet;
+
 static class Delegates
 {
     public static void Add(Delegate delegat) => delegates.Add((-1, delegat));

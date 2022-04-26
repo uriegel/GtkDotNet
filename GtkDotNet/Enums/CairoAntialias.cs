@@ -1,13 +1,12 @@
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public enum CairoAntialias
 {
-    public enum CairoAntialias
-    {
-        Default,
-        None,
-        Gray,
-        SubPixel,
-        Fast,
-        Good,
-        Best
-    }
+    Default,
+    None,
+    Gray,
+    SubPixel,
+    Fast,
+    Good,
+    Best
 }

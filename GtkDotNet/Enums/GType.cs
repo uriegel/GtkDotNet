@@ -1,8 +1,8 @@
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public enum GType : long
 {
-    public enum GType : long
-    {
-        Int = 24, // 6 << 2
-        String = 64 // 16 << 2
-    }
+    Int = 24, // 6 << 2
+    String = 64 // 16 << 2
 }
+

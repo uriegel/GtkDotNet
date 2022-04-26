@@ -1,11 +1,10 @@
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public enum PolicyType
 {
-    public enum PolicyType
-    {
-        Always,
-        Automatic,
-        Never,
-        SubPixel,
-        External
-    }
+    Always,
+    Automatic,
+    Never,
+    SubPixel,
+    External
 }

@@ -1,6 +1,6 @@
 module GtkTutorial
 
-open GtkDotNet.Raw
+open GtkDotNet
 
 let clicked () =
     printfn "Clicked button"

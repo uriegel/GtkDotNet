@@ -1,9 +1,8 @@
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public enum LineJoin
 {
-    public enum LineJoin
-    {
-        Miter,
-        Round,
-        Bevel
-    }
+    Miter,
+    Round,
+    Bevel
 }

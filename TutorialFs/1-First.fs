@@ -1,6 +1,6 @@
 ﻿module GtkTutorial
 
-open GtkDotNet.Raw
+open GtkDotNet
 
 let app = Application.New "org.gtk.example"
 let onActivate () =

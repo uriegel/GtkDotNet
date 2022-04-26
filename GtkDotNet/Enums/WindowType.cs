@@ -1,8 +1,7 @@
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public enum WindowType
 {
-    public enum WindowType
-    {
-        TopLevel,
-        Popup
-    }
+    TopLevel,
+    Popup
 }
