@@ -1,6 +1,6 @@
 namespace GtkDotNet
 {
-    public class TreeView : Container
+    public class TreeView : Widget
     {
         public TreeView(GObject obj) : base(obj) { }
 

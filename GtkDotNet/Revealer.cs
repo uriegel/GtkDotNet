@@ -1,6 +1,6 @@
 namespace GtkDotNet
 {
-    public class Revealer : Container
+    public class Revealer : Widget
     {
         public bool IsRevealed 
         {

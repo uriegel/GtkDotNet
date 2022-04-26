@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace GtkDotNet
 {
-    public class Window : Container
+    public class Window : Widget
     {
         #region Events
         

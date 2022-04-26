@@ -2,7 +2,7 @@ using System;
 
 namespace GtkDotNet
 {
-    public class HeaderBar : Container
+    public class HeaderBar : Widget
     {
         public HeaderBar(GObject obj) : base(obj) {}
 

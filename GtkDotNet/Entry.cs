@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace GtkDotNet
 {
-    public class Entry : Container
+    public class Entry : Widget
     {
         public string Text
         {

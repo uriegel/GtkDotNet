@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace GtkDotNet
 {
-    public class WebView : Container
+    public class WebView : Widget
     {
         #region Events
         
