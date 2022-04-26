@@ -13,6 +13,11 @@ Action onActivate = () =>
     Window.SetTitle(window, "Listbox 👍");
     Window.SetDefaultSize(window, 600, 300);
 
+
+    var affe = GManaged<string>.New("Ein Eintrag");
+    var wall = GManaged<string>.GetValue(affe);
+
+
     var listStore = ListStore.New(GIntType.Type);
     var count = 2_000;
     var ints = new IntPtr[count];
@@ -55,7 +60,6 @@ Action onActivate = () =>
     ScrolledWindow.SetMinContentWidth(scrolledWindow, 360);
     ScrolledWindow.SetChild(scrolledWindow, listView);
     Window.SetChild(window, scrolledWindow);
-    //GObject.Unref(window);
 
     Widget.Show(window);
 };
