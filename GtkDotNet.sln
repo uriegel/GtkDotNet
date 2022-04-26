@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{E9FAFD2C-36E7-44AB-9595-AFF73FCFC1DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutorial", "Tutorial\Tutorial.csproj", "{E9FAFD2C-36E7-44AB-9595-AFF73FCFC1DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtkDotNet", "GtkDotNet\GtkDotNet.csproj", "{480E5BFA-73A8-4DB5-9A67-EAD2019E09F4}"
 EndProject

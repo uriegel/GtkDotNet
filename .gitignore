@@ -3,7 +3,7 @@
 .ionide
 GtkDotNet/bin
 GtkDotNet/obj
-Tester/bin
-Tester/obj
 resources/resources.gresource
 resources/listview.glade~
+Tutorial/bin
+Tutorial/obj
