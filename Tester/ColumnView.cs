@@ -1,4 +1,4 @@
-//#define Program
+#define Program
 #if Program
 
 using System;
@@ -10,7 +10,7 @@ var app = Application.New("org.gtk.example");
 Action onActivate = () => 
 {
     var window = Application.NewWindow(app);
-    Window.SetTitle(window, "Listbox 👍");
+    Window.SetTitle(window, "Column View 👍");
     Window.SetDefaultSize(window, 600, 300);
 
     var listStore = ListStore.New(GManaged<string>.Type);
@@ -41,8 +41,12 @@ Action onActivate = () =>
     });
 
     var selectionModel = SingleSelection.New(listStore);
-    var listView = ListView.New(selectionModel, modelFactory);
-  
+    var listView = ColumnView.New(selectionModel);
+    var column = ColumnViewColumn.New("Spalte 1", modelFactory);
+    ColumnView.AppendColumn(listView, column);
+    column = ColumnViewColumn.New("Spalte 2", modelFactory);
+    ColumnView.AppendColumn(listView, column);
+      
     var scrolledWindow = ScrolledWindow.New(IntPtr.Zero, IntPtr.Zero);
     ScrolledWindow.SetPolicy(scrolledWindow, GtkDotNet.PolicyType.Never, GtkDotNet.PolicyType.Automatic);
     ScrolledWindow.SetMinContentWidth(scrolledWindow, 360);

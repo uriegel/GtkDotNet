@@ -20,8 +20,13 @@ public class GManaged<T>
         var handle = GCHandle.Alloc(value);
         Marshal.WriteIntPtr(intType, 28, (IntPtr)handle); 
     }
-    
-    public static IntPtr New() => GObject.New(Type, IntPtr.Zero);
+
+    public static IntPtr New() 
+    {
+        var obj = GObject.New(Type, IntPtr.Zero);
+        GObject.AddWeakRef(obj, (_, obj) => GCHandle.FromIntPtr(obj).Free(), IntPtr.Zero);        
+        return obj;
+    }
 
     public static IntPtr New(T value) 
     {
