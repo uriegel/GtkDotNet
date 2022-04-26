@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace GtkDotNet.Raw;
+namespace GtkDotNet;
 
 public class SingleSelection
 {

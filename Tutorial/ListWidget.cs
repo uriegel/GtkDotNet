@@ -2,7 +2,7 @@
 #if Program
 
 using System;
-using GtkDotNet.Raw;
+using GtkDotNet;
 
 Console.WriteLine("Hello Gtk 4");
 
@@ -43,7 +43,7 @@ Action onActivate = () =>
     var selectionModel = SingleSelection.New(listStore);
     var listView = ListView.New(selectionModel, modelFactory);
   
-    var scrolledWindow = ScrolledWindow.New(IntPtr.Zero, IntPtr.Zero);
+    var scrolledWindow = ScrolledWindow.New();
     ScrolledWindow.SetPolicy(scrolledWindow, GtkDotNet.PolicyType.Never, GtkDotNet.PolicyType.Automatic);
     ScrolledWindow.SetMinContentWidth(scrolledWindow, 360);
     ScrolledWindow.SetChild(scrolledWindow, listView);

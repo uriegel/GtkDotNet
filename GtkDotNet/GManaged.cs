@@ -1,13 +1,14 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace GtkDotNet.Raw;
+namespace GtkDotNet;
 
 public class GManaged<T>
 {
     // TODO: WeakReference (finalize)
     // TODO: GC sicher
     public static long Type { get; }
+    
     public static T GetValue(IntPtr intType) 
     {
         var intPtr = Marshal.ReadIntPtr(intType, 28); 
@@ -24,7 +25,7 @@ public class GManaged<T>
     public static IntPtr New() 
     {
         var obj = GObject.New(Type, IntPtr.Zero);
-        GObject.AddWeakRef(obj, (_, obj) => GCHandle.FromIntPtr(obj).Free(), IntPtr.Zero);        
+        GObject.AddWeakRef(obj, (_, obj) => GCHandle.FromIntPtr(obj).Free());        
         return obj;
     }
 

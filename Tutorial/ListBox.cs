@@ -2,7 +2,7 @@
 #if Program
 
 using System;
-using GtkDotNet.Raw;
+using GtkDotNet;
 
 Console.WriteLine("Hello Gtk 4");
 
@@ -20,7 +20,7 @@ Action onActivate = () =>
         Listbox.Prepend(listbox, label);
     }
 
-    var scrolledWindow = ScrolledWindow.New(IntPtr.Zero, IntPtr.Zero);
+    var scrolledWindow = ScrolledWindow.New();
     ScrolledWindow.SetPolicy(scrolledWindow, GtkDotNet.PolicyType.Never, GtkDotNet.PolicyType.Automatic);
     ScrolledWindow.SetMinContentWidth(scrolledWindow, 360);
     ScrolledWindow.SetChild(scrolledWindow, listbox);
