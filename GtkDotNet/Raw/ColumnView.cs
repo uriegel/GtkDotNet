@@ -10,5 +10,8 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="gtk_column_view_append_column", CallingConvention = CallingConvention.Cdecl)]
         public extern static IntPtr AppendColumn(IntPtr columnView, IntPtr columnViewColumn);
+
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_column_view_set_reorderable", CallingConvention = CallingConvention.Cdecl)]
+        public extern static IntPtr SetReorderable(IntPtr columnView, bool reorderable);
     }
 }

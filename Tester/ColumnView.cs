@@ -43,12 +43,15 @@ Action onActivate = () =>
     var selectionModel = SingleSelection.New(listStore);
     var listView = ColumnView.New(selectionModel);
     var column = ColumnViewColumn.New("Spalte 1", modelFactory);
+    ColumnViewColumn.SetResizable(column, true);
     ColumnView.AppendColumn(listView, column);
     column = ColumnViewColumn.New("Spalte 2", modelFactory);
     ColumnView.AppendColumn(listView, column);
+    ColumnViewColumn.SetResizable(column, true);
+    ColumnView.SetReorderable(listView, true);
       
     var scrolledWindow = ScrolledWindow.New(IntPtr.Zero, IntPtr.Zero);
-    ScrolledWindow.SetPolicy(scrolledWindow, GtkDotNet.PolicyType.Never, GtkDotNet.PolicyType.Automatic);
+    ScrolledWindow.SetPolicy(scrolledWindow, GtkDotNet.PolicyType.Automatic, GtkDotNet.PolicyType.Automatic);
     ScrolledWindow.SetMinContentWidth(scrolledWindow, 360);
     ScrolledWindow.SetChild(scrolledWindow, listView);
     Window.SetChild(window, scrolledWindow);
