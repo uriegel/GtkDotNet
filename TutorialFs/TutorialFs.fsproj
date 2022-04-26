@@ -13,7 +13,8 @@
 
   <ItemGroup>
     <!-- <Compile Include="1-First.fs" /> -->
-    <Compile Include="2-HelloWorld.fs" />
+    <!-- <Compile Include="2-HelloWorld.fs" /> -->
+    <Compile Include="3-PackingButtons.fs" />
   </ItemGroup>
 
 </Project>
