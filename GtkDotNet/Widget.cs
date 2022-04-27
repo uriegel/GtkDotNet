@@ -17,9 +17,6 @@ public class Widget
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_visible", CallingConvention = CallingConvention.Cdecl)]
     public extern static bool GetVisible(IntPtr widget);
 
-    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_show_all", CallingConvention = CallingConvention.Cdecl)]
-    public extern static void ShowAll(IntPtr widget);
-
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_size_request", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetSizeRequest(IntPtr widget, int width, int height);
 
@@ -43,5 +40,8 @@ public class Widget
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_valign", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetVAlign(IntPtr widget, Align align);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_add_controller", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void AddController(IntPtr widget, IntPtr eventController);
 }
 

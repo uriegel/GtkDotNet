@@ -37,6 +37,13 @@ public class Gtk
         Delegates.Add(id, delegat);
     }
 
+    public static void SignalConnectAfter<TDelegate>(IntPtr widget, string name, TDelegate callback) where TDelegate : Delegate
+    {
+        var delegat = callback as Delegate;
+        var id = SignalConnect(widget, name, Marshal.GetFunctionPointerForDelegate(callback), IntPtr.Zero, IntPtr.Zero, 1);
+        Delegates.Add(id, delegat);
+    }
+
     public static void SignalConnectObject<TDelegate>(IntPtr widget, string name, TDelegate callback, IntPtr obj) where TDelegate : Delegate
     {
         var delegat = callback as Delegate;
@@ -70,9 +77,13 @@ public class Gtk
 
     [DllImport(Globals.LibGtk, EntryPoint="g_signal_connect_data", CallingConvention = CallingConvention.Cdecl)]
     extern static long SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr n, IntPtr n2, int n3);
+
     [DllImport(Globals.LibGtk, EntryPoint="g_signal_connect_object", CallingConvention = CallingConvention.Cdecl)]
     extern static long SignalConnect(IntPtr widget, string name, IntPtr callback, IntPtr obj, int n3);
     
+    [DllImport(Globals.LibGtk, EntryPoint="g_signal_connect_data", CallingConvention = CallingConvention.Cdecl)]
+    extern static long SignalConnectAfter(IntPtr widget, string name, IntPtr callback, IntPtr n, IntPtr n2, int n3);
+
     [DllImport(Globals.LibGtk, EntryPoint="g_signal_handler_disconnect", CallingConvention = CallingConvention.Cdecl)]
     extern static void SignalDisconnect(IntPtr widget, long id);
 }
