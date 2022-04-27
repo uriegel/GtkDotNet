@@ -52,7 +52,15 @@ let onActivate () =
     DrawingArea.SetDrawFunction (drawingArea, draw)
     Gtk.SignalConnectAfter<Resize>(drawingArea, "resize", resize);
 
+    let mutable startX = 0.0
+    let mutable startY = 0.0
+
+    let drawBrush (gesture: nativeint) (x: double) (y: double) =
+        ()
+
     let dragBegin (gesture: nativeint) (x: double) (y: double) (widget: nativeint) = 
+        startX <- x
+        startY <- y
         printfn "drag begin"
 
     let dragUpdate (gesture: nativeint) (x: double) (y: double) (widget: nativeint) = 

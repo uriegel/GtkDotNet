@@ -5,6 +5,9 @@ namespace GtkDotNet;
 
 public class CairoContext
 {
+    [DllImport(Globals.LibGtk, EntryPoint = "cairo_create", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr Create(IntPtr surface);
+
     [DllImport(Globals.LibGtk, EntryPoint = "cairo_set_antialias", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetAntiAlias(IntPtr context, CairoAntialias antialias);
 
