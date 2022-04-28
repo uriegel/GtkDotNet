@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/de/uriegel/test">
-    <file>builder.ui</file>
-    <file>style.css</file>
-    <file>listview.ui</file>
+  <gresource prefix="/org/gtk/example">
+    <file>5-builder.ui</file>
     <file>kirk.png</file>
-    <file>web/index.html</file>
   </gresource>
 </gresources>

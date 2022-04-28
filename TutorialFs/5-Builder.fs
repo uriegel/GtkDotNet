@@ -7,8 +7,9 @@ let clicked () =
 
 let app = Application.New "org.gtk.example"
 let onActivate () =
-    let builder = Builder.New ()
-    Builder.AddFromFile (builder, "builder.ui")
+    Application.RegisterResources () |> ignore
+    let builder = Builder.FromResource "/org/gtk/example/5-builder.ui"
+    Builder.AddFromFile (builder, "builder.ui") |> ignore
     let window = Builder.GetObject (builder, "window")    
     Window.SetApplication (window, app)
 

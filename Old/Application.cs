@@ -10,36 +10,6 @@ namespace GtkDotNet
 {
     public class Application
     {
-        public bool RegisterResources()
-        {
-            var assembly = Assembly.GetEntryAssembly();
-            var resources = assembly.GetManifestResourceNames();
-            var legacyName = $"{assembly.GetName().Name}.resources.gresource";
-            var actualName = "app.gresource";
-            var resourceName = resources.Contains(legacyName)
-                ? legacyName
-                : resources.Contains(actualName)
-                ? actualName
-                : null;
-            if (resourceName == null)
-                return false;
-            var stream = assembly.GetManifestResourceStream(resourceName);
-            var memIntPtr = Marshal.AllocHGlobal((int)stream.Length);
-            unsafe 
-            {
-                var memBytePtr = (byte*)memIntPtr.ToPointer();
-                var writeStream = new UnmanagedMemoryStream(memBytePtr, stream.Length, stream.Length, FileAccess.Write);
-                stream.CopyTo(writeStream);
-            }
-            var gbytes = Raw.GBytes.New(memIntPtr, stream.Length);
-            Marshal.FreeHGlobal(memIntPtr);
-            var res = Raw.Resource.NewFromData(gbytes, IntPtr.Zero);
-            Raw.GBytes.Unref(gbytes);
-            Raw.Resource.Register(res); 
-            Raw.Resource.Unref(res); 
-            return true;
-        }
-
         public void RegisterStylesFromResource(string path)
         {
             var cssProvider = Raw.CssProvider.New();

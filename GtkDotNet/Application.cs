@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace GtkDotNet;
@@ -11,6 +14,36 @@ public class Application
     {
         Gtk.SignalConnect(app, "activate", onActivate);
         return _Run(app, 0, IntPtr.Zero);
+    }
+
+    public static bool RegisterResources()
+    {
+        var assembly = Assembly.GetEntryAssembly();
+        var resources = assembly.GetManifestResourceNames();
+        var legacyName = $"{assembly.GetName().Name}.resources.gresource";
+        var actualName = "app.gresource";
+        var resourceName = resources.Contains(legacyName)
+            ? legacyName
+            : resources.Contains(actualName)
+            ? actualName
+            : null;
+        if (resourceName == null)
+            return false;
+        var stream = assembly.GetManifestResourceStream(resourceName);
+        var memIntPtr = Marshal.AllocHGlobal((int)stream.Length);
+        unsafe 
+        {
+            var memBytePtr = (byte*)memIntPtr.ToPointer();
+            var writeStream = new UnmanagedMemoryStream(memBytePtr, stream.Length, stream.Length, FileAccess.Write);
+            stream.CopyTo(writeStream);
+        }
+        var gbytes = GBytes.New(memIntPtr, stream.Length);
+        Marshal.FreeHGlobal(memIntPtr);
+        var res = Resource.NewFromData(gbytes, IntPtr.Zero);
+        GBytes.Unref(gbytes);
+        Resource.Register(res); 
+        Resource.Unref(res); 
+        return true;
     }
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_application_window_new", CallingConvention = CallingConvention.Cdecl)]

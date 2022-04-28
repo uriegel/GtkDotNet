@@ -15,4 +15,12 @@
     <!-- <Compile Include="4-Drawing.fs" /> -->
     <Compile Include="5-Builder.fs" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="../resources/resources.gresource">
+      <LogicalName>app.gresource</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="cd ../resources&#xD;&#xA;glib-compile-resources resources.xml" />
+  </Target>
 </Project>
