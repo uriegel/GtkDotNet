@@ -38,9 +38,6 @@ public class Window
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_is_maximized", CallingConvention = CallingConvention.Cdecl)]
     public extern static bool IsMaximized(IntPtr window);        
     
-    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_icon", CallingConvention = CallingConvention.Cdecl)]
-    public extern static bool SetIcon(IntPtr window, IntPtr pixbuf);
-
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_child", CallingConvention = CallingConvention.Cdecl)]
     public extern static bool SetChild(IntPtr window, IntPtr child);
 
