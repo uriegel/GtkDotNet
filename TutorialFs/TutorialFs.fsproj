@@ -12,6 +12,7 @@
     <!-- <Compile Include="1-First.fs" /> -->
     <!-- <Compile Include="2-HelloWorld.fs" /> -->
     <!-- <Compile Include="3-PackingButtons.fs" /> -->
-    <Compile Include="4-Drawing.fs" />
+    <!-- <Compile Include="4-Drawing.fs" /> -->
+    <Compile Include="5-Builder.fs" />
   </ItemGroup>
 </Project>
