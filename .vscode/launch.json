@@ -47,6 +47,20 @@
             "console": "internalConsole"
         },
         {
+            "name": "Example2",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/ExampleApplication2/bin/Debug/net6.0/ExampleApplication2.dll",
+            "args": ["program.cs", "resources/windows.ui"],
+            "cwd": "${workspaceFolder}/ExampleApplication2",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",
