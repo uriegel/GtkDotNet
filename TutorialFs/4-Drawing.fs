@@ -1,5 +1,6 @@
 module GtkTutorial
 
+open System
 open GtkDotNet
 
 type Resize =
@@ -41,33 +42,50 @@ let onActivate () =
 
     Frame.SetChild (frame, drawingArea)
 
+    let mutable surface = IntPtr.Zero
+
     let draw (area: nativeint) (cairo: nativeint) (w: int) (h: int) (nil: nativeint) =
-        printfn "Mal"
-        ()
+        Cairo.SetSourceSurface (cairo, surface, 0, 0)
+        Cairo.Paint cairo
+
+    let clearSurface () =
+        let cairo = Cairo.Create surface
+        Cairo.SetSourceRgb (cairo, 1, 1, 1);
+        Cairo.Paint cairo
+        Cairo.Destroy cairo
 
     let resize (widget: nativeint) (w: int) (h: int) (zero: nativeint) =
-        printfn "reiseiz"
-        ()
+        if surface <> IntPtr.Zero then
+            Cairo.SurfaceDestroy surface
+            surface <- IntPtr.Zero
+        let nativeSurface = Native.GetSurface (Widget.GetNative widget)
+        if nativeSurface <> IntPtr.Zero then
+            surface <- Cairo.SurfaceCreateSimilar(nativeSurface, CairoContent.Color, Widget.GetWidth(widget), Widget.GetHeight(widget))
+            clearSurface ()
 
     DrawingArea.SetDrawFunction (drawingArea, draw)
     Gtk.SignalConnectAfter<Resize>(drawingArea, "resize", resize);
-
+    
     let mutable startX = 0.0
     let mutable startY = 0.0
 
-    let drawBrush (gesture: nativeint) (x: double) (y: double) =
-        ()
+    let drawBrush (widget: nativeint) (x: double) (y: double) =
+        let cairo = Cairo.Create surface
+        Cairo.Rectangle (cairo, x-3.0, y-3.0, 6, 6)
+        Cairo.Fill cairo
+        Cairo.Destroy cairo
+        Widget.QueueDraw widget
 
-    let dragBegin (gesture: nativeint) (x: double) (y: double) (widget: nativeint) = 
+    let dragBegin (gesture: nativeint) (x: double) (y: double) (nil: nativeint) = 
         startX <- x
         startY <- y
-        printfn "drag begin"
+        drawBrush drawingArea x y |> ignore
 
-    let dragUpdate (gesture: nativeint) (x: double) (y: double) (widget: nativeint) = 
-        printfn "drag bupdate"
+    let dragUpdate (gesture: nativeint) (x: double) (y: double) (nil: nativeint) = 
+        drawBrush drawingArea (startX+x) (startY+y) |> ignore
     
-    let dragEnd (gesture: nativeint) (x: double) (y: double) (widget: nativeint) = 
-        printfn "drag end"
+    let dragEnd (gesture: nativeint) (x: double) (y: double) (nil: nativeint) = 
+        drawBrush drawingArea (startX+x) (startY+y) |> ignore
 
     let pressed (gesture: nativeint) (pressCount: int) (x: double) (y: double) (zero: nativeint) =
         printfn "pressed"

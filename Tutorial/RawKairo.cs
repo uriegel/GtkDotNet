@@ -13,20 +13,20 @@ Application.Run(app, () =>
     var kairo = DrawingArea.New();
     DrawingArea.SetDrawFunction(kairo, (a, context, w, h, data) =>
     {
-        CairoContext.SetAntiAlias(context, GtkDotNet.CairoAntialias.Best);
-        CairoContext.SetLineJoin(context, GtkDotNet.LineJoin.Miter);
-        CairoContext.SetLineCap(context, GtkDotNet.LineCap.Round);
-        CairoContext.Translate(context, w / 2.0, h / 2.0);
-        CairoContext.StrokePreserve(context);
-        CairoContext.ArcNegative(context, 0, 0, (w < h ? w : h) / 2.0, -Math.PI / 2.0, -Math.PI / 2.0 + 0.1 * Math.PI);
-        CairoContext.LineTo(context, 0, 0);
-        CairoContext.SetSourceRgb(context, 0.7, 0.7, 0.7);
-        CairoContext.Fill(context);
+        Cairo.SetAntiAlias(context, GtkDotNet.CairoAntialias.Best);
+        Cairo.SetLineJoin(context, GtkDotNet.LineJoin.Miter);
+        Cairo.SetLineCap(context, GtkDotNet.LineCap.Round);
+        Cairo.Translate(context, w / 2.0, h / 2.0);
+        Cairo.StrokePreserve(context);
+        Cairo.ArcNegative(context, 0, 0, (w < h ? w : h) / 2.0, -Math.PI / 2.0, -Math.PI / 2.0 + 0.1 * Math.PI);
+        Cairo.LineTo(context, 0, 0);
+        Cairo.SetSourceRgb(context, 0.7, 0.7, 0.7);
+        Cairo.Fill(context);
         
-        CairoContext.MoveTo(context, 0, 0);
-        CairoContext.Arc(context, 0, 0, (w < h ? w : h) / 2.0, -Math.PI / 2.0, -Math.PI / 2.0 + 0.1 * Math.PI);
-        CairoContext.SetSourceRgb(context, 0.3, 0.3, 0.3);
-        CairoContext.Fill(context);
+        Cairo.MoveTo(context, 0, 0);
+        Cairo.Arc(context, 0, 0, (w < h ? w : h) / 2.0, -Math.PI / 2.0, -Math.PI / 2.0 + 0.1 * Math.PI);
+        Cairo.SetSourceRgb(context, 0.3, 0.3, 0.3);
+        Cairo.Fill(context);
     });
 
     Window.SetChild(window, kairo);

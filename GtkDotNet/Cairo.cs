@@ -3,10 +3,13 @@ using System.Runtime.InteropServices;
 
 namespace GtkDotNet;
 
-public class CairoContext
+public class Cairo
 {
     [DllImport(Globals.LibGtk, EntryPoint = "cairo_create", CallingConvention = CallingConvention.Cdecl)]
     public extern static IntPtr Create(IntPtr surface);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "cairo_paint", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Paint(IntPtr cairo);
 
     [DllImport(Globals.LibGtk, EntryPoint = "cairo_set_antialias", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetAntiAlias(IntPtr context, CairoAntialias antialias);
@@ -29,6 +32,9 @@ public class CairoContext
     [DllImport(Globals.LibGtk, EntryPoint = "cairo_line_to", CallingConvention = CallingConvention.Cdecl)]
     public extern static void LineTo(IntPtr context, double x, double y);
 
+    [DllImport(Globals.LibGtk, EntryPoint = "cairo_rectangle", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Rectangle(IntPtr context, double x, double y, double width, double height);
+
     [DllImport(Globals.LibGtk, EntryPoint = "cairo_set_source_rgb", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetSourceRgb(IntPtr context, double r, double g, double b);
 
@@ -40,5 +46,18 @@ public class CairoContext
 
     [DllImport(Globals.LibGtk, EntryPoint = "cairo_arc", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Arc(IntPtr context, double x, double y, double radius, double angle1, double angle2);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gdk_surface_create_similar_surface", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr SurfaceCreateSimilar(IntPtr surface, CairoContent cairoContent, int width, int height);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "cairo_surface_destroy", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SurfaceDestroy(IntPtr surface);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "cairo_set_source_surface", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetSourceSurface(IntPtr cairo,  IntPtr surface, double x, double y);
+    
+    [DllImport(Globals.LibGtk, EntryPoint = "cairo_destroy", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Destroy(IntPtr cairo);
+
 }
 

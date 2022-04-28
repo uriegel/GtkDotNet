@@ -20,6 +20,12 @@ public class Widget
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_size_request", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetSizeRequest(IntPtr widget, int width, int height);
 
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_width", CallingConvention = CallingConvention.Cdecl)]
+    public extern static int GetWidth(IntPtr widget);
+    
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_height", CallingConvention = CallingConvention.Cdecl)]
+    public extern static int GetHeight(IntPtr widget);
+
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_destroy", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Destroy(IntPtr widget);
 
@@ -43,5 +49,9 @@ public class Widget
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_add_controller", CallingConvention = CallingConvention.Cdecl)]
     public extern static void AddController(IntPtr widget, IntPtr eventController);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_native", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetNative(IntPtr widget);
+    
 }
 
