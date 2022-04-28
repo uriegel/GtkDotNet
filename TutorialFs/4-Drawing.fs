@@ -79,17 +79,17 @@ let onActivate () =
     let dragBegin (gesture: nativeint) (x: double) (y: double) (nil: nativeint) = 
         startX <- x
         startY <- y
-        drawBrush drawingArea x y |> ignore
+        drawBrush drawingArea x y 
 
     let dragUpdate (gesture: nativeint) (x: double) (y: double) (nil: nativeint) = 
-        drawBrush drawingArea (startX+x) (startY+y) |> ignore
+        drawBrush drawingArea (startX+x) (startY+y) 
     
     let dragEnd (gesture: nativeint) (x: double) (y: double) (nil: nativeint) = 
-        drawBrush drawingArea (startX+x) (startY+y) |> ignore
+        drawBrush drawingArea (startX+x) (startY+y) 
 
     let pressed (gesture: nativeint) (pressCount: int) (x: double) (y: double) (zero: nativeint) =
-        printfn "pressed"
-        ()
+        clearSurface ()
+        Widget.QueueDraw drawingArea 
 
     let gestureDrag = GestureDrag.New();
     GestureSingle.SetButton(gestureDrag, MouseButton.Primary);
@@ -105,7 +105,9 @@ let onActivate () =
 
     Widget.Show window
 
-    let closeWindow () = ()
+    let closeWindow () = 
+        if surface <> IntPtr.Zero then
+            Cairo.SurfaceDestroy surface            
 
     Gtk.SignalConnect<System.Action> (window, "destroy", closeWindow)
 

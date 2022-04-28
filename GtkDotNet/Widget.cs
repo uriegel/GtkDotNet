@@ -39,7 +39,7 @@ public class Widget
     public extern static int GetAllocatedHeight(IntPtr widget);
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_queue_draw", CallingConvention = CallingConvention.Cdecl)]
-    public extern static int QueueDraw(IntPtr widget);
+    public extern static void QueueDraw(IntPtr widget);
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_halign", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetHAlign(IntPtr widget, Align align);
@@ -52,6 +52,5 @@ public class Widget
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_native", CallingConvention = CallingConvention.Cdecl)]
     public extern static IntPtr GetNative(IntPtr widget);
-    
 }
 
