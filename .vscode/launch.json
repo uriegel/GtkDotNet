@@ -67,7 +67,7 @@
             "requireExactSource": true, 
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/ExampleApplication3/bin/Debug/net6.0/ExampleApplication3.dll",
-            "args": ["Program.cs", "resources/window.ui"],
+            "args": ["Program.cs", "resources/window.ui", "resources/menu.ui", "resources/resources.xml"],
             "cwd": "${workspaceFolder}/ExampleApplication3",
             "stopAtEntry": false,
             "justMyCode": false,
