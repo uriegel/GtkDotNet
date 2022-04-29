@@ -5,10 +5,10 @@ namespace GtkDotNet;
 [Flags]
 public enum BindFlags
 {
-    Default = 1,
-    Get = 2,
-    Set = 4, 
-    NoSensitivity = 8,
-    GetNoChanges = 16,
-    InvertBoolean = 32,
+    Default = 0,
+    Get = 1,
+    Set = 2, 
+    NoSensitivity = 4,
+    GetNoChanges = 8,
+    InvertBoolean = 16,
 }

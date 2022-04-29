@@ -27,9 +27,14 @@ Action onActivate = () =>
     {
         var dialogBuilder = Builder.FromResource("/org/gtk/example/dialog.ui");
         var dialog = Builder.GetObject(dialogBuilder, "dialog");
+        var transition = Builder.GetObject(dialogBuilder, "transition");
+        var font = Builder.GetObject(dialogBuilder, "font");
+
         Window.SetTransientFor(dialog, window);
         Widget.Show(dialog);
         GObject.Unref(dialogBuilder);
+        Settings.Bind(settings, "font", font, "font", BindFlags.Default);
+        Settings.Bind(settings, "transition", transition, "active-id", BindFlags.Default);
     };
 
     var actions = new GtkAction[] 
@@ -62,6 +67,13 @@ Action onActivate = () =>
             var buffer = TextView.GetBuffer(textView);
             TextBuffer.SetText(buffer, content.Value.content, (int)content.Value.length);
             GObject.Free(content.Value.content);
+
+            var tag = TextBuffer.CreateTag(buffer);
+            Settings.Bind(settings, "font", tag, "font", BindFlags.Default);
+
+            TextBuffer.GetStartIter(buffer, out var startIter);
+            TextBuffer.GetEndIter(buffer, out var endIter);
+            TextBuffer.ApplyTag(buffer, tag, ref startIter, ref endIter);
         }
     }
 };
