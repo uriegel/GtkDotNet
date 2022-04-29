@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -55,7 +56,7 @@ public class Application
     [DllImport(Globals.LibGtk, EntryPoint="g_application_quit", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Quit(IntPtr app);
 
-    /*public static void AddActions(IntPtr app, IEnumerable<GtkDotNet.GtkAction> actions)
+    public static void AddActions(IntPtr app, IEnumerable<GtkDotNet.GtkAction> actions)
     {
         var gtkActions = actions.OfType<GtkDotNet.GtkAction>();
         foreach (var action in gtkActions)
@@ -70,14 +71,14 @@ public class Application
             }
             else 
             {
-                Delegates.Add(action.StateChanged);
-                var state = action.StateParameterType == "s" 
-                    ? NewString(action.State as string)
-                    : NewBool((bool)action.State == true ? -1 : 0);
-                var simpleAction = NewStatefulAction(action.Name, action.StateParameterType, state);
-                action.action = simpleAction;
-                Gtk.SignalConnect<GtkAction.StateChangedDelegate>(simpleAction, "change-state", action.StateChanged);
-                AddAction(app, simpleAction);
+                // Delegates.Add(action.StateChanged);
+                // var state = action.StateParameterType == "s" 
+                //     ? NewString(action.State as string)
+                //     : NewBool((bool)action.State == true ? -1 : 0);
+                // var simpleAction = NewStatefulAction(action.Name, action.StateParameterType, state);
+                // action.action = simpleAction;
+                // Gtk.SignalConnect<GtkAction.StateChangedDelegate>(simpleAction, "change-state", action.StateChanged);
+                // AddAction(app, simpleAction);
             }
         }
 
@@ -89,38 +90,6 @@ public class Application
             Application.SetAccelsForAction(app, accelEntry.Name, new [] { accelEntry.Accelerator, null});
     }
 
-    public static void AddActions(IntPtr app, IEnumerable<GtkDotNet.Raw.GtkAction> actions)
-    {
-        var gtkActions = actions.OfType<GtkDotNet.Raw.GtkAction>();
-        foreach (var action in gtkActions)
-        {
-            if (action.Action != null)
-            {
-                Delegates.Add(action.Action);
-                var simpleAction = NewAction(action.Name, null);
-                Gtk.SignalConnect<Action>(simpleAction, "activate", action.Action);
-                AddAction(app, simpleAction);                    
-            }
-            else 
-            {
-                Delegates.Add(action.StateChanged);
-                var state = action.StateParameterType == "s" 
-                    ? NewString(action.State as string)
-                    : NewBool((bool)action.State == true ? -1 : 0);
-                var simpleAction = NewStatefulAction(action.Name, action.StateParameterType, state);
-                Gtk.SignalConnect<GtkAction.StateChangedDelegate>(simpleAction, "change-state", action.StateChanged);
-                AddAction(app, simpleAction);
-            }
-        }
-
-        var accelEntries = 
-            actions
-            .Where(n => n.Accelerator != null)
-            .Select(n => new { Name = "app." + n.Name, n.Accelerator});  
-        foreach (var accelEntry in accelEntries)
-            Application.SetAccelsForAction(app, accelEntry.Name, new [] { accelEntry.Accelerator, null});
-    }
-*/
     [DllImport(Globals.LibGtk, EntryPoint="gtk_application_new", CallingConvention = CallingConvention.Cdecl)]
     extern static IntPtr _New(string id, int flags);
 
