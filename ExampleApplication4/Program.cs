@@ -6,6 +6,8 @@ using GtkDotNet;
 var app = Application.New("org.gtk.example");
 Action onActivate = () => 
 {
+    var settings = Settings.New("org.gtk.exampleapp");
+
     Application.RegisterResources();
     var builder = Builder.FromResource("/org/gtk/example/window.ui");
     Builder.AddFromFile(builder, "builder.ui");
@@ -19,6 +21,8 @@ Action onActivate = () =>
     var menu = Builder.GetObject(menuBuilder, "menu");
     MenuButton.SetModel(gears, menu);
     GObject.Unref(menuBuilder);
+
+    Settings.Bind(settings, "transition", stack, "transition-type", BindFlags.Default);
 
     var actions = new GtkAction[] 
     {
