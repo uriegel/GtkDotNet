@@ -8,6 +8,9 @@ public static class GObject
     [DllImport(Globals.LibGtk, EntryPoint="g_object_unref", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Unref(IntPtr obj);
 
+    [DllImport(Globals.LibGtk, EntryPoint="g_clear_object", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Clear(IntPtr obj);
+
     [DllImport(Globals.LibGtk, EntryPoint="g_free", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Free(IntPtr obj);
 

@@ -22,7 +22,10 @@ public class Window
 
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_close", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Close(IntPtr window);
-    
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_modal", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetModal(IntPtr window, bool set);
+        
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_title", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetTitle(IntPtr window, string title);
 
@@ -38,6 +41,9 @@ public class Window
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_is_maximized", CallingConvention = CallingConvention.Cdecl)]
     public extern static bool IsMaximized(IntPtr window);        
     
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_transient_for", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetTransientFor(IntPtr window, IntPtr parent);  
+
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_child", CallingConvention = CallingConvention.Cdecl)]
     public extern static bool SetChild(IntPtr window, IntPtr child);
 
@@ -48,7 +54,7 @@ public class Window
     extern static void GetPosition(IntPtr window, out int x, out int y);
 
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_get_size", CallingConvention = CallingConvention.Cdecl)]
-    extern static void GetSize(IntPtr window, out int width, out int height);        
+    extern static void GetSize(IntPtr window, out int width, out int height);  
 }
 
 

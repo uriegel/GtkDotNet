@@ -23,13 +23,23 @@ Action onActivate = () =>
     GObject.Unref(menuBuilder);
 
     Settings.Bind(settings, "transition", stack, "transition-type", BindFlags.Default);
+    var openPreferences = () =>
+    {
+        var dialogBuilder = Builder.FromResource("/org/gtk/example/dialog.ui");
+        var dialog = Builder.GetObject(dialogBuilder, "dialog");
+        Window.SetTransientFor(dialog, window);
+        Widget.Show(dialog);
+        GObject.Unref(dialogBuilder);
+    };
 
     var actions = new GtkAction[] 
     {
-        new GtkAction("preferences", () => Console.WriteLine("Preferenz")),
+        new GtkAction("preferences", openPreferences),
         new GtkAction("quit", () => Window.Close(window), "<Ctrl>Q")
     };
     Application.AddActions(app, actions);
+
+    Gtk.SignalConnect(window, "destroy", () => GObject.Clear(settings));
 
     Widget.Show(window);
 

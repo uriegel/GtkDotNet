@@ -3,5 +3,6 @@
   <gresource prefix="/org/gtk/example">
     <file>window.ui</file>
     <file>menu.ui</file>
+    <file>dialog.ui</file>
   </gresource>
 </gresources>
