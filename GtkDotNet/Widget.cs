@@ -52,5 +52,11 @@ public class Widget
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_native", CallingConvention = CallingConvention.Cdecl)]
     public extern static IntPtr GetNative(IntPtr widget);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_hexpand", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetHExpand(IntPtr widget, bool expand);
+    
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_vexpand", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetVExpand(IntPtr widget, bool expand);
 }
 

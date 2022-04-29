@@ -25,5 +25,20 @@ public class GFile
     [DllImport(Globals.LibGtk, EntryPoint = "g_file_get_basename", CallingConvention = CallingConvention.Cdecl)]
     public extern static string GetBasename(IntPtr file);
 
+    [DllImport(Globals.LibGtk, EntryPoint = "g_file_get_path", CallingConvention = CallingConvention.Cdecl)]
+    public extern static string GetPath(IntPtr file);
+    
+    public static (IntPtr content, long length)? LoadContents(IntPtr file)
+    {
+        var result = LoadContents(file, IntPtr.Zero, out var content, out var length, IntPtr.Zero, IntPtr.Zero);    
+        if (result)
+            return (content, length);
+        else
+            return null;
+    }
+
+    [DllImport(Globals.LibGtk, EntryPoint = "g_file_load_contents", CallingConvention = CallingConvention.Cdecl)]
+    extern static bool LoadContents(IntPtr file, IntPtr cancellable, out IntPtr content, out int length, IntPtr etagOut, IntPtr error);
+    
     public delegate void FileProgressCallback(long current, long total, IntPtr zero);
 }
