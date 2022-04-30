@@ -14,6 +14,9 @@ Action onActivate = () =>
     var window = Builder.GetObject(builder, "window");
     var stack = Builder.GetObject(builder, "stack");
     var gears = Builder.GetObject(builder, "gears");
+    var search = Builder.GetObject(builder, "search");
+    var searchBar = Builder.GetObject(builder, "searchbar");
+    var searchEntry = Builder.GetObject(builder, "searchentry");
     Window.SetApplication(window, app);
     GObject.Unref(builder);
 
@@ -21,6 +24,8 @@ Action onActivate = () =>
     var menu = Builder.GetObject(menuBuilder, "menu");
     MenuButton.SetModel(gears, menu);
     GObject.Unref(menuBuilder);
+
+    GObject.BindProperty(search, "active", searchBar, "search-mode-enabled", BindingFlags.Bidirectional);
 
     Settings.Bind(settings, "transition", stack, "transition-type", BindFlags.Default);
     var openPreferences = () =>
@@ -44,6 +49,29 @@ Action onActivate = () =>
     };
     Application.AddActions(app, actions);
 
+    void searchTextChanged(IntPtr z1, IntPtr z2)
+    {
+        var text = Editable.GetText(searchEntry);
+        if (text.Length == 0)
+            return;
+
+        var tab = Stack.GetVisibleChild(stack);
+        var textView = ScrolledWindow.GetChild(tab);
+        var buffer = TextView.GetBuffer(textView);
+        
+        TextBuffer.GetStartIter(buffer, out var startIter);
+        if (TextIter.ForwardSearch(ref startIter, text, SearchFlags.CaseInsensitive, out var matchStart, out var matchEnd, IntPtr.Zero))
+        {
+            TextBuffer.SelectRange(buffer, ref matchStart, ref matchEnd);
+            TextView.ScrollToIter(textView, ref matchStart, 0.0, false, 0.0, 0.0);
+        }
+    }
+
+    void visibleChildChanged(IntPtr stack, IntPtr pec,  IntPtr z)
+        => SearchBar.SetSearchMode(searchBar, false);
+
+    Gtk.SignalConnect<TwoIntPtr>(searchEntry, "search-changed", searchTextChanged);
+    Gtk.SignalConnect<ThreeIntPtr>(stack, "notify::visible-child", visibleChildChanged);
     Gtk.SignalConnect(window, "destroy", () => GObject.Clear(settings));
 
     Widget.Show(window);
@@ -76,6 +104,7 @@ Action onActivate = () =>
             TextBuffer.ApplyTag(buffer, tag, ref startIter, ref endIter);
         }
     }
+    Widget.SetSensitive(search, true);
 };
 
 var status = Application.Run(app, onActivate);
@@ -84,3 +113,5 @@ GObject.Unref(app);
 
 return status;
 
+delegate void TwoIntPtr(IntPtr z1, IntPtr z2);
+delegate void ThreeIntPtr(IntPtr z1, IntPtr z2, IntPtr z3);

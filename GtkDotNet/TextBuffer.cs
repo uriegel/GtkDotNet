@@ -26,4 +26,7 @@ public class TextBuffer
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_text_buffer_get_end_iter", CallingConvention = CallingConvention.Cdecl)]
     public extern static void GetEndIter(IntPtr buffer, out GtkTextIter endIter);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_text_buffer_select_range", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SelectRange(IntPtr buffer, ref GtkTextIter matchStart, ref GtkTextIter matchEnd);
 }

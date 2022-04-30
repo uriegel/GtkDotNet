@@ -15,6 +15,9 @@ public class ScrolledWindow
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_scrolled_window_set_child", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetChild(IntPtr scrolledWindow, IntPtr widget);
+    
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_scrolled_window_get_child", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetChild(IntPtr scrolledWindow);
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_scrolled_window_new", CallingConvention = CallingConvention.Cdecl)]
     extern static IntPtr New(IntPtr zero, IntPtr zero2);

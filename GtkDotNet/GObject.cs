@@ -37,6 +37,9 @@ public static class GObject
 
     public delegate void FinalizerDelegate(IntPtr zero, IntPtr obj);
 
+    [DllImport(Globals.LibGtk, EntryPoint="g_object_bind_property", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void BindProperty(IntPtr source, string sourceProperty, IntPtr target, string targetProperty, BindingFlags bindingFlags);
+
     [DllImport(Globals.LibGtk, EntryPoint="g_object_set", CallingConvention = CallingConvention.Cdecl)]
     extern static void SetBool(IntPtr obj, string name, bool value, IntPtr end);
     [DllImport(Globals.LibGtk, EntryPoint="g_object_get", CallingConvention = CallingConvention.Cdecl)]

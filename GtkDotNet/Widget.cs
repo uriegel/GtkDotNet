@@ -58,5 +58,8 @@ public class Widget
     
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_vexpand", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetVExpand(IntPtr widget, bool expand);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_sensitive", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetSensitive(IntPtr widget, bool sensitive);
 }
 
