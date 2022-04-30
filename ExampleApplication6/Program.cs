@@ -17,6 +17,7 @@ Action onActivate = () =>
     var search = Builder.GetObject(builder, "search");
     var searchBar = Builder.GetObject(builder, "searchbar");
     var searchEntry = Builder.GetObject(builder, "searchentry");
+    var sidebar = Builder.GetObject(builder, "sidebar");
     Window.SetApplication(window, app);
     GObject.Unref(builder);
 
@@ -32,6 +33,7 @@ Action onActivate = () =>
     GObject.BindProperty(search, "active", searchBar, "search-mode-enabled", BindingFlags.Bidirectional);
 
     Settings.Bind(settings, "transition", stack, "transition-type", BindFlags.Default);
+    Settings.Bind(settings, "show-words", sidebar, "reveal-child", BindFlags.Default);
     var openPreferences = () =>
     {
         var dialogBuilder = Builder.FromResource("/org/gtk/example/dialog.ui");

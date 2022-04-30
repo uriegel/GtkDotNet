@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <object id="window" class="GtkApplicationWindow">
-    <property name="title" translatable="yes">Example Application 3 👍</property>
+    <property name="title" translatable="yes">Example Application</property>
     <property name="default-width">600</property>
     <property name="default-height">400</property>
-    
     <child type="titlebar">
       <object class="GtkHeaderBar" id="header">
         <child type="title">
@@ -17,7 +16,7 @@
             <property name="sensitive">0</property>
             <property name="icon-name">edit-find-symbolic</property>
           </object>
-        </child>        
+        </child>
         <child type="end">
           <object class="GtkMenuButton" id="gears">
             <property name="direction">none</property>
@@ -25,7 +24,6 @@
         </child>
       </object>
     </child>
-
     <child>
       <object class="GtkBox" id="content_box">
         <property name="orientation">vertical</property>
@@ -36,7 +34,7 @@
               </object>
             </child>
           </object>
-        </child>        
+        </child>
         <child>
           <object class="GtkBox" id="hbox">
             <child>
@@ -54,10 +52,10 @@
                 </child>
               </object>
             </child>
-          </object>
-        </child>        
-        <child>
-          <object class="GtkStack" id="stack">
+            <child>
+              <object class="GtkStack" id="stack">
+              </object>
+            </child>
           </object>
         </child>
       </object>
