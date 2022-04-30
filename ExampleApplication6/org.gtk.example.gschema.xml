@@ -16,5 +16,10 @@
       <summary>Transition</summary>
       <description>The transition to use when switching tabs.</description>
     </key>
+    <key name="show-words" type="b">
+      <default>false</default>
+      <summary>Show words</summary>
+      <description>Whether to show a word list in the sidebar</description>
+    </key>
   </schema>
 </schemalist>

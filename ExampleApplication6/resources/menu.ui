@@ -3,6 +3,10 @@
   <menu id="menu">
     <section>
       <item>
+        <attribute name="label" translatable="yes">_Words</attribute>
+        <attribute name="action">win.show-words</attribute>
+      </item>
+      <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
         <attribute name="action">app.preferences</attribute>
       </item>

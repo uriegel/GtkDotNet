@@ -27,5 +27,8 @@ public class Settings
 
     [DllImport(Globals.LibGtk, EntryPoint="g_settings_get_int", CallingConvention = CallingConvention.Cdecl)]
     public extern static int GetInt(IntPtr obj, string name);
+
+    [DllImport(Globals.LibGtk, EntryPoint="g_settings_create_action", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr CreateAction(IntPtr obj, string key);
 }
 

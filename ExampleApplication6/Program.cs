@@ -20,6 +20,10 @@ Action onActivate = () =>
     Window.SetApplication(window, app);
     GObject.Unref(builder);
 
+    var action = Settings.CreateAction(settings, "show-words");
+    ActionMap.AddAction(window, action);
+    GObject.Unref(action);
+
     var menuBuilder = Builder.FromResource("/org/gtk/example/menu.ui");
     var menu = Builder.GetObject(menuBuilder, "menu");
     MenuButton.SetModel(gears, menu);

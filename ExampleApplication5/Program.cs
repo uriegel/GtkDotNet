@@ -45,6 +45,7 @@ Action onActivate = () =>
     var actions = new GtkAction[] 
     {
         new GtkAction("preferences", openPreferences),
+        new GtkAction("show-words", () => Window.Close(window), "<Ctrl>Q"),
         new GtkAction("quit", () => Window.Close(window), "<Ctrl>Q")
     };
     Application.AddActions(app, actions);
