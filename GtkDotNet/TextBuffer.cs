@@ -29,4 +29,15 @@ public class TextBuffer
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_text_buffer_select_range", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SelectRange(IntPtr buffer, ref GtkTextIter matchStart, ref GtkTextIter matchEnd);
+
+    public static string GetText(IntPtr buffer, ref GtkTextIter start, ref GtkTextIter end, bool hiddenChars)
+    {
+        var chars = _GetText(buffer, ref start, ref end, hiddenChars);
+        var result = Marshal.PtrToStringUTF8(chars);
+        GObject.Free(chars);
+        return result;
+    }
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_text_buffer_get_text", CallingConvention = CallingConvention.Cdecl)]
+    extern static IntPtr _GetText(IntPtr buffer, ref GtkTextIter start, ref GtkTextIter end, bool hiddenChars);
 }

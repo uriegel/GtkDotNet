@@ -61,5 +61,8 @@ public class Widget
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_sensitive", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetSensitive(IntPtr widget, bool sensitive);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_first_child", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetFirstChild(IntPtr widget);
 }
 

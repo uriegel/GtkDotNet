@@ -10,5 +10,8 @@ public class Editable
 
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_editable_get_text", CallingConvention = CallingConvention.Cdecl)]
     extern static IntPtr _GetText(IntPtr editable);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_editable_set_text", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr SetText(IntPtr editable, string text);
 }
 

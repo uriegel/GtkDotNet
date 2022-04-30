@@ -18,6 +18,7 @@ Action onActivate = () =>
     var searchBar = Builder.GetObject(builder, "searchbar");
     var searchEntry = Builder.GetObject(builder, "searchentry");
     var sidebar = Builder.GetObject(builder, "sidebar");
+    var wordsListbox = Builder.GetObject(builder, "words");
     Window.SetApplication(window, app);
     GObject.Unref(builder);
 
@@ -74,10 +75,50 @@ Action onActivate = () =>
     }
 
     void visibleChildChanged(IntPtr stack, IntPtr pec,  IntPtr z)
-        => SearchBar.SetSearchMode(searchBar, false);
+    {
+        SearchBar.SetSearchMode(searchBar, false);
+        updateWords();
+    }
+
+    void FindWord(IntPtr button)
+    {
+        var word = Button.GetLabel(button);
+        Editable.SetText(searchEntry, word);
+    }
+
+    void updateWords()
+    {
+        var tab = Stack.GetVisibleChild(stack);
+        if (tab == IntPtr.Zero)
+            return;
+
+        var textView = ScrolledWindow.GetChild(tab);
+        var buffer = TextView.GetBuffer(textView);
+        TextBuffer.GetStartIter(buffer, out var startIter);
+        TextBuffer.GetEndIter(buffer, out var endIter);
+        var text = TextBuffer.GetText(buffer, ref startIter, ref endIter, false);
+        var words = text
+            .Split(new[] {' ', '\n', '.', '"', '(', ')', ';', '}', '{', '/', ',', '<', '>', '=' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(n => n.Trim())
+            .Where(n => n.Length > 0)
+            .Distinct();
+
+        IntPtr first;
+        while ((first = Widget.GetFirstChild(wordsListbox)) != IntPtr.Zero)
+            Listbox.Remove(wordsListbox, first);
+        foreach (var word in words)
+        {
+            var row = Button.NewWithLabel(word);
+            Gtk.SignalConnect(row, "clicked", () => FindWord(row));
+            Listbox.Insert(wordsListbox, row);
+        }
+    }
+
+    void wordsChanged(IntPtr obj, IntPtr spec, IntPtr z) => updateWords();
 
     Gtk.SignalConnect<TwoIntPtr>(searchEntry, "search-changed", searchTextChanged);
     Gtk.SignalConnect<ThreeIntPtr>(stack, "notify::visible-child", visibleChildChanged);
+    Gtk.SignalConnect<ThreeIntPtr>(sidebar, "notify::reveal-child", wordsChanged);
     Gtk.SignalConnect(window, "destroy", () => GObject.Clear(settings));
 
     Widget.Show(window);
@@ -111,6 +152,7 @@ Action onActivate = () =>
         }
     }
     Widget.SetSensitive(search, true);
+    updateWords();
 };
 
 var status = Application.Run(app, onActivate);
