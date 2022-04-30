@@ -117,6 +117,20 @@
             "console": "internalConsole"
         },
         {
+            "name": "Example7",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/ExampleApplication7/bin/Debug/net6.0/ExampleApplication7.dll",
+            "args": ["Program.cs", "resources/window.ui", "resources/menu.ui", "resources/resources.xml"],
+            "cwd": "${workspaceFolder}/ExampleApplication7",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",
