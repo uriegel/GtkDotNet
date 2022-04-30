@@ -26,3 +26,6 @@ ExampleApplication7/obj
 Threading/bin
 Threading/obj
 Threading/resources/resources.gresource
+Css/obj
+Css/bin
+Css/resources/resources.gresource

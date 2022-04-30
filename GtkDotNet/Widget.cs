@@ -64,5 +64,8 @@ public class Widget
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_first_child", CallingConvention = CallingConvention.Cdecl)]
     public extern static IntPtr GetFirstChild(IntPtr widget);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_style_context", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetStyleContext(IntPtr widget);
 }
 
