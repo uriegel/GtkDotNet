@@ -67,7 +67,7 @@ public class Gtk
     }
 
     [DllImport(Globals.LibGtk, EntryPoint="g_idle_add_full", CallingConvention = CallingConvention.Cdecl)]
-    extern static void _IdleAddFull(int priority, IntPtr func, IntPtr nil, IntPtr nil2);
+    internal extern static void IdleAddFull(int priority, IntPtr func, IntPtr nil, IntPtr nil2);
 
     [DllImport(Globals.LibGtk, EntryPoint="g_content_type_guess", CallingConvention = CallingConvention.Cdecl)]
     extern static IntPtr GuessContentType(string filename, IntPtr nil1,  IntPtr nil2, IntPtr nil3);

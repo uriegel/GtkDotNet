@@ -23,3 +23,6 @@ ExampleApplication6/bin
 ExampleApplication6/obj
 ExampleApplication7/bin
 ExampleApplication7/obj
+Threading/bin
+Threading/obj
+Threading/resources/resources.gresource

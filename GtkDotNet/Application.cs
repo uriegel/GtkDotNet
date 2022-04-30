@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace GtkDotNet;
 
@@ -89,6 +90,30 @@ public class Application
         foreach (var accelEntry in accelEntries)
             Application.SetAccelsForAction(app, accelEntry.Name, new [] { accelEntry.Accelerator, null});
     }
+
+    public static void EnableSynchronizationContext()
+        => SynchronizationContext.SetSynchronizationContext(new GtkSynchronizationContext());
+
+    /// <summary>
+    /// Run the specified Action in the main GTK thread
+    /// </summary>
+    /// <param name="priority">Between 100 (high), 200 (idle) and 300 (low)</param>
+    /// <param name="action">Action which runs in main thread</param>
+    public static void BeginInvoke(int priority, Action action)
+    {
+        IdleFunctionDelegate mainFunction = _ =>
+        {
+            action();
+            mainFunction = null;
+            action = null;
+            return false;
+        };
+        var delegat = mainFunction as Delegate;
+        var funcPtr = Marshal.GetFunctionPointerForDelegate(delegat);
+        Gtk.IdleAddFull(priority, funcPtr, IntPtr.Zero, IntPtr.Zero);
+    }
+
+    delegate bool IdleFunctionDelegate(IntPtr zero);
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_application_new", CallingConvention = CallingConvention.Cdecl)]
     extern static IntPtr _New(string id, int flags);
