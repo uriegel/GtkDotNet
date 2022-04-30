@@ -19,10 +19,16 @@ Action onActivate = () =>
     var searchEntry = Builder.GetObject(builder, "searchentry");
     var sidebar = Builder.GetObject(builder, "sidebar");
     var wordsListbox = Builder.GetObject(builder, "words");
+    var lines = Builder.GetObject(builder, "lines");
+    var linesLabel = Builder.GetObject(builder, "lines_label");
     Window.SetApplication(window, app);
     GObject.Unref(builder);
 
     var action = Settings.CreateAction(settings, "show-words");
+    ActionMap.AddAction(window, action);
+    GObject.Unref(action);
+
+    action = PropertyAction.New("show-lines", lines, "visible");
     ActionMap.AddAction(window, action);
     GObject.Unref(action);
 
@@ -32,6 +38,7 @@ Action onActivate = () =>
     GObject.Unref(menuBuilder);
 
     GObject.BindProperty(search, "active", searchBar, "search-mode-enabled", BindingFlags.Bidirectional);
+    GObject.BindProperty(lines, "visible", linesLabel, "visible", BindingFlags.Default);
 
     Settings.Bind(settings, "transition", stack, "transition-type", BindFlags.Default);
     Settings.Bind(settings, "show-words", sidebar, "reveal-child", BindFlags.Default);
@@ -78,6 +85,7 @@ Action onActivate = () =>
     {
         SearchBar.SetSearchMode(searchBar, false);
         updateWords();
+        updateLines();
     }
 
     void FindWord(IntPtr button)
@@ -86,31 +94,46 @@ Action onActivate = () =>
         Editable.SetText(searchEntry, word);
     }
 
-    void updateWords()
+    string? GetText()
     {
         var tab = Stack.GetVisibleChild(stack);
         if (tab == IntPtr.Zero)
-            return;
+            return null;
 
         var textView = ScrolledWindow.GetChild(tab);
         var buffer = TextView.GetBuffer(textView);
         TextBuffer.GetStartIter(buffer, out var startIter);
         TextBuffer.GetEndIter(buffer, out var endIter);
-        var text = TextBuffer.GetText(buffer, ref startIter, ref endIter, false);
-        var words = text
-            .Split(new[] {' ', '\n', '.', '"', '(', ')', ';', '}', '{', '/', ',', '<', '>', '=' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(n => n.Trim())
-            .Where(n => n.Length > 0)
-            .Distinct();
+        return TextBuffer.GetText(buffer, ref startIter, ref endIter, false);
+    }
 
-        IntPtr first;
-        while ((first = Widget.GetFirstChild(wordsListbox)) != IntPtr.Zero)
-            Listbox.Remove(wordsListbox, first);
-        foreach (var word in words)
+    void updateLines()
+    {
+        var text = GetText();
+        if (text != null)
+            Label.SetLabel(lines, $"{text.Split("\n").Length}");
+    }
+
+    void updateWords()
+    {
+        var text = GetText();
+        if (text != null)
         {
-            var row = Button.NewWithLabel(word);
-            Gtk.SignalConnect(row, "clicked", () => FindWord(row));
-            Listbox.Insert(wordsListbox, row);
+            var words = text
+                .Split(new[] {' ', '\n', '.', '"', '(', ')', ';', '}', '{', '/', ',', '<', '>', '=' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(n => n.Trim())
+                .Where(n => n.Length > 0)
+                .Distinct();
+
+            IntPtr first;
+            while ((first = Widget.GetFirstChild(wordsListbox)) != IntPtr.Zero)
+                Listbox.Remove(wordsListbox, first);
+            foreach (var word in words)
+            {
+                var row = Button.NewWithLabel(word);
+                Gtk.SignalConnect(row, "clicked", () => FindWord(row));
+                Listbox.Insert(wordsListbox, row);
+            }
         }
     }
 
@@ -153,6 +176,7 @@ Action onActivate = () =>
     }
     Widget.SetSensitive(search, true);
     updateWords();
+    updateLines();
 };
 
 var status = Application.Run(app, onActivate);
