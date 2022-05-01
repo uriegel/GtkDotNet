@@ -5,6 +5,9 @@ namespace GtkDotNet;
 
 public static class GObject
 {
+    [DllImport(Globals.LibGtk, EntryPoint="g_object_ref", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr Ref(IntPtr obj);
+
     [DllImport(Globals.LibGtk, EntryPoint="g_object_unref", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Unref(IntPtr obj);
 
@@ -39,6 +42,13 @@ public static class GObject
 
     [DllImport(Globals.LibGtk, EntryPoint="g_object_bind_property", CallingConvention = CallingConvention.Cdecl)]
     public extern static void BindProperty(IntPtr source, string sourceProperty, IntPtr target, string targetProperty, BindingFlags bindingFlags);
+
+    [DllImport(Globals.LibGtk, EntryPoint="g_type_from_name", CallingConvention = CallingConvention.Cdecl)]
+    public extern static GType TypeFromName(string objectName);
+
+    [DllImport(Globals.LibGtk, EntryPoint="g_type_name", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr TypeName(GType type);
+    
 
     [DllImport(Globals.LibGtk, EntryPoint="g_object_set", CallingConvention = CallingConvention.Cdecl)]
     extern static void SetBool(IntPtr obj, string name, bool value, IntPtr end);
