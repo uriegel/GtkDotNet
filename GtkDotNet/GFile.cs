@@ -37,8 +37,15 @@ public class GFile
             return null;
     }
 
+    [DllImport(Globals.LibGtk, EntryPoint = "g_file_enumerate_children_async", CallingConvention = CallingConvention.Cdecl)]   
+    public extern static bool EnumerateChildrenAsync(IntPtr file, string attributes, FileQueryInfoFlags flags, int ioPriority, IntPtr cancellable, AsyncReadyCallback cb, IntPtr zero);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "g_file_enumerate_children_finish", CallingConvention = CallingConvention.Cdecl)]   
+    public extern static IntPtr EnumerateChildrenFinish(IntPtr file, IntPtr asyncResult, IntPtr error);
+
     [DllImport(Globals.LibGtk, EntryPoint = "g_file_load_contents", CallingConvention = CallingConvention.Cdecl)]
     extern static bool LoadContents(IntPtr file, IntPtr cancellable, out IntPtr content, out int length, IntPtr etagOut, IntPtr error);
     
     public delegate void FileProgressCallback(long current, long total, IntPtr zero);
+    public delegate void AsyncReadyCallback(IntPtr source, IntPtr result, IntPtr zero);
 }

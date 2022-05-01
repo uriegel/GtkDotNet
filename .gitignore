@@ -46,3 +46,6 @@ ColumnView/resources/resources.gresource
 5-Builder/bin
 5-Builder/obj
 5-Builder/resources/resources.gresource
+FileSystem/bin
+FileSystem/obj
+FileSystem/resources/resources.gresource

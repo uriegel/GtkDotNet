@@ -229,10 +229,18 @@
             "console": "internalConsole"
         },
         {
-            "name": ".NET Core Attach",
+            "name": "FileSystem",
             "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/FileSystem/bin/Debug/net6.0/FileSystem.dll",
+            "args": ["Program.cs", "resources/window.ui", "resources/menu.ui", "resources/resources.xml"],
+            "cwd": "${workspaceFolder}/FileSystem",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
         },
         {
             "name": "Launch Tutorial in F#",
