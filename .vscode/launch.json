@@ -61,6 +61,20 @@
             "console": "internalConsole"
         },
         {
+            "name": "5 - Builder",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/5-Builder/bin/Debug/net6.0/5-Builder.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/5-Builder",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
+        },
+        {
             "name": "Example1",
             "type": "coreclr",
             "request": "launch",
