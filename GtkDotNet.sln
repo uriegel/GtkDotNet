@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Css", "Css\Css.csproj", "{6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListView", "ListView\ListView.csproj", "{A42298A1-4E70-40EA-9C01-B5F83459A9DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColumnView", "ColumnView\ColumnView.csproj", "{F56E8E61-30D1-4104-B464-59587210B00C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -198,5 +200,17 @@ Global
 		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Release|x64.Build.0 = Release|Any CPU
 		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Release|x86.Build.0 = Release|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Debug|x64.Build.0 = Debug|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Debug|x86.Build.0 = Debug|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Release|x64.ActiveCfg = Release|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Release|x64.Build.0 = Release|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Release|x86.ActiveCfg = Release|Any CPU
+		{F56E8E61-30D1-4104-B464-59587210B00C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

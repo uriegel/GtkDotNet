@@ -32,3 +32,6 @@ Css/resources/resources.gresource
 ListView/obj
 ListView/bin
 ListView/resources/resources.gresource
+ColumnView/obj
+ColumnView/bin
+ColumnView/resources/resources.gresource
