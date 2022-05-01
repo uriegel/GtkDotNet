@@ -1,5 +1,4 @@
-﻿using System;
-using GtkDotNet;
+﻿using GtkDotNet;
 
 var app = Application.New("org.gtk.example");
 Action onActivate = () => 
@@ -13,19 +12,15 @@ Action onActivate = () =>
     GObject.Unref( builder);
     Widget.Show(window);
 
-    var file = GFile.New("/home/uwe/Dokumente");
-    void AsyncReadyCallback(IntPtr source, IntPtr result, IntPtr zero)
+    async void GetFileItems()
     {
-        var enumerator = GFile.EnumerateChildrenFinish(file, result, IntPtr.Zero);
-        IntPtr next;
-        while ((next = GFileEnumerator.NextFile(enumerator, IntPtr.Zero, IntPtr.Zero)) != IntPtr.Zero)
-        {
-            Console.WriteLine($"{GFileInfo.GetDisplayName(next)} - {GFileInfo.GetIcon(next)}");
-        }
-        GObject.Unref(enumerator);
+        var file = GFile.New("/home/uwe/Dokumente");
+        var items = await GFile.EnumerateChildrenAsync(file, "*", FileQueryInfoFlags.None, 100);
+        foreach (var item in items)
+            Console.WriteLine($"{GFileInfo.GetDisplayName(item)} - {GFileInfo.GetIcon(item)}");
     }
-    GFile.EnumerateChildrenAsync(file, "*", FileQueryInfoFlags.None, 100, IntPtr.Zero, AsyncReadyCallback, IntPtr.Zero);
     
+    GetFileItems();
 
     var listStore = ListStore.New(GManaged<string>.Type);
     var count = 200_000;
