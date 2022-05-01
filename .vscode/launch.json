@@ -159,6 +159,20 @@
             "console": "internalConsole"
         },
         {
+            "name": "ListView",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/ListView/bin/Debug/net6.0/ListView.dll",
+            "args": ["Program.cs", "resources/window.ui", "resources/menu.ui", "resources/resources.xml"],
+            "cwd": "${workspaceFolder}/ListView",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",

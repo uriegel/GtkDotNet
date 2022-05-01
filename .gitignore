@@ -29,3 +29,6 @@ Threading/resources/resources.gresource
 Css/obj
 Css/bin
 Css/resources/resources.gresource
+ListView/obj
+ListView/bin
+ListView/resources/resources.gresource

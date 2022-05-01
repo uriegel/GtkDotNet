@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Threading", "Threading\Thre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Css", "Css\Css.csproj", "{6C6A1A9E-A848-4BBD-B03A-2A87E10BDBCC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListView", "ListView\ListView.csproj", "{A42298A1-4E70-40EA-9C01-B5F83459A9DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,5 +186,17 @@ Global
 		{6C6A1A9E-A848-4BBD-B03A-2A87E10BDBCC}.Release|x64.Build.0 = Release|Any CPU
 		{6C6A1A9E-A848-4BBD-B03A-2A87E10BDBCC}.Release|x86.ActiveCfg = Release|Any CPU
 		{6C6A1A9E-A848-4BBD-B03A-2A87E10BDBCC}.Release|x86.Build.0 = Release|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Debug|x64.Build.0 = Debug|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Release|x64.ActiveCfg = Release|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Release|x64.Build.0 = Release|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{A42298A1-4E70-40EA-9C01-B5F83459A9DB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
