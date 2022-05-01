@@ -12,28 +12,17 @@ Action onActivate = () =>
     GObject.Unref( builder);
     Widget.Show(window);
 
+    var listStore = ListStore.New(GManaged<FileItem>.Type);
+
     async void GetFileItems()
     {
         var file = GFile.New("/home/uwe/Dokumente");
-        var items = await GFile.EnumerateChildrenAsync(file, "*", FileQueryInfoFlags.None, 100);
-        foreach (var item in items)
-            Console.WriteLine($"{GFileInfo.GetDisplayName(item)} - {GFileInfo.GetIcon(item)}");
+        var items = (await GFile.EnumerateChildrenAsync(file, "*", FileQueryInfoFlags.None, 100))
+            .Select(n => new FileItem { Name = GFileInfo.GetDisplayName(n), Icon = GFileInfo.GetIcon(n)});
+        ListStore.Splice(listStore, items);
     }
     
     GetFileItems();
-
-    var listStore = ListStore.New(GManaged<string>.Type);
-    var count = 200_000;
-    var ints = new IntPtr[count];
-    for (var i = 0; i < count; i++)
-        ints[i] = GManaged<string>.New($"Item # {i}");
-    ListStore.Splice(listStore, 0, 0, ints, ints.Length);
-    for (var i = 0; i < count; i++)
-        GObject.Unref(ints[i]);    
-
-    var item = ListStore.GetObject(listStore, 1);
-    var val = GManaged<string>.GetValue(item);
-    GObject.Unref(item);
 
     var modelFactory = SignalListItemFactory.New();
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "setup", (_, listItem, _) => 
@@ -44,18 +33,32 @@ Action onActivate = () =>
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "bind", (_, listItem, _) => 
     {
         var item = ListItem.GetItem(listItem);
-        var val = GManaged<string>.GetValue(item);
+        var val = GManaged<FileItem>.GetValue(item);
         var child = ListItem.GetChild(listItem);
-        Label.SetLabel(child, $"Eintrag # {val}");
+        Label.SetLabel(child, val.Name);
+    });
+
+    var modelIconFactory = SignalListItemFactory.New();
+    Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelIconFactory, "setup", (_, listItem, _) => 
+    {
+        var label = Label.New("");
+        ListItem.SetChild(listItem, label);
+    });
+    Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelIconFactory, "bind", (_, listItem, _) => 
+    {
+        var item = ListItem.GetItem(listItem);
+        var val = GManaged<FileItem>.GetValue(item);
+        var child = ListItem.GetChild(listItem);
+        Label.SetLabel(child, $"{val.Icon}");
     });
 
     var selectionModel = SingleSelection.New(listStore);
     ColumnView.SetModel(columnView, selectionModel);
 
-    var column = ColumnViewColumn.New("Spalte 1", modelFactory);
+    var column = ColumnViewColumn.New("Name", modelFactory);
     ColumnViewColumn.SetResizable(column, true);
     ColumnView.AppendColumn(columnView, column);
-    column = ColumnViewColumn.New("Spalte 2", modelFactory);
+    column = ColumnViewColumn.New("Icon", modelIconFactory);
     ColumnView.AppendColumn(columnView, column);
     ColumnViewColumn.SetResizable(column, true);
     ColumnView.SetReorderable(columnView, true);
@@ -67,3 +70,8 @@ GObject.Unref(app);
 
 return status;
 
+class FileItem
+{
+    public string Name {get; init;} = "";
+    public IntPtr Icon {get; init;}
+}

@@ -14,13 +14,8 @@ Action onActivate = () =>
     Widget.Show(window);
 
     var listStore = ListStore.New(GManaged<string>.Type);
-    var count = 200_000;
-    var ints = new IntPtr[count];
-    for (var i = 0; i < count; i++)
-        ints[i] = GManaged<string>.New($"Item # {i}");
-    ListStore.Splice(listStore, 0, 0, ints, ints.Length);
-    for (var i = 0; i < count; i++)
-        GObject.Unref(ints[i]);    
+    var items = Enumerable.Range(0, 200_000).Select(n => $"Item # {n}");
+    ListStore.Splice(listStore, items);
 
     var item = ListStore.GetObject(listStore, 1);
     var val = GManaged<string>.GetValue(item);
