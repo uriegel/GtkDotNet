@@ -247,20 +247,6 @@
             "justMyCode": false,
             "enableStepFiltering": true,
             "console": "internalConsole"
-        },
-        {
-            "name": "Launch Tutorial",
-            "type": "coreclr",
-            "request": "launch",
-            "requireExactSource": true, 
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Tutorial/bin/Debug/net6.0/Tutorial.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/Tutorial",
-            "stopAtEntry": false,
-            "justMyCode": false,
-            "enableStepFiltering": true,
-            "console": "internalConsole"
-        },
+        }
   ]
 }
