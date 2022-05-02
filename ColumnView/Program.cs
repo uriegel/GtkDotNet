@@ -6,7 +6,6 @@ Action onActivate = () =>
 {
     Application.RegisterResources();
     var builder = Builder.FromResource("/org/gtk/example/window.ui");
-    Builder.AddFromFile(builder, "builder.ui");
     var window = Builder.GetObject(builder, "window");
     var columnView = Builder.GetObject(builder, "column-view");
     Window.SetApplication(window, app);

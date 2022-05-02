@@ -4,8 +4,11 @@ var app = Application.New("org.gtk.example");
 Action onActivate = () => 
 {
     Application.RegisterResources();
+    var cssProvider = CssProvider.New();
+    CssProvider.LoadFromResource(cssProvider, "/org/gtk/example/style.css");
+    StyleContext.AddProviderForDisplay(Display.GetDefault(), cssProvider, StyleProviderPriority.Fallback);
+
     var builder = Builder.FromResource("/org/gtk/example/window.ui");
-    Builder.AddFromFile(builder, "builder.ui");
     var window = Builder.GetObject(builder, "window");
     var columnView = Builder.GetObject(builder, "column-view");
     Window.SetApplication(window, app);
@@ -16,7 +19,7 @@ Action onActivate = () =>
 
     async void GetFileItems()
     {
-        var file = GFile.New("/home/uwe/");
+        var file = GFile.New("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
         var items = await GFile.EnumerateChildrenAsync(file, "*", FileQueryInfoFlags.None, 100);
         ListStore.Splice(listStore, items);
     }
@@ -24,10 +27,14 @@ Action onActivate = () =>
     GetFileItems();
 
     var modelFactory = SignalListItemFactory.New();
+
+
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "setup", (_, listItem, _) => 
     {
-        var label = Label.New("");
+        var listItemBuilder = Builder.FromResource("/org/gtk/example/listitem.ui");
+        var label = Builder.GetObject(listItemBuilder, "listitem");
         ListItem.SetChild(listItem, label);
+        GObject.Unref(listItemBuilder);
     });
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "bind", (_, listItem, _) => 
     {
@@ -36,7 +43,6 @@ Action onActivate = () =>
         var child = ListItem.GetChild(listItem);
         Label.SetLabel(child, val);
     });
-
     var modelIconFactory = SignalListItemFactory.New();
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelIconFactory, "setup", (_, listItem, _) => 
     {

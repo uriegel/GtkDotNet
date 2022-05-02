@@ -2,5 +2,7 @@
 <gresources>
   <gresource prefix="/org/gtk/example">
     <file>window.ui</file>
+    <file>listitem.ui</file>
+    <file>style.css</file>
   </gresource>
 </gresources>

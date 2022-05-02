@@ -6,7 +6,6 @@ Action onActivate = () =>
 {
     Application.RegisterResources();
     var builder = Builder.FromResource("/org/gtk/example/window.ui");
-    Builder.AddFromFile(builder, "builder.ui");
     var window = Builder.GetObject(builder, "window");
     var listView = Builder.GetObject(builder, "list-view");
     Window.SetApplication(window, app);

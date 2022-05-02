@@ -8,7 +8,6 @@ Action onActivate = () =>
 {
     Application.RegisterResources();
     var builder = Builder.FromResource("/org/gtk/example/window.ui");
-    Builder.AddFromFile(builder, "builder.ui");
     var window = Builder.GetObject(builder, "window");
     var button1 = Builder.GetObject(builder, "button1");
     var button2 = Builder.GetObject(builder, "button2");
