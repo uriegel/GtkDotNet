@@ -1,17 +1,13 @@
 columnview listview row cell  {
-	background-color: red;	
-    color: white;	
-    padding-top: 230px!;
-
-	padding-bottom: 0;
+/*	background-color: red;	
+    color: white;	*/
+    padding-top:    2px;
+	padding-bottom: 2px;
 }
-columnview listview row:hover cell  {
+/*columnview listview row:hover cell  {
 	background-color: #ff9999;	
     color: yellow;	
-    padding-top: 230px;
-
-	padding-bottom: 0;
-}
+}*/
 image {
     min-height: 18px;
 }

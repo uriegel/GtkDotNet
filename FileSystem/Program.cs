@@ -6,7 +6,7 @@ Action onActivate = () =>
     Application.RegisterResources();
     var cssProvider = CssProvider.New();
     CssProvider.LoadFromResource(cssProvider, "/org/gtk/example/style.css");
-    StyleContext.AddProviderForDisplay(Display.GetDefault(), cssProvider, StyleProviderPriority.Fallback);
+    StyleContext.AddProviderForDisplay(Display.GetDefault(), cssProvider, StyleProviderPriority.Application);
 
     var builder = Builder.FromResource("/org/gtk/example/window.ui");
     var window = Builder.GetObject(builder, "window");
@@ -60,13 +60,13 @@ Action onActivate = () =>
     var selectionModel = SingleSelection.New(listStore);
     ColumnView.SetModel(columnView, selectionModel);
 
-    var column = ColumnViewColumn.New("Name", modelFactory);
-    ColumnViewColumn.SetResizable(column, true);
+    var column = ColumnViewColumn.New("Icon", modelIconFactory);
     ColumnView.AppendColumn(columnView, column);
-    column = ColumnViewColumn.New("Icon", modelIconFactory);
-    ColumnView.AppendColumn(columnView, column);
-    ColumnViewColumn.SetResizable(column, true);
     ColumnView.SetReorderable(columnView, true);
+    column = ColumnViewColumn.New("Name", modelFactory);
+    ColumnViewColumn.SetResizable(column, true);
+    ColumnViewColumn.SetExpand(column, true);
+    ColumnView.AppendColumn(columnView, column);
 };
 
 var status = Application.Run(app, onActivate);
