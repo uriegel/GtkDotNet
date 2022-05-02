@@ -3,6 +3,16 @@
 var app = Application.New("org.gtk.example");
 Action onActivate = () => 
 {
+    // TODO: GManaged with IDisposable
+    //Wrapper for IntPtr with Dispose for GObjects
+    // "Using with GObjects" in Combination with GObject WeakRef to check
+    // 
+
+    var test = GManaged<Test>.New(new ("Eins"));
+    GManaged<Test>.SetValue(test, new ("Zwei"));
+    GObject.Unref(test);
+    return;
+
     Application.RegisterResources();
     var cssProvider = CssProvider.New();
     CssProvider.LoadFromResource(cssProvider, "/org/gtk/example/style.css");
@@ -84,10 +94,38 @@ var status = Application.Run(app, onActivate);
 
 GObject.Unref(app);
 
+
+    GC.Collect();
+    GC.Collect();
+
+    Thread.Sleep(5000);
+    GC.Collect();
+    GC.Collect();
+
+    Thread.Sleep(5000);
+    GC.Collect();
+    GC.Collect();
+
+    Thread.Sleep(5000);
+    GC.Collect();
+    GC.Collect();
+
+
 return status;
 
 class FileItem
 {
     public string Name {get; init;} = "";
     public IntPtr Icon {get; init;}
+}
+
+class Test
+{
+    public string Text { get;}
+
+    public Test(string text) => Text = text;
+    ~Test()
+    {
+        Console.WriteLine("Finalisiert");
+    }
 }

@@ -9,30 +9,38 @@ public class GManaged<T>
     // TODO: GC sicher
     public static long Type { get; }
     
-    public static T GetValue(IntPtr intType) 
+    public static T GetValue(IntPtr managedType) 
     {
-        var intPtr = Marshal.ReadIntPtr(intType, 28); 
+        var intPtr = Marshal.ReadIntPtr(managedType, 28); 
         var handle = GCHandle.FromIntPtr(intPtr);
         return (T)handle.Target;
     }
 
-    public static void SetValue(IntPtr intType, T value) 
+    public static void SetValue(IntPtr managedType, T value) 
     {
+        var intPtr = Marshal.ReadIntPtr(managedType, 28); 
+        if (intPtr != IntPtr.Zero)
+            GCHandle.FromIntPtr(intPtr).Free();
         var handle = GCHandle.Alloc(value);
-        Marshal.WriteIntPtr(intType, 28, (IntPtr)handle); 
+        Marshal.WriteIntPtr(managedType, 28, GCHandle.ToIntPtr(handle)); 
     }
 
     public static IntPtr New() 
     {
         var obj = GObject.New(Type, IntPtr.Zero);
-        //GObject.AddWeakRef(obj, (_, obj) => GCHandle.FromIntPtr(obj).Free());        
+        GObject.AddWeakRef(obj, (_, obj) => 
+        {
+            var intPtr = Marshal.ReadIntPtr(obj, 28); 
+            if (intPtr != IntPtr.Zero)
+                GCHandle.FromIntPtr(intPtr).Free();
+        });
         return obj;
     }
 
     public static IntPtr New(T value) 
     {
         var obj = New();
-        SetValue(obj, value);
+        //SetValue(obj, value);
         return obj;
     }
 
