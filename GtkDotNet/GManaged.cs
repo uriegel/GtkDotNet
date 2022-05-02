@@ -25,7 +25,7 @@ public class GManaged<T>
     public static IntPtr New() 
     {
         var obj = GObject.New(Type, IntPtr.Zero);
-        GObject.AddWeakRef(obj, (_, obj) => GCHandle.FromIntPtr(obj).Free());        
+        //GObject.AddWeakRef(obj, (_, obj) => GCHandle.FromIntPtr(obj).Free());        
         return obj;
     }
 

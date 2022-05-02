@@ -11,20 +11,21 @@ Action onActivate = () =>
     var builder = Builder.FromResource("/org/gtk/example/window.ui");
     var window = Builder.GetObject(builder, "window");
     var columnView = Builder.GetObject(builder, "column-view");
+    var button = Builder.GetObject(builder, "button");
     Window.SetApplication(window, app);
     GObject.Unref( builder);
     Widget.Show(window);
 
     var listStore = ListStore.New(GManaged<IntPtr>.Type);
 
-    async void GetFileItems()
+    async void GetFileItems(string path)
     {
-        var file = GFile.New("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
+        var file = GFile.New(path);
         var items = await GFile.EnumerateChildrenAsync(file, "*", FileQueryInfoFlags.None, 100);
         ListStore.Splice(listStore, items);
     }
-    
-    GetFileItems();
+
+    GetFileItems("/home/uwe");
 
     var modelFactory = SignalListItemFactory.New();
 
@@ -56,6 +57,16 @@ Action onActivate = () =>
         var child = ListItem.GetChild(listItem);
         Image.SetFromGIcon(child, val);
     });
+
+    var actions = new GtkAction[] 
+    {
+        new GtkAction("change-model", () => 
+        {
+            ListStore.RemoveAll(listStore);
+            GetFileItems("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
+        }, "<Ctrl>C")
+    };
+    Application.AddActions(app, actions);
 
     var selectionModel = SingleSelection.New(listStore);
     ColumnView.SetModel(columnView, selectionModel);

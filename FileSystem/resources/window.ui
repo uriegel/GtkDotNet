@@ -4,6 +4,18 @@
     <property name="title" translatable="yes">File System 👍</property>
     <property name="default-width">600</property>
     <property name="default-height">800</property>
+
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="header">
+        <child type="end">
+          <object class="GtkButton" id="button">
+            <property name="icon-name">edit-find-symbolic</property>
+            <property name="action-name">app.change-model</property>
+          </object>
+        </child>                
+      </object>
+    </child>
+
     <child>
       <object class="GtkScrolledWindow" id="scrolled">
         <property name="vscrollbar-policy">GTK_POLICY_AUTOMATIC</property>

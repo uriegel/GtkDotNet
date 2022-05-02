@@ -24,6 +24,9 @@ public class ListStore
             GObject.Unref(items[i]);    
     }
 
+    [DllImport(Globals.LibGtk, EntryPoint="g_list_store_remove_all", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void RemoveAll(IntPtr store);
+
     [DllImport(Globals.LibGtk, EntryPoint="g_list_store_splice", CallingConvention = CallingConvention.Cdecl)]
     extern static void Splice(IntPtr store, int position, int countRemovals, 
         [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)][In] IntPtr[] additions, int countAdditions);
