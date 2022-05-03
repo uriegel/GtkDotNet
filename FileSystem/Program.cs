@@ -43,8 +43,8 @@ Action onActivate = () =>
     });
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "bind", (_, listItem, _) => 
     {
-        var item = ListItem.GetItem(listItem);
-        var val = GFileInfo.GetDisplayName(GManaged<GObjectRef>.GetValue(item).Value);
+        var item = listStore.GetListItem(listItem);
+        var val = GFileInfo.GetDisplayName(item.Value);
         var child = ListItem.GetChild(listItem);
         Label.SetLabel(child, val);
     });
@@ -56,8 +56,8 @@ Action onActivate = () =>
     });
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelIconFactory, "bind", (_, listItem, _) => 
     {
-        var item = ListItem.GetItem(listItem);
-        var val = GFileInfo.GetIcon(GManaged<GObjectRef>.GetValue(item).Value);
+        var item = listStore.GetListItem(listItem);
+        var val = GFileInfo.GetIcon(item.Value);
         var child = ListItem.GetChild(listItem);
         Image.SetFromGIcon(child, val);
     });

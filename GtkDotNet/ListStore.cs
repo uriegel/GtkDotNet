@@ -11,6 +11,9 @@ public class ListStore<T>
 
     public ListStore() => Store = RawListStore.New(GManaged.Type);
 
+    public T GetListItem(IntPtr listItem)
+        => GManaged<T>.GetValue(ListItem.GetItem(listItem));
+
     public T GetObject(int position)
     {
         var intptr = RawListStore.GetObject(Store, position);

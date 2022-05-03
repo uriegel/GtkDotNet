@@ -24,10 +24,9 @@ Action onActivate = () =>
     });
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "bind", (_, listItem, _) => 
     {
-        var item = ListItem.GetItem(listItem);
-        var val = GManaged<string>.GetValue(item);
+        var item = listStore.GetListItem(ListItem.GetItem(listItem));
         var child = ListItem.GetChild(listItem);
-        Label.SetLabel(child, $"Eintrag # {val}");
+        Label.SetLabel(child, $"Eintrag # {item}");
     });
 
     var selectionModel = SingleSelection.New(listStore);
