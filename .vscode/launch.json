@@ -243,6 +243,20 @@
             "console": "internalConsole"
         },
         {
+            "name": "Cleanup Test",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/CleanupTest/bin/Debug/net6.0/CleanupTest.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/CleanupTest",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
+        },
+        {
             "name": "Launch Tutorial in F#",
             "type": "coreclr",
             "request": "launch",

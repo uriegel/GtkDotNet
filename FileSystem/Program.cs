@@ -94,22 +94,9 @@ var status = Application.Run(app, onActivate);
 
 GObject.Unref(app);
 
-
-    GC.Collect();
-    GC.Collect();
-
-    Thread.Sleep(5000);
-    GC.Collect();
-    GC.Collect();
-
-    Thread.Sleep(5000);
-    GC.Collect();
-    GC.Collect();
-
-    Thread.Sleep(5000);
-    GC.Collect();
-    GC.Collect();
-
+GC.Collect();
+GC.Collect();
+Thread.Sleep(1000);
 
 return status;
 

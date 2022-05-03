@@ -49,3 +49,5 @@ ColumnView/resources/resources.gresource
 FileSystem/bin
 FileSystem/obj
 FileSystem/resources/resources.gresource
+CleanupTest/bin
+CleanupTest/obj

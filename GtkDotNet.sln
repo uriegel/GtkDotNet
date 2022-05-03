@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5-Builder", "5-Builder\5-Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystem", "FileSystem\FileSystem.csproj", "{D3AB6DB8-0464-4F77-A9A4-C04EF7061F19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanupTest", "CleanupTest\CleanupTest.csproj", "{728E2E5D-840B-4690-8765-E7466B6D3292}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -296,5 +298,17 @@ Global
 		{D3AB6DB8-0464-4F77-A9A4-C04EF7061F19}.Release|x64.Build.0 = Release|Any CPU
 		{D3AB6DB8-0464-4F77-A9A4-C04EF7061F19}.Release|x86.ActiveCfg = Release|Any CPU
 		{D3AB6DB8-0464-4F77-A9A4-C04EF7061F19}.Release|x86.Build.0 = Release|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Debug|x64.Build.0 = Debug|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Debug|x86.Build.0 = Debug|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Release|x64.ActiveCfg = Release|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Release|x64.Build.0 = Release|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Release|x86.ActiveCfg = Release|Any CPU
+		{728E2E5D-840B-4690-8765-E7466B6D3292}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

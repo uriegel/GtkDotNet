@@ -3,10 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace GtkDotNet;
 
-public class GManaged<T>
+public static class GManaged<T>
 {
-    // TODO: WeakReference (finalize)
-    // TODO: GC sicher
     public static long Type { get; }
     
     public static T GetValue(IntPtr managedType) 
@@ -18,44 +16,51 @@ public class GManaged<T>
 
     public static void SetValue(IntPtr managedType, T value) 
     {
-        var intPtr = Marshal.ReadIntPtr(managedType, 28); 
-        if (intPtr != IntPtr.Zero)
-            GCHandle.FromIntPtr(intPtr).Free();
+        Free(managedType);
         var handle = GCHandle.Alloc(value);
         Marshal.WriteIntPtr(managedType, 28, GCHandle.ToIntPtr(handle)); 
     }
 
     public static IntPtr New() 
     {
-        var obj = GObject.New(Type, IntPtr.Zero);
-        GObject.AddWeakRef(obj, (_, obj) => 
-        {
-            var intPtr = Marshal.ReadIntPtr(obj, 28); 
-            if (intPtr != IntPtr.Zero)
-                GCHandle.FromIntPtr(intPtr).Free();
-        });
-        return obj;
+        var managedType = GObject.New(Type, IntPtr.Zero);
+        GObject.AddWeakRef(managedType, (_, obj) => Free(obj));
+        return managedType;
     }
 
     public static IntPtr New(T value) 
     {
         var obj = New();
-        //SetValue(obj, value);
+        SetValue(obj, value);
         return obj;
     }
 
-    static GManaged() => Type = GManaged.Register();
+    static void Free(IntPtr managedType)
+    {
+        var intPtr = Marshal.ReadIntPtr(managedType, 28); 
+        if (intPtr != IntPtr.Zero)
+        {
+            var handle = GCHandle.FromIntPtr(intPtr);
+            if (handle.Target is IDisposable disposable)
+                disposable.Dispose();
+            handle.Free();
+        }
+    }
+
+    static GManaged() => Type = GManaged.Type;
 }
 
-class GManaged
+static class GManaged
 {
-    public static long Register()
+    public static long Type { get; }
+
+    static GManaged()
     {
         var info = new GTypeInfo();
         info.class_size = 136;
         info.class_size = (ushort)Marshal.SizeOf<IntType2Class>();// 136
         info.instance_size = (ushort)Marshal.SizeOf<IntType>(); // 32
-        return RegisterStatic(80, "GtkDotNetGManaged", ref info, 0);
+        Type = RegisterStatic(80, "GtkDotNetGManaged", ref info, 0);
     }
 
     [StructLayout(LayoutKind.Sequential)]

@@ -8,6 +8,17 @@ public static class GObject
     [DllImport(Globals.LibGtk, EntryPoint="g_object_ref", CallingConvention = CallingConvention.Cdecl)]
     public extern static IntPtr Ref(IntPtr obj);
 
+    /// <summary>
+    /// Increase the reference count of object, and possibly remove the [floating][floating-ref] reference, 
+    /// if object has a floating reference. 
+    /// In other words, if the object is floating, then this call “assumes ownership” of the floating reference, 
+    /// converting it to a normal reference by clearing the floating flag while leaving the reference count unchanged. If the object is not floating, then this call adds a new normal reference increasing the reference count by one.
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    [DllImport(Globals.LibGtk, EntryPoint="g_object_ref_sink", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr RefSink(IntPtr obj);
+    
     [DllImport(Globals.LibGtk, EntryPoint="g_object_unref", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Unref(IntPtr obj);
 
