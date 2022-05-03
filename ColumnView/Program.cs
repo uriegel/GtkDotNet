@@ -1,6 +1,6 @@
-﻿using System;
-using GtkDotNet;
+﻿using GtkDotNet;
 
+// TODO SelectionModel
 var app = Application.New("org.gtk.example");
 Action onActivate = () => 
 {
@@ -29,16 +29,26 @@ Action onActivate = () =>
         Label.SetLabel(child, $"Eintrag # {item}");
     });
 
-    var selectionModel = SingleSelection.New(listStore);
-    ColumnView.SetModel(columnView, selectionModel);
+    CustomSorter.CompareDelegate test = (a, b, z) =>
+    {
+        var text = GManaged<string>.GetValue(a);        
+        var textB = GManaged<string>.GetValue(b);        
+        return string.Compare(text, textB);
+    };
 
+    var sorter = CustomSorter.New(test);
     var column = ColumnViewColumn.New("Spalte 1", modelFactory);
     ColumnViewColumn.SetResizable(column, true);
     ColumnView.AppendColumn(columnView, column);
     column = ColumnViewColumn.New("Spalte 2", modelFactory);
     ColumnView.AppendColumn(columnView, column);
     ColumnViewColumn.SetResizable(column, true);
+    ColumnViewColumn.SetSorter(column, sorter);
     ColumnView.SetReorderable(columnView, true);
+
+    var sortModel = SortListModel.New(listStore, ColumnView.GetSorter(columnView));
+    var selectionModel = SingleSelection.New(sortModel);
+    ColumnView.SetModel(columnView, selectionModel);
 };
 
 var status = Application.Run(app, onActivate);
@@ -46,4 +56,5 @@ var status = Application.Run(app, onActivate);
 GObject.Unref(app);
 
 return status;
+
 

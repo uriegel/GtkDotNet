@@ -13,4 +13,7 @@ public class ColumnViewColumn
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_column_view_column_set_expand", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetExpand(IntPtr column, bool expand);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_column_view_column_set_sorter", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetSorter(IntPtr column, IntPtr sorter);
 }

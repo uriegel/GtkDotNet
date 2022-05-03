@@ -16,5 +16,8 @@ public class ColumnView
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_column_view_set_reorderable", CallingConvention = CallingConvention.Cdecl)]
     public extern static IntPtr SetReorderable(IntPtr columnView, bool reorderable);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_column_view_get_sorter", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetSorter(IntPtr columnView);
 }
 
