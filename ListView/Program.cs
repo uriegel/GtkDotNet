@@ -12,14 +12,9 @@ Action onActivate = () =>
     GObject.Unref( builder);
     Widget.Show(window);
 
-    var listStore = ListStore.New(GManaged<string>.Type);
-
-    var items = Enumerable.Range(0, 200_000).Select(n => $"Item # {n}");
-    ListStore.Splice(listStore, items);
-
-    var item = ListStore.GetObject(listStore, 1);
-    var val = GManaged<string>.GetValue(item);
-    GObject.Unref(item);
+    var listStore = new ListStore<string>();
+    listStore.Splice(Enumerable.Range(0, 200_000).Select(n => $"Item # {n}"));
+    var val = listStore.GetObject(1);
 
     var modelFactory = SignalListItemFactory.New();
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "setup", (_, listItem, _) => 

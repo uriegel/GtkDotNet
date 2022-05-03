@@ -3,16 +3,6 @@
 var app = Application.New("org.gtk.example");
 Action onActivate = () => 
 {
-    // TODO: GManaged with IDisposable
-    //Wrapper for IntPtr with Dispose for GObjects
-    // "Using with GObjects" in Combination with GObject WeakRef to check
-    // 
-
-    var test = GManaged<Test>.New(new ("Eins"));
-    GManaged<Test>.SetValue(test, new ("Zwei"));
-    GObject.Unref(test);
-    return;
-
     Application.RegisterResources();
     var cssProvider = CssProvider.New();
     CssProvider.LoadFromResource(cssProvider, "/org/gtk/example/style.css");
@@ -26,19 +16,23 @@ Action onActivate = () =>
     GObject.Unref( builder);
     Widget.Show(window);
 
-    var listStore = ListStore.New(GManaged<IntPtr>.Type);
+    var listStore = new ListStore<GObjectRef>();
 
     async void GetFileItems(string path)
     {
         var file = GFile.New(path);
-        var items = await GFile.EnumerateChildrenAsync(file, "*", FileQueryInfoFlags.None, 100);
-        ListStore.Splice(listStore, items);
+        var items = (await GFile.EnumerateChildrenAsync(file, "*", FileQueryInfoFlags.None, 100))
+            .Select(n => 
+            {
+                GObject.AddWeakRef(n, (_, _) => Console.WriteLine("Finilisiere"));
+                return new GObjectRef(n);
+            });
+        listStore.Splice(items);
     }
 
     GetFileItems("/home/uwe");
 
     var modelFactory = SignalListItemFactory.New();
-
 
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "setup", (_, listItem, _) => 
     {
@@ -50,7 +44,7 @@ Action onActivate = () =>
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelFactory, "bind", (_, listItem, _) => 
     {
         var item = ListItem.GetItem(listItem);
-        var val = GFileInfo.GetDisplayName(GManaged<IntPtr>.GetValue(item));
+        var val = GFileInfo.GetDisplayName(GManaged<GObjectRef>.GetValue(item).Value);
         var child = ListItem.GetChild(listItem);
         Label.SetLabel(child, val);
     });
@@ -63,7 +57,7 @@ Action onActivate = () =>
     Gtk.SignalConnect<SignalListItemFactory.Delegate>(modelIconFactory, "bind", (_, listItem, _) => 
     {
         var item = ListItem.GetItem(listItem);
-        var val = GFileInfo.GetIcon(GManaged<IntPtr>.GetValue(item));
+        var val = GFileInfo.GetIcon(GManaged<GObjectRef>.GetValue(item).Value);
         var child = ListItem.GetChild(listItem);
         Image.SetFromGIcon(child, val);
     });
@@ -72,8 +66,8 @@ Action onActivate = () =>
     {
         new GtkAction("change-model", () => 
         {
-            ListStore.RemoveAll(listStore);
-            GetFileItems("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
+            listStore.RemoveAll();
+            //GetFileItems("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
         }, "<Ctrl>C")
     };
     Application.AddActions(app, actions);
