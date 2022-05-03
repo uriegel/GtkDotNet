@@ -3,10 +3,6 @@
 var app = Application.New("org.gtk.example");
 Action onActivate = () => 
 {
-    // TODO: GManaged with IDisposable
-    //Wrapper for IntPtr with Dispose for GObjects
-    // "Using with GObjects" in Combination with GObject WeakRef to check
-    // 
     var label = Label.New("Label");
     GObject.RefSink(label);
     GObject.AddWeakRef(label, (_, obj) => Console.WriteLine("Label finalized"));
