@@ -24,7 +24,7 @@ Action onActivate = () =>
         var items = (await GFile.EnumerateChildrenAsync(file, "*", FileQueryInfoFlags.None, 100))
             .Select(n => 
             {
-                GObject.AddWeakRef(n, (_, _) => Console.WriteLine("Finilisiere"));
+                GObject.AddWeakRef(n, (_, _) => Console.WriteLine("Finalize file item"));
                 return new GObjectRef(n);
             });
         listStore.Splice(items);
@@ -67,13 +67,21 @@ Action onActivate = () =>
         new GtkAction("change-model", () => 
         {
             listStore.RemoveAll();
-            //GetFileItems("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
+            GetFileItems("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
         }, "<Ctrl>C")
     };
     Application.AddActions(app, actions);
 
-    var selectionModel = SingleSelection.New(listStore);
-    ColumnView.SetModel(columnView, selectionModel);
+    var sorter = CustomSorter.New((a, b, z) =>
+    {
+        var itemA = GManaged<GObjectRef>.GetValue(a).Value;        
+        var itemB = GManaged<GObjectRef>.GetValue(b).Value;
+        var fileTypeA = GFileInfo.GetFileType(itemA);
+        var fileTypeB = GFileInfo.GetFileType(itemB);
+        return fileTypeA != fileTypeB
+            ? fileTypeB - fileTypeA
+            : string.Compare(GFileInfo.GetDisplayName(itemA), GFileInfo.GetDisplayName(itemB), true);
+    });
 
     var column = ColumnViewColumn.New("Icon", modelIconFactory);
     ColumnView.AppendColumn(columnView, column);
@@ -81,7 +89,16 @@ Action onActivate = () =>
     column = ColumnViewColumn.New("Name", modelFactory);
     ColumnViewColumn.SetResizable(column, true);
     ColumnViewColumn.SetExpand(column, true);
+    ColumnViewColumn.SetSorter(column, sorter);
     ColumnView.AppendColumn(columnView, column);
+
+
+    var sortModel = SortListModel.New(listStore, ColumnView.GetSorter(columnView));
+    var selectionModel = SingleSelection.New(sortModel);
+    ColumnView.SetModel(columnView, selectionModel);
+
+    var child = Widget.GetFirstChild(columnView);
+    
 };
 
 var status = Application.Run(app, onActivate);
@@ -94,19 +111,3 @@ Thread.Sleep(1000);
 
 return status;
 
-class FileItem
-{
-    public string Name {get; init;} = "";
-    public IntPtr Icon {get; init;}
-}
-
-class Test
-{
-    public string Text { get;}
-
-    public Test(string text) => Text = text;
-    ~Test()
-    {
-        Console.WriteLine("Finalisiert");
-    }
-}

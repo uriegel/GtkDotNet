@@ -1,6 +1,8 @@
 ﻿using GtkDotNet;
 
 // TODO SelectionModel
+// TODO gtk_custom_filter_new gtk_filter_list_model_new
+
 var app = Application.New("org.gtk.example");
 Action onActivate = () => 
 {

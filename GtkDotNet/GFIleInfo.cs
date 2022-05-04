@@ -11,6 +11,9 @@ public class GFileInfo
     [DllImport(Globals.LibGtk, EntryPoint = "g_file_info_get_icon", CallingConvention = CallingConvention.Cdecl)]
     public extern static IntPtr GetIcon(IntPtr info);
 
+    [DllImport(Globals.LibGtk, EntryPoint = "g_file_info_get_file_type", CallingConvention = CallingConvention.Cdecl)]
+    public extern static FileType GetFileType(IntPtr info);
+
     [DllImport(Globals.LibGtk, EntryPoint = "g_file_info_get_display_name", CallingConvention = CallingConvention.Cdecl)]
     extern static IntPtr _GetDisplayName(IntPtr info);
 }
