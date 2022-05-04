@@ -68,7 +68,11 @@ Action onActivate = () =>
         {
             listStore.RemoveAll();
             GetFileItems("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
-        }, "<Ctrl>C")
+        }, "<Ctrl>C"),
+        new GtkAction("test", () => Console.WriteLine("Select till begin"), "<Ctrl>Home"),
+        new GtkAction("testu", () => Console.WriteLine("Select till end"), "<Ctrl>End"),
+        new GtkAction("testA", () => Console.WriteLine("Select all"), "KP_Add"),
+        new GtkAction("testN", () => Console.WriteLine("Select nothing"), "KP_Subtract"),
     };
     Application.AddActions(app, actions);
 
@@ -101,11 +105,10 @@ Action onActivate = () =>
     var filterModel = FilterListModel.New(listStore, filter);
 
     var sortModel = SortListModel.New(filterModel, ColumnView.GetSorter(columnView));
-    var selectionModel = SingleSelection.New(sortModel);
+    var selectionModel = MultiSelection.New(sortModel);
     ColumnView.SetModel(columnView, selectionModel);
 
     var child = Widget.GetFirstChild(columnView);
-    
 };
 
 var status = Application.Run(app, onActivate);

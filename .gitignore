@@ -51,3 +51,5 @@ FileSystem/obj
 FileSystem/resources/resources.gresource
 CleanupTest/bin
 CleanupTest/obj
+EventControllerKey/bin
+EventControllerKey/obj
