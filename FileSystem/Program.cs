@@ -92,8 +92,15 @@ Action onActivate = () =>
     ColumnViewColumn.SetSorter(column, sorter);
     ColumnView.AppendColumn(columnView, column);
 
+    var filter = CustomFilter.New((item, _) =>
+    {
+        var info = GManaged<GObjectRef>.GetValue(item).Value;       
+        return !GFileInfo.IsHidden(info);
+    });
 
-    var sortModel = SortListModel.New(listStore, ColumnView.GetSorter(columnView));
+    var filterModel = FilterListModel.New(listStore, filter);
+
+    var sortModel = SortListModel.New(filterModel, ColumnView.GetSorter(columnView));
     var selectionModel = SingleSelection.New(sortModel);
     ColumnView.SetModel(columnView, selectionModel);
 
