@@ -67,5 +67,14 @@ public class Widget
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_style_context", CallingConvention = CallingConvention.Cdecl)]
     public extern static IntPtr GetStyleContext(IntPtr widget);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_parent", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetParent(IntPtr widget);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_add_css_class", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void AddCssClass(IntPtr widget, string cssClass);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_remove_css_class", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void RemoveCssClass(IntPtr widget, string cssClass);
 }
 

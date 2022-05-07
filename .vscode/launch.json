@@ -229,6 +229,20 @@
             "console": "internalConsole"
         },
         {
+            "name": "Selection Filtering ColumnView",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/SelectionFiltering/bin/Debug/net6.0/SelectionFiltering.dll",
+            "args": ["Program.cs", "resources/window.ui", "resources/menu.ui", "resources/resources.xml"],
+            "cwd": "${workspaceFolder}/SelectionFiltering",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
+        },
+        {
             "name": "EventControllerKey",
             "type": "coreclr",
             "request": "launch",

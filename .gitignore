@@ -53,3 +53,6 @@ CleanupTest/bin
 CleanupTest/obj
 EventControllerKey/bin
 EventControllerKey/obj
+SelectionFiltering/bin
+SelectionFiltering/obj
+SelectionFiltering/resources/resources.gresource
