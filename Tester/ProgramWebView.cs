@@ -154,7 +154,9 @@ var ret =  app.Run(() =>
 
     var webView = new WebView();
     window.Add(webView);
-    webView.LoadUri($"file://{Directory.GetCurrentDirectory()}/../webroot/index.html");
+    //webView.LoadUri($"file://{Directory.GetCurrentDirectory()}/../webroot/index.html");
+    webView.LoadUri($"http://localhost:3000");
+    //webView.LoadUri("file:///home/uwe/Dokumente/Functional_Programming_in_CSharp_Second_Edi.pdf");
     var ede = webView.Settings.EnableDeveloperExtras;
     webView.Settings.EnableDeveloperExtras = false;
     ede = webView.Settings.EnableDeveloperExtras;

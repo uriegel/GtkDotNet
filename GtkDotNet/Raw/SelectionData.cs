@@ -14,7 +14,18 @@ namespace GtkDotNet.Raw
             return result;
         }
 
+        public static string GetData(IntPtr data)
+        {
+            var ptr =  GetDataPtr(data);
+            var result = Marshal.PtrToStringUTF8(ptr);
+            //GObject.Free(ptr);
+            return result;
+        }
+
         [DllImport(Globals.LibGtk, EntryPoint="gtk_selection_data_get_text", CallingConvention = CallingConvention.Cdecl)]
         extern static IntPtr GetTextPtr(IntPtr data);
+
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_selection_data_get_data", CallingConvention = CallingConvention.Cdecl)]
+        extern static IntPtr GetDataPtr(IntPtr data);
     }
 }

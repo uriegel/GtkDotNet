@@ -1,4 +1,4 @@
-﻿//#define RAW
+﻿#define RAW
 #if RAW
 
 using System;
@@ -137,7 +137,7 @@ var ret = Application.Run(app, () => {
     GObject.SetBool(settings, "enable-developer-extras", true);
     Container.Add(window, webView);
 
-    var target = TargetEntry.New("text/plain", TargetEntry.Flags.OtherApp, 0);
+    var target = TargetEntry.New("text/uri-list", TargetEntry.Flags.OtherApp, 0);
     DragDrop.UnSet(webView);
     DragDrop.SetDestination(window, DragDrop.DefaultDestination.Drop | DragDrop.DefaultDestination.Highlight| DragDrop.DefaultDestination.Motion, 
             target, 1, DragDrop.DragActions.Move);
@@ -145,7 +145,7 @@ var ret = Application.Run(app, () => {
     Gtk.SignalConnect<DragDataReceivedFunc>(window, "drag-data-received", 
         (w, context, x, y, data) => 
         {
-            var text = SelectionData.GetText(data);
+            var text = SelectionData.GetData(data);
             Console.WriteLine(text);
         }
     );
@@ -191,8 +191,8 @@ var ret = Application.Run(app, () => {
     Widget.ShowAll(window);
 
     //WebKit.LoadUri(webView, "https://google.de");
-    //WebKit.LoadUri(webView, "http://localhost:3000/");
-    WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");
+    WebKit.LoadUri(webView, "http://localhost:3000/");
+    //WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");
 });
 
 Console.WriteLine("Das wars");
