@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Tester",
             "type": "coreclr",
             "request": "launch",
             "requireExactSource": true, 
@@ -13,6 +13,20 @@
             "program": "${workspaceFolder}/Tester/bin/Debug/net6.0/linux-x64/Tester.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Tester",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
+        },
+        {
+            "name": "WebTester",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/WebTester/bin/Debug/net6.0/linux-x64/WebTester.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/WebTester",
             "stopAtEntry": false,
             "justMyCode": false,
             "enableStepFiltering": true,

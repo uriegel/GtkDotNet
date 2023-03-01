@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GtkDotNet", "GtkDotNet\GtkDotNet.csproj", "{480E5BFA-73A8-4DB5-9A67-EAD2019E09F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTester", "WebTester\WebTester.csproj", "{12ED178B-C360-418C-89B8-4A0872511075}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{480E5BFA-73A8-4DB5-9A67-EAD2019E09F4}.Release|x64.Build.0 = Release|Any CPU
 		{480E5BFA-73A8-4DB5-9A67-EAD2019E09F4}.Release|x86.ActiveCfg = Release|Any CPU
 		{480E5BFA-73A8-4DB5-9A67-EAD2019E09F4}.Release|x86.Build.0 = Release|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Debug|x64.Build.0 = Debug|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Debug|x86.Build.0 = Debug|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Release|x64.ActiveCfg = Release|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Release|x64.Build.0 = Release|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Release|x86.ActiveCfg = Release|Any CPU
+		{12ED178B-C360-418C-89B8-4A0872511075}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

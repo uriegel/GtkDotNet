@@ -1,5 +1,5 @@
 # GtkDotNet
-.NET 5 Bindings for GTK+ 
+.NET 6 Bindings for GTK+ 
 
 ## Prerequisites
 
