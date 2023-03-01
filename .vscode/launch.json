@@ -75,6 +75,20 @@
             "console": "internalConsole"
         },
         {
+            "name": "6 - WebView",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/6-WebView/bin/Debug/net6.0/6-WebView.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/6-WebView",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
+        },
+        {
             "name": "Example1",
             "type": "coreclr",
             "request": "launch",

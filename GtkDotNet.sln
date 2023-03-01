@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventControllerKey", "Event
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelectionFiltering", "SelectionFiltering\SelectionFiltering.csproj", "{A47FB09A-8968-4B63-849B-3EE61A9C69EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "6-WebView", "6-WebView\6-WebView.csproj", "{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -338,5 +340,17 @@ Global
 		{A47FB09A-8968-4B63-849B-3EE61A9C69EA}.Release|x64.Build.0 = Release|Any CPU
 		{A47FB09A-8968-4B63-849B-3EE61A9C69EA}.Release|x86.ActiveCfg = Release|Any CPU
 		{A47FB09A-8968-4B63-849B-3EE61A9C69EA}.Release|x86.Build.0 = Release|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Debug|x64.Build.0 = Debug|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Debug|x86.Build.0 = Debug|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Release|x64.ActiveCfg = Release|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Release|x64.Build.0 = Release|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Release|x86.ActiveCfg = Release|Any CPU
+		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
