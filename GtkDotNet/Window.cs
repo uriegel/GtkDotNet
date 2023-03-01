@@ -63,6 +63,29 @@ namespace GtkDotNet
         event EventHandler<ConfigureEventArgs> configure;
         ConfigureEventFunc configureFunc;
 
+        public event EventHandler<NotifyEventArgs> LeaveNotify
+        { 
+            add 
+            {
+                leaveNotify += value;
+                leaveNotifyFunc = (a, b, c) => 
+                {
+                    var dea = new NotifyEventArgs();
+                    leaveNotify?.Invoke(this, dea);
+                    return dea.Cancel;  
+                };
+                Raw.Gtk.SignalConnect<NotifyEventFunc>(handle, "leave-notify_event", leaveNotifyFunc);// true cancels the destroy request!
+            }
+            remove 
+            {
+                leaveNotify -= value;
+                Raw.Gtk.SignalDisconnect<NotifyEventFunc>(handle, "leave-notify_event", leaveNotifyFunc);
+                leaveNotify = null;
+            }
+        }
+        event EventHandler<NotifyEventArgs> leaveNotify;
+        NotifyEventFunc leaveNotifyFunc;
+
         #endregion
 
         public (int, int) Size 
@@ -100,5 +123,6 @@ namespace GtkDotNet
 
         delegate bool BoolFunc();
         delegate bool ConfigureEventFunc(IntPtr widget, IntPtr evt);
+        delegate bool NotifyEventFunc(IntPtr widget, IntPtr evt, IntPtr _);
     }
 }

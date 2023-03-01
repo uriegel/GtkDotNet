@@ -2,7 +2,7 @@ using System;
 
 namespace GtkDotNet
 {
-    public class DeleteEventArgs : EventArgs
+    public class NotifyEventArgs : EventArgs
     {
         public bool Cancel { get; set; }
     }

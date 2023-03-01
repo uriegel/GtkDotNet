@@ -1,4 +1,4 @@
-//#define WEBVIEW
+#define WEBVIEW
 #if WEBVIEW
 
 using System;
@@ -14,16 +14,16 @@ var ret =  app.Run(() =>
     //using var builder = new Builder();
     //builder.FromFile("glade");
 
-    try 
-    {
-        GFile.Trash("/home/uwe/test/ablage12");
-        GFile.Trash("/home/uwe/test/web.png");
-        GFile.Trash("/etc");
-    }
-    catch (GErrorException fe)
-    {
-        Console.Error.WriteLine($"Could not delete: {fe.Code}, {fe.Message}");
-    }
+    // try 
+    // {
+    //     GFile.Trash("/home/uwe/test/ablage12");
+    //     GFile.Trash("/home/uwe/test/web.png");
+    //     GFile.Trash("/etc");
+    // }
+    // catch (GErrorException fe)
+    // {
+    //     Console.Error.WriteLine($"Could not delete: {fe.Code}, {fe.Message}");
+    // }
 
     app.RegisterResources();
     app.EnableSynchronizationContext();
@@ -154,8 +154,8 @@ var ret =  app.Run(() =>
 
     var webView = new WebView();
     window.Add(webView);
-    //webView.LoadUri($"file://{Directory.GetCurrentDirectory()}/../webroot/index.html");
-    webView.LoadUri($"http://localhost:3000");
+    webView.LoadUri($"file://{Directory.GetCurrentDirectory()}/../webroot/index.html");
+    //webView.LoadUri($"http://localhost:3000");
     //webView.LoadUri("file:///home/uwe/Dokumente/Functional_Programming_in_CSharp_Second_Edi.pdf");
     var ede = webView.Settings.EnableDeveloperExtras;
     webView.Settings.EnableDeveloperExtras = false;

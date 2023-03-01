@@ -67,6 +67,9 @@ namespace GtkDotNet
 
         public int GetAllocatedHeight() => Raw.Widget.GetAllocatedHeight(handle);
 
+        public void StartDrag(TargetList targetList, Raw.DragDrop.DragActions dragActions, int button, int x, int y) 
+            => Raw.DragDrop.Begin(handle, targetList.handle, dragActions, button, IntPtr.Zero, x, y);
+
         delegate bool KeyPressEventFunc(IntPtr widget, IntPtr evt);
        
     }

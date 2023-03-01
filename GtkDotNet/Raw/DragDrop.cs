@@ -50,5 +50,7 @@ namespace GtkDotNet.Raw
         [DllImport(Globals.LibGtk, EntryPoint="gtk_drag_source_set", CallingConvention = CallingConvention.Cdecl)]
         public extern static void SetSource(IntPtr widget, DefaultDestination defaultDestination, IntPtr targets, int targetCount, DragActions actions);
         
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_drag_begin_with_coordinates", CallingConvention = CallingConvention.Cdecl)]
+        public extern static void Begin(IntPtr widget, IntPtr targetList, DragActions actions, int button, IntPtr zero, int x, int y);
     }
 }
