@@ -8,6 +8,7 @@ namespace GtkDotNet.Raw
         [Flags]
         public enum Flags
         {
+            Default = 0,
             SameApp = 1,
             SameWidget = 2,
             OtherApp = 4,

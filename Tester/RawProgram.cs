@@ -137,10 +137,10 @@ var ret = Application.Run(app, () => {
     GObject.SetBool(settings, "enable-developer-extras", true);
     Container.Add(window, webView);
 
-    var target = TargetEntry.New("text/uri-list", TargetEntry.Flags.OtherApp, 0);
+    var target = TargetEntry.New("text/uri-list", TargetEntry.Flags.Default, 10);
     DragDrop.UnSet(webView);
     DragDrop.SetDestination(window, DragDrop.DefaultDestination.Drop | DragDrop.DefaultDestination.Highlight| DragDrop.DefaultDestination.Motion, 
-            target, 1, DragDrop.DragActions.Move);
+            target, 1, DragDrop.DragActions.Copy);
     TargetEntry.Free(target);
     Gtk.SignalConnect<DragDataReceivedFunc>(window, "drag-data-received", 
         (w, context, x, y, data) => 
@@ -153,7 +153,7 @@ var ret = Application.Run(app, () => {
     Gtk.SignalConnect<DragMotionFunc>(window, "drag-motion", 
         (w, context, x, y) => 
         {
-            Console.WriteLine("motion");
+            Console.WriteLine($"motion {x} {y}");
         }
     );
     
