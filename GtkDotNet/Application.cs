@@ -16,6 +16,9 @@ namespace GtkDotNet
         public int Run(Action onActivate)
             => Raw.Application.Run(app, onActivate);
 
+        public int Run(Action<Application> onActivate)
+            => Raw.Application.Run(app, () => onActivate(this));
+
         public void AddActions(IEnumerable<GtkAction> actions)
             => Raw.Application.AddActions(app, actions);
 
