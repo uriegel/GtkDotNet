@@ -49,6 +49,24 @@ namespace GtkDotNet
         event EventHandler activate;
         Action activateFunc;
 
+        public event EventHandler<DragDataGetEventArgs> DragDataGet
+        { 
+            add 
+            {
+                dragDataGet += value;
+                dragDataGetFunc = (widget, context, selectionData, info, time, _) => dragDataGet?.Invoke(this, new DragDataGetEventArgs());
+                Raw.Gtk.SignalConnect<DragDataGetEventFunc>(handle, "drag-data-get", dragDataGetFunc);
+            }
+            remove 
+            {
+                dragDataGet -= value;
+                Raw.Gtk.SignalDisconnect<DragDataGetEventFunc>(handle, "drag-data-get", dragDataGetFunc);
+                dragDataGetFunc = null;
+            }
+        }
+        event EventHandler<DragDataGetEventArgs> dragDataGet;
+        DragDataGetEventFunc dragDataGetFunc;
+
         #endregion
         
         public bool Visible 
@@ -71,6 +89,6 @@ namespace GtkDotNet
             => Raw.DragDrop.Begin(handle, targetList.handle, dragActions, button, IntPtr.Zero, x, y);
 
         delegate bool KeyPressEventFunc(IntPtr widget, IntPtr evt);
-       
+        delegate void DragDataGetEventFunc(IntPtr widget, IntPtr context, IntPtr selectionData, int info, int time, IntPtr _);
     }
 }

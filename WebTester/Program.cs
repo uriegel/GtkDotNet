@@ -8,29 +8,26 @@ var ret = app.Run(() =>
     var window = new Window();
     var webView = new WebView();
     window.Add(webView);
-    webView.LoadUri($"http://localhost:3000/?theme=adwaita&platform=linux");
-    //webView.LoadUri($"file://{Directory.GetCurrentDirectory()}/../webroot/index.html");
-
-    bool started = false;
-
-    webView.ScriptDialog += (s, e) =>
+    //webView.LoadUri($"http://localhost:3000/?theme=adwaita&platform=linux");
+    webView.LoadUri($"file://{Directory.GetCurrentDirectory()}/../webroot/index.html");
+    webView.Settings.EnableDeveloperExtras = true;
+    
+    webView.ScriptDialog += (s, e) => 
     {
-        // switch (e.Message)
-        // {
-        //     case "drag":
-        Console.WriteLine(e.Message);
-        //         break;
-        // }
+        if (e.Message == "anfang")
+            webView?.Inspector.Show();  
+        else if (e.Message == "dragStart")
+        {
+            Console.WriteLine("dragStart");
+            window.StartDrag(new TargetList(new TargetEntry("text/uri-list", GtkDotNet.Raw.TargetEntry.Flags.Default, 14)), GtkDotNet.Raw.DragDrop.DragActions.Copy, 1, -1, -1);
+        }
+        else if (e.Message == "dragEnd")
+            Console.WriteLine("dragEnd");
     };
 
-    window.LeaveNotify += (s, e) =>
+    window.DragDataGet += (s, e) =>
     {
-        Console.WriteLine("Gelieft");
-        if (!started)
-        {
-            window.StartDrag(new TargetList(new TargetEntry("text/url-list", 0, 0)), GtkDotNet.Raw.DragDrop.DragActions.Copy, 1, -1, -1);
-            started = true;
-        }
+        Console.WriteLine("dragabfrage");
     };
 
     app.AddWindow(window);

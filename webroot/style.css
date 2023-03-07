@@ -89,3 +89,7 @@ h1
 li {
     list-style-type:none;
 }
+#Drag {
+    background-color: blanchedalmond;
+    height: 200px;
+}
