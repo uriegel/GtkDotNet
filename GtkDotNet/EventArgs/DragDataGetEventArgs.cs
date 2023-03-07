@@ -4,5 +4,5 @@ namespace GtkDotNet;
 
 public class DragDataGetEventArgs : EventArgs
 {
-    //public DragDataGetEventArgs(EventKey key) => Key = key;
+    public SelectionData SelectionData { get; internal set; }
 }

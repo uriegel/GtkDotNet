@@ -27,5 +27,7 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="gtk_selection_data_get_data", CallingConvention = CallingConvention.Cdecl)]
         extern static IntPtr GetDataPtr(IntPtr data);
+        [DllImport(Globals.LibGtk, EntryPoint="gtk_selection_data_set_uris", CallingConvention = CallingConvention.Cdecl)]
+        public extern static IntPtr DataSetUris(IntPtr data, string[] uris);
     }
 }

@@ -54,7 +54,8 @@ namespace GtkDotNet
             add 
             {
                 dragDataGet += value;
-                dragDataGetFunc = (widget, context, selectionData, info, time, _) => dragDataGet?.Invoke(this, new DragDataGetEventArgs());
+                dragDataGetFunc = (widget, context, selectionData, info, time, _) 
+                    => dragDataGet?.Invoke(this, new DragDataGetEventArgs(){ SelectionData = new SelectionData(selectionData) });
                 Raw.Gtk.SignalConnect<DragDataGetEventFunc>(handle, "drag-data-get", dragDataGetFunc);
             }
             remove 

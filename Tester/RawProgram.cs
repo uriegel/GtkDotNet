@@ -1,4 +1,4 @@
-﻿//#define RAW
+﻿#define RAW
 #if RAW
 
 using System;
@@ -11,7 +11,7 @@ using GtkDotNet.Raw;
 IntPtr window = IntPtr.Zero;
 IntPtr headerBar = IntPtr.Zero;
 
-var app = Application.New("de.uriegel.test");
+var app = Application.New("de.uriegel.tester");
 
 var file = GFile.New("/home/uwe/notfound");
 var errorp = IntPtr.Zero;

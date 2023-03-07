@@ -28,6 +28,7 @@ var ret = app.Run(() =>
     window.DragDataGet += (s, e) =>
     {
         Console.WriteLine("dragabfrage");
+        e.SelectionData.SetUris(new[] { "file:///home/uwe/test/222.jpg" });
     };
 
     app.AddWindow(window);
