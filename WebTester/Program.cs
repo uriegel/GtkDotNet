@@ -11,10 +11,11 @@ var ret = app.Run(() =>
     //webView.LoadUri($"http://localhost:3000/?theme=adwaita&platform=linux");
     webView.LoadUri($"file://{Directory.GetCurrentDirectory()}/../webroot/index.html");
     webView.Settings.EnableDeveloperExtras = true;
-    
+
     webView.ScriptDialog += (s, e) => 
     {
-        if (e.Message == "anfang")
+        Console.WriteLine(e.Message);
+        if (e.Message == "devtools")
             webView?.Inspector.Show();  
         else if (e.Message == "dragStart")
         {
@@ -23,6 +24,19 @@ var ret = app.Run(() =>
         }
         else if (e.Message == "dragEnd")
             Console.WriteLine("dragEnd");
+    };
+
+    webView.LoadChanged += (s, e) =>
+    {
+        Console.WriteLine($"Load changed: {e.LoadEvent}");
+        if (e.LoadEvent == WebKitLoadEvent.WEBKIT_LOAD_COMMITTED)
+            webView.RunJavascript(
+            """ 
+                const button = document.getElementById('button')
+                const devTools = document.getElementById('devTools')
+                button.onclick = () => alert(`Das is es`)
+                devTools.onclick = () => alert(`devtools`)
+            """);
     };
 
     window.DragDataGet += (s, e) =>

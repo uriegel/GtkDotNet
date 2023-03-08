@@ -35,6 +35,28 @@ namespace GtkDotNet
         event EventHandler<ScriptDialogEventArgs> scriptDialog;
         ScriptDialogFunc scriptDialogFunc;
 
+        public event EventHandler<LoadChangedEventArgs> LoadChanged
+        { 
+            add 
+            {
+                loadChanged += value;
+                loadChangedFunc = (w, e, _) => 
+                    loadChanged?.Invoke(this, new LoadChangedEventArgs()
+                    {
+                        LoadEvent = (WebKitLoadEvent)e
+                    });
+                Raw.Gtk.SignalConnect<WebViewLoadChangedFunc>(handle, "load-changed", loadChangedFunc);
+            }
+            remove 
+            {
+                loadChanged -= value;
+                Raw.Gtk.SignalDisconnect<WebViewLoadChangedFunc>(handle, "load-changed", loadChangedFunc);
+                loadChangedFunc = null;
+            }
+        }
+        event EventHandler<LoadChangedEventArgs> loadChanged;
+        WebViewLoadChangedFunc loadChangedFunc;
+
         #endregion
 
         public WebKitSettings Settings { get; }
@@ -62,6 +84,7 @@ namespace GtkDotNet
         public void RunJavascript(string script)
             => Raw.WebKit.RunJavascript(handle, script);
         delegate bool ScriptDialogFunc(IntPtr webView, IntPtr dialog);
+        delegate void WebViewLoadChangedFunc(IntPtr widget, WebKitLoadEvent loadEvent, IntPtr data);
         delegate bool BoolFunc();
     }
 }

@@ -1,9 +1,8 @@
 using System;
 
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public class ScriptDialogEventArgs : EventArgs
 {
-    public class ScriptDialogEventArgs : EventArgs
-    {
-        public string Message { get; init; }
-    }
+    public string Message { get; init; }
 }

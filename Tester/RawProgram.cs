@@ -3,8 +3,8 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using GtkDotNet.Raw;
 
@@ -133,6 +133,33 @@ var ret = Application.Run(app, () => {
     GObject.Unref(pixbuf);
 
     var webView = WebKit.New();
+    WebKit.RunJavascript(webView, "alert('Hallo')");
+    Console.WriteLine($"TID {Thread.CurrentThread.ManagedThreadId}");
+    Gtk.SignalConnect<WebViewLoadChangedFunc>(webView, "load-changed", 
+        (w, e, data) => 
+        {
+            async void Run()
+            {
+                await Task.Delay(1000);
+                WebKit.RunJavascript(webView, $"alert('Hallo' {e})");
+                Console.WriteLine($"TID signal run {Thread.CurrentThread.ManagedThreadId}");
+            }
+                
+            Run();
+            Console.WriteLine($"TID signal {Thread.CurrentThread.ManagedThreadId}");
+            Console.WriteLine($"load-changed: {e}");
+            if (e == 3) {
+                    WebKit.RunJavascript(webView,
+    @"""            const button = document.getElementById('button')
+                    alert(button)
+                    const devTools = document.getElementById('devTools')
+                    button.onclick = () => alert(`Das is es`)
+""");
+            }
+        }
+    );
+
+
     var settings = WebKit.GetSettings(webView);
     GObject.SetBool(settings, "enable-developer-extras", true);
     Container.Add(window, webView);
@@ -168,32 +195,32 @@ var ret = Application.Run(app, () => {
         return false;
     });
 
-    ScriptDialogFunc scripDialogFunc = (_, dialog) => {
-        var ptr = WebKit.ScriptDialogGetMessage(dialog);
-        var text = Marshal.PtrToStringUTF8(ptr);
-        switch (text) 
-        {
-            case "anfang":
-                WebKit.RunJavascript(webView, "var affe = 'Ein Äffchen'");
-                break;
-            case "devTools":
-                var inspector = WebKit.GetInspector(webView);
-                WebKit.InspectorShow(inspector);
-                break;
-            default:
-                Console.WriteLine($"---ALERT--- {text}");
-                break;
-        }
-        return true;
-    };
-    Gtk.SignalConnect(webView, "script-dialog", scripDialogFunc);
+    // ScriptDialogFunc scripDialogFunc = (_, dialog) => {
+    //     var ptr = WebKit.ScriptDialogGetMessage(dialog);
+    //     var text = Marshal.PtrToStringUTF8(ptr);
+    //     switch (text) 
+    //     {
+    //         case "anfang":
+    //             WebKit.RunJavascript(webView, "var affe = 'Ein Äffchen'");
+    //             break;
+    //         case "devTools":
+    //             var inspector = WebKit.GetInspector(webView);
+    //             WebKit.InspectorShow(inspector);
+    //             break;
+    //         default:
+    //             Console.WriteLine($"---ALERT--- {text}");
+    //             break;
+    //     }
+    //     return true;
+    // };
+    //Gtk.SignalConnect(webView, "script-dialog", scripDialogFunc);
     Gtk.SignalConnect<BoolFunc>(webView, "context-menu", () => true);
     Widget.ShowAll(window);
 
     //WebKit.LoadUri(webView, "https://google.de");
-    WebKit.LoadUri(webView, "http://localhost:3000/");
+    //WebKit.LoadUri(webView, "http://localhost:3000/");
 
-    //WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");
+    WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");
 });
 
 Console.WriteLine("Das wars");
@@ -203,5 +230,6 @@ delegate bool ScriptDialogFunc(IntPtr webView, IntPtr dialog);
 delegate bool ConfigureEventFunc(IntPtr widget, IntPtr evt);
 delegate void DragMotionFunc(IntPtr widget, IntPtr context, int x, int y);
 delegate void DragDataReceivedFunc(IntPtr widget, IntPtr context, int x, int y, IntPtr data);
+delegate void WebViewLoadChangedFunc(IntPtr widget, int loadEvent, IntPtr data);
 
 #endif
