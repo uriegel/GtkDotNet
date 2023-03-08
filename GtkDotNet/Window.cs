@@ -105,6 +105,7 @@ namespace GtkDotNet
         public void Maximize() => Raw.Window.Maximize(handle);
         public bool IsMaximized() => Raw.Window.IsMaximized(handle);
         public void Move(int x, int y) => Raw.Window.Move(handle, x, y);
+        public void Resize(int width, int height) => Raw.Window.Resize(handle, width, height);
         public (int, int) GetPosition() 
         {
             Raw.Window.GetPosition(handle, out var x, out var y);

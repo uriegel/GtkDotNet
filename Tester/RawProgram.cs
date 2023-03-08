@@ -121,10 +121,12 @@ var ret = Application.Run(app, () => {
 
     Application.AddWindow(app, window);
 
-    Window.SetTitle(window, "Web View 😎😎👌");            
-    Window.SetDefaultSize(window, 300, 300);
-    Widget.SetSizeRequest(window, 200, 100);
-    Window.Move(window, 2900, 456);
+    Window.SetTitle(window, "Web View 😎😎👌");
+    // Window.SetDefaultSize(window, 300, 300);
+    // Widget.SetSizeRequest(window, 200, 100);
+    // Window.Move(window, 2900, 456);
+    //Window.Resize(window, 1600, 140);
+    Window.SetDefaultSize(window, 1600, 900);
 
 
     //var pixbuf = Pixbuf.NewFromFile("../resources/kirk.png", IntPtr.Zero);
