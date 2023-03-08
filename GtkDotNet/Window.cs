@@ -40,10 +40,10 @@ namespace GtkDotNet
                     var evt = Marshal.PtrToStructure<Raw.ConfigureEvent>(e);
                     var cea = new ConfigureEventArgs()
                     {
-                        EventType = evt.EventType,
+                        EventType = (GdkEventType)evt.EventType,
                         Height = evt.Height,
                         Width = evt.Width,
-                        SendEvent = evt.SendEvent,
+                        SendEvent = evt.SendEvent != 0,
                         X = evt.X,
                         Y = evt.Y
 
