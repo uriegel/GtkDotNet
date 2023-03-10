@@ -166,6 +166,25 @@ var ret = Application.Run(app, () => {
     GObject.SetBool(settings, "enable-developer-extras", true);
     Container.Add(window, webView);
 
+    var webKitContext = WebKitContext.GetDefault();
+    WebKitContext.RegisterUriScheme(webKitContext, "sample", r =>
+    {
+        var ret = WebKitUriScheme.GetScheme(r);
+        var text = Marshal.PtrToStringUTF8(ret);
+        ret = WebKitUriScheme.GetUri(r);
+        text = Marshal.PtrToStringUTF8(ret);
+        ret = WebKitUriScheme.GetPath(r);
+        text = Marshal.PtrToStringUTF8(ret);
+        var content = "<html><body><p>Example about page</p></body></html>";
+        var stream = GtkDotNet.Raw.MemoryStream.NewInputStreamFromData(GObject.StringDup(content), content.Length, data => 
+        {
+            GObject.Free(data);
+        });
+        WebKitUriScheme.Finish(r, stream, content.Length, "text/html");
+        GObject.Unref(stream);
+
+    }, IntPtr.Zero, IntPtr.Zero);
+
     var target = TargetEntry.New("text/uri-list", TargetEntry.Flags.Default, 10);
     DragDrop.UnSet(webView);
     DragDrop.SetDestination(window, DragDrop.DefaultDestination.Drop | DragDrop.DefaultDestination.Highlight| DragDrop.DefaultDestination.Motion, 
@@ -223,6 +242,7 @@ var ret = Application.Run(app, () => {
     //WebKit.LoadUri(webView, "http://localhost:3000/");
 
     WebKit.LoadUri(webView, $"file://{System.IO.Directory.GetCurrentDirectory()}/../webroot/index.html");
+    WebKit.LoadUri(webView, "sample://affe");
 });
 
 Console.WriteLine("Das wars");

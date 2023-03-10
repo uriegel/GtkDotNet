@@ -10,7 +10,10 @@ namespace GtkDotNet.Raw
 
         [DllImport(Globals.LibGtk, EntryPoint="g_free", CallingConvention = CallingConvention.Cdecl)]
         public extern static void Free(IntPtr obj);
-        
+
+        [DllImport(Globals.LibGtk, EntryPoint="g_strdup", CallingConvention = CallingConvention.Cdecl)]
+        public extern static IntPtr StringDup(string str);
+                 
         public static void SetBool(IntPtr obj, string name, bool value)
             => SetBool(obj, name, value, IntPtr.Zero);
         public static bool GetBool(IntPtr obj, string name)
