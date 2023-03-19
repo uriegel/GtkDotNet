@@ -1,4 +1,4 @@
-//#define WEBVIEW
+#define WEBVIEW
 #if WEBVIEW
 
 using System;
@@ -39,6 +39,15 @@ var ret =  app.Run(() =>
 
     using var iconInfo = IconInfo.Choose(".pdf", 64, IconLookup.ForceSvg);
     var iconFile = iconInfo.GetFileName();
+
+    async void StartTest()
+    {
+        await Task.Delay(4000);
+        using var iconInfo = IconInfo.Choose(".pdf", 64, IconLookup.ForceSvg);
+        var iconFile = iconInfo.GetFileName();
+        var test = 9;
+    }
+    StartTest();
 
     app.AddActions(new[] {
         new GtkAction("destroy", () => window.Close(), "<Ctrl>Q"),

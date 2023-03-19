@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace GtkDotNet
 {
@@ -85,6 +86,24 @@ namespace GtkDotNet
             var delegat = mainFunction as Delegate;
             var funcPtr = Marshal.GetFunctionPointerForDelegate(delegat);
             Raw.Gtk.IdleAddFull(priority, funcPtr, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        public Task Dispatch(Action action, int priority)
+        {
+            var tcs = new TaskCompletionSource();
+            BeginInvoke(priority, () =>
+            {
+                action();
+                tcs.SetResult();
+            });
+            return tcs.Task;
+        }
+
+        public Task<T> Dispatch<T>(Func<T> action, int priority)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            BeginInvoke(priority, () => tcs.SetResult(action()));
+            return tcs.Task;
         }
 
         delegate bool IdleFunctionDelegate(IntPtr zero);

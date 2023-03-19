@@ -3,9 +3,9 @@
   <PropertyGroup>
     <OutputType>library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-		<Version>5.10.0</Version>
-		<FileVersion>5.10.0.0</FileVersion>
-		<AssemblyVersion>5.10.0.0</AssemblyVersion>
+		<Version>5.11.0</Version>
+		<FileVersion>5.11.0.0</FileVersion>
+		<AssemblyVersion>5.11.0.0</AssemblyVersion>
 		<Authors>Uwe Riegel</Authors>
     	<Company>Uwe Riegel</Company>		
 		<Description>.NET 6 Bindings for GTK+</Description>
