@@ -1,4 +1,4 @@
-﻿//#define RAW
+﻿#define RAW
 #if RAW
 
 using System;
@@ -130,7 +130,49 @@ var ret = Application.Run(app, () => {
 
 
     //var pixbuf = Pixbuf.NewFromFile("../resources/kirk.png", IntPtr.Zero);
-    var pixbuf = Pixbuf.NewFromResource("/de/uriegel/test/kirk.png", IntPtr.Zero);
+
+
+
+
+
+
+
+
+
+
+    var resIcon = System.Reflection.Assembly
+            .GetEntryAssembly()
+            ?.GetManifestResourceStream("icon.png");
+
+    var bytes = GtkDotNet.Raw.GObject.Malloc((int)resIcon.Length);
+    unsafe
+    {
+        var nativeSpan = new Span<byte>(bytes.ToPointer(), (int)resIcon.Length);
+        resIcon.Read(nativeSpan);
+    }
+    
+    var stream = GtkDotNet.Raw.MemoryStream.NewInputStreamFromData(bytes, (int)resIcon.Length, data => 
+    {
+        GtkDotNet.Raw.GObject.Free(data);
+    });
+
+    var pixbuf = GtkDotNet.Raw.Pixbuf.NewFromStream(stream, IntPtr.Zero, IntPtr.Zero);
+
+    GObject.Unref(stream);
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //    var pixbuf = Pixbuf.NewFromResource("/de/uriegel/test/kirk.png", IntPtr.Zero);
     Window.SetIcon(window, pixbuf);
     GObject.Unref(pixbuf);
 

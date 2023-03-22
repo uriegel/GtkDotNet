@@ -1,8 +1,9 @@
-#define WEBVIEW
+//#define WEBVIEW
 #if WEBVIEW
 
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -215,6 +216,9 @@ var ret =  app.Run(() =>
 
     app.AddWindow(window);
     window.SetTitle("Web View 😎😎👌");
+
+
+
 
     using var resourceStream = new ResourceStream("/de/uriegel/test/web/index.html");
     var size = resourceStream.Length;

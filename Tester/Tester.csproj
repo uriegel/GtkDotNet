@@ -18,6 +18,9 @@
     <EmbeddedResource Include="../resources/resources.gresource">
       <LogicalName>app.gresource</LogicalName>
     </EmbeddedResource>  
+    <EmbeddedResource Include="../resources/kirk.png">
+      <LogicalName>icon.png</LogicalName>
+    </EmbeddedResource>  
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

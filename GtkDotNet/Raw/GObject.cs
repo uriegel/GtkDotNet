@@ -5,6 +5,9 @@ namespace GtkDotNet.Raw
 {
     public class GObject
     {
+        [DllImport(Globals.LibGtk, EntryPoint="g_malloc", CallingConvention = CallingConvention.Cdecl)]
+        public extern static IntPtr Malloc(int bytes);
+
         [DllImport(Globals.LibGtk, EntryPoint="g_object_unref", CallingConvention = CallingConvention.Cdecl)]
         public extern static void Unref(IntPtr obj);
 

@@ -11,5 +11,7 @@ namespace GtkDotNet.Raw
         [DllImport(Globals.LibGtk, EntryPoint="gdk_pixbuf_new_from_resource", CallingConvention = CallingConvention.Cdecl)]
         public extern static IntPtr NewFromResource(string resourcePath, IntPtr err);
          
+        [DllImport(Globals.LibGtk, EntryPoint="gdk_pixbuf_new_from_stream", CallingConvention = CallingConvention.Cdecl)]
+        public extern static IntPtr NewFromStream(IntPtr gstream, IntPtr cancellable, IntPtr err);
     }
 }
