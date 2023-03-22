@@ -9,12 +9,7 @@ var ret = app.Run(() =>
     var webView = new WebView();
     window.Add(webView);
 
-    var resIcon = System.Reflection.Assembly
-            .GetEntryAssembly()
-            ?.GetManifestResourceStream("icon.png");
-    using var ms = new GtkDotNet.MemoryStream(resIcon);
-    using var pixbuf = Pixbuf.FromStream(ms);
-    window.SetIcon(pixbuf);
+    window.SetIconFromCSharpResource("icon.png");
     //webView.LoadUri($"http://localhost:3000/?theme=adwaita&platform=linux");
     webView.LoadUri($"file://{Directory.GetCurrentDirectory()}/../webroot/index.html");
     webView.Settings.EnableDeveloperExtras = true;

@@ -120,6 +120,16 @@ namespace GtkDotNet
             SetIcon(pixbuf);
         } 
 
+        public void SetIconFromCSharpResource(string path) 
+        {
+            var resIcon = System.Reflection.Assembly
+                .GetEntryAssembly()
+                ?.GetManifestResourceStream("icon.png");
+            using var ms = new GtkDotNet.MemoryStream(resIcon);
+            using var pixbuf = Pixbuf.FromStream(ms);
+            SetIcon(pixbuf);
+        } 
+
         public void Close() => Raw.Window.Close(handle);
 
         delegate bool BoolFunc();
