@@ -124,7 +124,7 @@ namespace GtkDotNet
         {
             var resIcon = System.Reflection.Assembly
                 .GetEntryAssembly()
-                ?.GetManifestResourceStream("icon.png");
+                ?.GetManifestResourceStream(path);
             using var ms = new GtkDotNet.MemoryStream(resIcon);
             using var pixbuf = Pixbuf.FromStream(ms);
             SetIcon(pixbuf);
