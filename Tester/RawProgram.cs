@@ -151,26 +151,10 @@ var ret = Application.Run(app, () => {
         resIcon.Read(nativeSpan);
     }
     
-    var stream = GtkDotNet.Raw.MemoryStream.NewInputStreamFromData(bytes, (int)resIcon.Length, data => 
-    {
-        GtkDotNet.Raw.GObject.Free(data);
-    });
-
+    var stream = GtkDotNet.Raw.MemoryStream.NewInputStreamFromData(bytes, (int)resIcon.Length, data => GtkDotNet.Raw.GObject.Free(data));
     var pixbuf = GtkDotNet.Raw.Pixbuf.NewFromStream(stream, IntPtr.Zero, IntPtr.Zero);
 
     GObject.Unref(stream);
-
-
-
-
-
-
-
-
-
-
-
-
 
     //    var pixbuf = Pixbuf.NewFromResource("/de/uriegel/test/kirk.png", IntPtr.Zero);
     Window.SetIcon(window, pixbuf);
@@ -218,10 +202,7 @@ var ret = Application.Run(app, () => {
         ret = WebKitUriScheme.GetPath(r);
         text = Marshal.PtrToStringUTF8(ret);
         var content = "<html><body><p>Example about page</p></body></html>";
-        var stream = GtkDotNet.Raw.MemoryStream.NewInputStreamFromData(GObject.StringDup(content), content.Length, data => 
-        {
-            GObject.Free(data);
-        });
+        var stream = GtkDotNet.Raw.MemoryStream.NewInputStreamFromData(GObject.StringDup(content), content.Length, data => GObject.Free(data));
         WebKitUriScheme.Finish(r, stream, content.Length, "text/html");
         GObject.Unref(stream);
 

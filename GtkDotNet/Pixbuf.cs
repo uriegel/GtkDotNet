@@ -6,6 +6,10 @@ namespace GtkDotNet
     {
         public static Pixbuf FromResource(string path) 
             => new Pixbuf(Raw.Pixbuf.NewFromResource(path, IntPtr.Zero));
+
+        public static Pixbuf FromStream(MemoryStream inutStream) 
+            => new Pixbuf(Raw.Pixbuf.NewFromStream(inutStream.handle, IntPtr.Zero, IntPtr.Zero));
+
         Pixbuf(IntPtr pixbuf) : base(new GObject(pixbuf)) { }
         
         #region IDisposable

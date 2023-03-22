@@ -13,4 +13,10 @@
     <ProjectReference Include="..\GtkDotNet\GtkDotNet.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="../resources/kirk.png">
+      <LogicalName>icon.png</LogicalName>
+    </EmbeddedResource>  
+  </ItemGroup>
+
 </Project>
