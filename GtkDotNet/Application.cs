@@ -70,6 +70,14 @@ namespace GtkDotNet
             => SynchronizationContext.SetSynchronizationContext(new GtkSynchronizationContext(this));
 
         /// <summary>
+        /// Run the specified Action in the main GTK thread, normal or high priority 
+        /// </summary>
+        /// <param name="action">Action which runs in main thread</param>
+        /// <param name="highPriority"></param>
+        public void BeginInvoke(Action action, bool highPriority = false)
+            => BeginInvoke(highPriority ? 100 : 200, action);
+
+        /// <summary>
         /// Run the specified Action in the main GTK thread
         /// </summary>
         /// <param name="priority">Between 100 (high), 200 (idle) and 300 (low)</param>
@@ -88,21 +96,44 @@ namespace GtkDotNet
             Raw.Gtk.IdleAddFull(priority, funcPtr, IntPtr.Zero, IntPtr.Zero);
         }
 
+        public Task Dispatch(Action action, bool highPriority = false)
+            => Dispatch(action, highPriority ? 100 : 200);
+
         public Task Dispatch(Action action, int priority)
         {
             var tcs = new TaskCompletionSource();
             BeginInvoke(priority, () =>
             {
-                action();
-                tcs.SetResult();
+                try
+                {
+                    action();
+                    tcs.TrySetResult();
+                }
+                catch (Exception e)
+                {
+                    tcs.TrySetException(e);
+                }
             });
             return tcs.Task;
         }
 
+        public Task<T> Dispatch<T>(Func<T> action, bool highPriority = false)
+            => Dispatch(action, highPriority ? 100 : 200);
+
         public Task<T> Dispatch<T>(Func<T> action, int priority)
         {
             var tcs = new TaskCompletionSource<T>();
-            BeginInvoke(priority, () => tcs.SetResult(action()));
+            BeginInvoke(priority, () => 
+            {
+                try
+                {
+                    tcs.TrySetResult(action());
+                }
+                catch (Exception e)
+                {
+                    tcs.TrySetException(e);
+                }
+            });
             return tcs.Task;
         }
 
