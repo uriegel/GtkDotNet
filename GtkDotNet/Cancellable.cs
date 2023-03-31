@@ -1,13 +1,15 @@
 using System;
+using System.Threading;
 
 namespace GtkDotNet;
 
 public class Cancellable : GObject, IDisposable
 {
-    private bool disposedValue;
-
     public Cancellable() : base(Raw.Cancellable.New()) {}
 
+    public Cancellable(CancellationToken cancellationToken) : base(Raw.Cancellable.New()) 
+        => cancellationToken.Register(Cancel);
+    
     public void Cancel() => Raw.Cancellable.Cancel(handle);
 
     #region IDisposable
@@ -16,13 +18,13 @@ public class Cancellable : GObject, IDisposable
     {
         if (!disposedValue)
         {
-            if (disposing)
-            {
+            //if (disposing)
                 // Verwalteten Zustand (verwaltete Objekte) bereinigen
-            }
+           
 
             // Nicht verwaltete Ressourcen (nicht verwaltete Objekte) freigeben und Finalizer überschreiben
             // Große Felder auf NULL setzen
+            
             Raw.GObject.Unref(handle);
             disposedValue = true;
         }
@@ -40,5 +42,7 @@ public class Cancellable : GObject, IDisposable
         GC.SuppressFinalize(this);
     }
 
+    bool disposedValue;
+    
     #endregion
 }

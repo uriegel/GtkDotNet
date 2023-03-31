@@ -5,6 +5,21 @@ var ret = app.Run(() =>
 {
     app.EnableSynchronizationContext();
 
+
+    var cancellation = new CancellationTokenSource();
+    Task.Factory.StartNew(() =>
+    {
+
+        GFile.Copy("/media/uwe/Home/Videos/Tatort - Dunkle Wege.mp4", "/home/uwe/film.mp4", GtkDotNet.FileCopyFlags.Overwrite, true,
+            (c, t) => Console.WriteLine($"Copying {c}/{t}"), cancellation.Token);
+    });
+
+    Task.Factory.StartNew(async () =>
+    {
+        await Task.Delay(1000);
+        cancellation.Cancel();
+    });
+
     var window = new Window();
     var webView = new WebView();
     window.Add(webView);

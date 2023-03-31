@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 
 namespace GtkDotNet
 {
@@ -9,13 +10,18 @@ namespace GtkDotNet
 
         public static void Copy(string source, string destination, FileCopyFlags flags, ProgressCallback cb)
             => Copy(source, destination, flags, false, cb);
-        public static void Copy(string source, string destination, FileCopyFlags flags, bool createTargetPath, ProgressCallback cb)
+
+        public static void Copy(string source, string destination, FileCopyFlags flags, bool createTargetPath, ProgressCallback cb)            
+            => Copy(source, destination, flags, createTargetPath, cb, null);
+        
+        public static void Copy(string source, string destination, FileCopyFlags flags, bool createTargetPath, ProgressCallback cb, CancellationToken? cancellation)
         {
+            using var cancellable = cancellation.HasValue ? new Cancellable(cancellation.Value) : null;
             using var sourceFile = new GFile(source);
             using var destinationFile = new GFile(destination);
             var error = IntPtr.Zero;
             Raw.GFile.FileProgressCallback rcb = cb != null ? (c, t, _) => cb(c, t) : null;
-            if (!Raw.GFile.Copy(sourceFile.handle, destinationFile.handle, flags, IntPtr.Zero, rcb, IntPtr.Zero, ref error))
+            if (!Raw.GFile.Copy(sourceFile.handle, destinationFile.handle, flags, cancellable?.handle ?? IntPtr.Zero, rcb, IntPtr.Zero, ref error))
             {
                 var gerror = new GError(error);
                 if (createTargetPath && gerror.Domain == 232 && gerror.Code == 1 && File.Exists(source))
@@ -30,7 +36,7 @@ namespace GtkDotNet
                     {
                         throw GErrorException.New(new GError(232, 14, "Access Denied"), source, destination);
                     }
-                    Copy(source, destination, flags, true, cb);
+                    Copy(source, destination, flags, true, cb, cancellation);
                 }
                 else
                     throw GErrorException.New(gerror, source, destination);
@@ -40,7 +46,10 @@ namespace GtkDotNet
         public static void Move(string source, string destination, FileCopyFlags flags, ProgressCallback cb)
             => Move(source, destination, flags, false, cb);
 
-        public static void Move(string source, string destination, FileCopyFlags flags, bool createTargetPath, ProgressCallback cb)
+        public static void Move(string source, string destination, FileCopyFlags flags, bool createTargetPath, ProgressCallback cb)            
+            => Move(source, destination, flags, createTargetPath, cb, null);
+
+        public static void Move(string source, string destination, FileCopyFlags flags, bool createTargetPath, ProgressCallback cb, CancellationToken? cancellation)
         {
             using var sourceFile = new GFile(source);
             using var destinationFile = new GFile(destination);
