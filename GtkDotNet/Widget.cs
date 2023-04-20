@@ -76,5 +76,8 @@ public class Widget
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_remove_css_class", CallingConvention = CallingConvention.Cdecl)]
     public extern static void RemoveCssClass(IntPtr widget, string cssClass);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_display", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetDisplay(IntPtr widget);
 }
 

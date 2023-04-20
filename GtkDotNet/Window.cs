@@ -50,11 +50,14 @@ public class Window
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_application", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetApplication(IntPtr window, IntPtr application);
 
-    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_get_position", CallingConvention = CallingConvention.Cdecl)]
-    extern static void GetPosition(IntPtr window, out int x, out int y);
-
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_get_size", CallingConvention = CallingConvention.Cdecl)]
-    extern static void GetSize(IntPtr window, out int width, out int height);  
+    public extern static void GetSize(IntPtr window, out int width, out int height);  
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_get_position", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void GetPosition(IntPtr window, out int x, out int y);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_icon_name", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetIconName(IntPtr window, string name);  
 }
 
 
