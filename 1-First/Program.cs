@@ -6,7 +6,7 @@ Action onActivate = () =>
 {
     var window = Application.NewWindow(app);
     Window.SetTitle(window, "Hello Gtk👍");
-    Window.SetDefaultSize(window, 200, 200);
+    Window.SetDefaultSize(window, 1200, 1200);
     Widget.Show(window);
 };
 

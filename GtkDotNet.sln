@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelectionFiltering", "Selec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "6-WebView", "6-WebView\6-WebView.csproj", "{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebWindowLinuxTester", "WebWindowLinuxTester\WebWindowLinuxTester.csproj", "{52A64E3D-8593-4930-909A-8B8076DA8046}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -352,5 +354,17 @@ Global
 		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Release|x64.Build.0 = Release|Any CPU
 		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Release|x86.ActiveCfg = Release|Any CPU
 		{5D6DD5E1-EF4A-4D7D-AD1E-9BEC2775B86B}.Release|x86.Build.0 = Release|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Debug|x64.Build.0 = Debug|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Debug|x86.Build.0 = Debug|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Release|x64.ActiveCfg = Release|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Release|x64.Build.0 = Release|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Release|x86.ActiveCfg = Release|Any CPU
+		{52A64E3D-8593-4930-909A-8B8076DA8046}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

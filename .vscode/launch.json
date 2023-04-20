@@ -89,6 +89,20 @@
             "console": "internalConsole"
         },
         {
+            "name": "7 - WebWindowLinuxTester",
+            "type": "coreclr",
+            "request": "launch",
+            "requireExactSource": true, 
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/WebWindowLinuxTester/bin/Debug/net6.0/linux-x64/WebWindowLinuxTester.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/WebWindowLinuxTester",
+            "stopAtEntry": false,
+            "justMyCode": false,
+            "enableStepFiltering": true,
+            "console": "internalConsole"
+        },
+        {
             "name": "Example1",
             "type": "coreclr",
             "request": "launch",
