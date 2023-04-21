@@ -18,10 +18,9 @@ public class WebView : WebWindowNetCore.Base.WebView
 
             var display = Widget.GetDisplay(window);
             var theme = Display.IconThemeForDisplay(display);
-            IconTheme.AddSearchPath(theme, "/home/uwe/Projekte/commander/Commander");
-            var paintable = IconTheme.LookupIcon(theme, "kirki", IntPtr.Zero, 48, 1, TextDirection.None, IconLookup.None);
-
-            Window.SetIconName(window, "kirk.png");
+            IconTheme.AddSearchPath(theme, "/home/uwe"); // /home/uwe/hicolor/48x48/apps/kirk.png
+            var hasIt = IconTheme.HasIcon(theme, "kirk");
+            Window.SetIconName(window, "kirk");
 
             Widget.Show(window);
         };

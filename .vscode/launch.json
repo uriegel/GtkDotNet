@@ -100,7 +100,7 @@
             "stopAtEntry": false,
             "justMyCode": false,
             "enableStepFiltering": true,
-            "console": "internalConsole"
+            "console": "integratedTerminal"
         },
         {
             "name": "Example1",
