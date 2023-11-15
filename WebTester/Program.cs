@@ -6,19 +6,19 @@ var ret = app.Run(() =>
     app.EnableSynchronizationContext();
 
 
-    var cancellation = new CancellationTokenSource();
-    Task.Factory.StartNew(() =>
-    {
+    // var cancellation = new CancellationTokenSource();
+    // Task.Factory.StartNew(() =>
+    // {
 
-        GFile.Copy("/media/uwe/Home/Videos/Tatort - Dunkle Wege.mp4", "/home/uwe/film.mp4", GtkDotNet.FileCopyFlags.Overwrite, true,
-            (c, t) => Console.WriteLine($"Copying {c}/{t}"), cancellation.Token);
-    });
+    //     GFile.Copy("/media/uwe/Home/Videos/Tatort - Dunkle Wege.mp4", "/home/uwe/film.mp4", GtkDotNet.FileCopyFlags.Overwrite, true,
+    //         (c, t) => Console.WriteLine($"Copying {c}/{t}"), cancellation.Token);
+    // });
 
-    Task.Factory.StartNew(async () =>
-    {
-        await Task.Delay(1000);
-        cancellation.Cancel();
-    });
+    // Task.Factory.StartNew(async () =>
+    // {
+    //     await Task.Delay(1000);
+    //     cancellation.Cancel();
+    // });
 
     var window = new Window();
     var webView = new WebView();
@@ -36,7 +36,7 @@ var ret = app.Run(() =>
             webView?.Inspector.Show();  
         else if (e.Message == "dragStart")
         {
-            Console.WriteLine("dragStart");
+            Console.WriteLine("dragStart ja");
             window.StartDrag(new TargetList(new TargetEntry("text/uri-list", GtkDotNet.Raw.TargetEntry.Flags.Default, 14)), GtkDotNet.Raw.DragDrop.DragActions.Copy, 1, -1, -1);
         }
         else if (e.Message == "dragEnd")
@@ -49,17 +49,17 @@ var ret = app.Run(() =>
         if (e.LoadEvent == WebKitLoadEvent.WEBKIT_LOAD_COMMITTED)
             webView.RunJavascript(
             """ 
-                const button = document.getElementById('button')
-                const devTools = document.getElementById('devTools')
-                button.onclick = () => alert(`Das is es`)
-                devTools.onclick = () => alert(`devtools`)
+                // const button = document.getElementById('button')
+                // const devTools = document.getElementById('devTools')
+                // button.onclick = () => alert(`Das is es`)
+                // devTools.onclick = () => alert(`devtools`)
             """);
     };
 
     window.DragDataGet += (s, e) =>
     {
         Console.WriteLine("dragabfrage");
-        e.SelectionData.SetUris(new[] { "file:///home/uwe/test/222.jpg" });
+        e.SelectionData.SetUris(new[] { "file:///home/uwe/test"});
     };
 
     app.AddWindow(window);
