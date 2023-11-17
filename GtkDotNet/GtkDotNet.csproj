@@ -3,10 +3,10 @@
   <PropertyGroup>
     <OutputType>library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-		<Version>6.0.3-alpha</Version>
-		<FileVersion>6.0.3.0</FileVersion>
+		<Version>6.0.4-alpha</Version>
+		<FileVersion>6.0.4.0</FileVersion>
 		<AssemblyName>GtkDotNet</AssemblyName>
-		<AssemblyVersion>6.0.3.0</AssemblyVersion>
+		<AssemblyVersion>6.0.4.0</AssemblyVersion>
 		<Authors>Uwe Riegel</Authors>
     	<Company>Uwe Riegel</Company>		
 		<Description>.NET 6 Bindings for GTK 3</Description>
