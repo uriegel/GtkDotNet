@@ -1,16 +1,25 @@
 using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace GtkDotNet;
 
-public class Cancellable : GObject, IDisposable
+public class Cancellable : IDisposable
 {
-    public Cancellable() : base(Raw.Cancellable.New()) {}
+    public Cancellable() => handle = New();
 
-    public Cancellable(CancellationToken cancellationToken) : base(Raw.Cancellable.New()) 
+    public Cancellable(CancellationToken cancellationToken) : this()
         => cancellationToken.Register(Cancel);
     
-    public void Cancel() => Raw.Cancellable.Cancel(handle);
+    public void Cancel() => Cancel(handle);
+
+    [DllImport(Globals.LibGio, EntryPoint = "g_cancellable_new", CallingConvention = CallingConvention.Cdecl)]
+    extern static IntPtr New();
+
+    [DllImport(Globals.LibGio, EntryPoint = "g_cancellable_cancel", CallingConvention = CallingConvention.Cdecl)]
+    extern static void Cancel(IntPtr handle);
+
+    internal IntPtr handle;
 
     #region IDisposable
 
@@ -25,7 +34,7 @@ public class Cancellable : GObject, IDisposable
             // Nicht verwaltete Ressourcen (nicht verwaltete Objekte) freigeben und Finalizer überschreiben
             // Große Felder auf NULL setzen
             
-            Raw.GObject.Unref(handle);
+            GObject.Unref(handle);
             disposedValue = true;
         }
     }

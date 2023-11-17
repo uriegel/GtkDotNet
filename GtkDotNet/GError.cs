@@ -1,35 +1,38 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace GtkDotNet
+namespace GtkDotNet;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct GError  
 {
-    [StructLayout(LayoutKind.Sequential)]
-    public struct GError  
+    public uint Domain;
+    public int Code;
+    public string Message;
+
+    internal GError(uint domain, int code, string message)
     {
-        public uint Domain;
-        public int Code;
-        public string Message;
+        Domain = domain;
+        Code = code;
+        Message = message;
+    }
 
-        internal GError(uint domain, int code, string message)
+    internal GError(IntPtr error)
+    {
+        if (error != IntPtr.Zero)
         {
-            Domain = domain;
-            Code = code;
-            Message = message;
+            this = Marshal.PtrToStructure<GError>(error);
+            Free(error);
         }
-
-        internal GError(IntPtr error)
+        else
         {
-            if (error != IntPtr.Zero)
-            {
-                this = Marshal.PtrToStructure<GError>(error);
-                Raw.GError.Free(error);
-            }
-            else
-            {
-                Domain = 0;
-                Code = 0;
-                Message = null;
-            }
+            Domain = 0;
+            Code = 0;
+            Message = null;
         }
     }
+
+    [DllImport(Globals.LibGtk, EntryPoint = "g_error_free", CallingConvention = CallingConvention.Cdecl)]
+    extern static void Free(IntPtr handle);
 }
+

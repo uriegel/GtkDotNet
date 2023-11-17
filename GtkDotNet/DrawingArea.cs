@@ -1,29 +1,19 @@
 using System;
+using System.Runtime.InteropServices;
 
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public static class DrawingArea
 {
-    public class DrawingArea : Widget
-    {
-        public delegate void DrawFunc(DrawingArea drawingArea, CairoContext context);
-        public DrawingArea(DrawFunc drawFunc) : this(drawFunc, Raw.DrawingArea.New()) { }
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_drawing_area_new", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr New();
 
-        public DrawingArea(DrawFunc drawFunc, IntPtr handle) : base(new GObject(handle))
-            => InitDrawFunc(drawFunc);
+    public static void SetDrawFunction(this IntPtr drawingArea, DrawFunction drawFunction) 
+        => SetDrawFunction(drawingArea, drawFunction, IntPtr.Zero, p => {});
+    public delegate void DrawFunction(IntPtr drawingArea, IntPtr cairo, int width, int height, IntPtr data);
+    delegate void OnDestroyFunction(IntPtr nil);
 
-        public void QueueDraw() => Raw.Widget.QueueDraw(handle);
-
-        protected void InitDrawFunc(DrawFunc drawFunc)
-        {
-            if (drawFunc != null)
-            {
-                this.drawFunc = drawFunc;
-                Raw.Gtk.SignalConnect<RawDrawFunc>(handle, "draw", (_, context, __)
-                    => drawFunc(this, new CairoContext(context)));
-            }
-        }
-
-        DrawFunc drawFunc;
-
-        delegate void RawDrawFunc(IntPtr widget, IntPtr context, IntPtr data);
-    }
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_drawing_area_set_draw_func", CallingConvention = CallingConvention.Cdecl)]
+    extern static void SetDrawFunction(this IntPtr drawingArea, DrawFunction drawFunction, IntPtr zero, OnDestroyFunction onDestroy);
 }
+

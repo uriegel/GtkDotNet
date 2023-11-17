@@ -1,56 +1,25 @@
 using System;
+using System.Runtime.InteropServices;
 
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public static class Builder
 {
-    public class Builder : IDisposable
-    {
-        public static Builder FromResource(string pathToGlade)
-            => new Builder(Raw.Builder.FromResource(pathToGlade));
+    public static int AddFromFile(this IntPtr builder, string file) => AddFromFile(builder, file, IntPtr.Zero);
 
-        public Builder() => builder = Raw.Builder.New();
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_builder_new", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr New();
 
-        Builder(IntPtr builder) => this.builder = builder;
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_builder_new_from_resource", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr FromResource(string path);
 
-        public void FromFile(string gladeFile)
-            => Raw.Builder.AddFromFile(builder, gladeFile, IntPtr.Zero);
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_builder_get_object", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetObject(this IntPtr builder, string objectName);
 
-        public GObject GetObject(string objectName)
-            => new GObject(Raw.Builder.GetObject(builder, objectName));
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_builder_connect_signals_full", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr ConnectSignals(this IntPtr builder, ConnectDelegate onConnection);
 
-        readonly IntPtr builder;
-
-        #region IDisposable
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // dispose managed state (managed objects)
-                }
-
-                // free unmanaged resources (unmanaged objects) and override finalizer
-                // set large fields to null
-                Raw.GObject.Unref(builder);
-                disposedValue = true;
-            }
-        }
-
-        // override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        ~Builder()
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            => Dispose(disposing: false);
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
-        bool disposedValue;
-
-        #endregion
-    }
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_builder_add_from_file", CallingConvention = CallingConvention.Cdecl)]
+    extern static int AddFromFile(this IntPtr builder, string file, IntPtr nil);
 }
+

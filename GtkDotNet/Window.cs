@@ -1,139 +1,94 @@
 using System;
+using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public static class Window
 {
-    public class Window : Container
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_new", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr New(WindowType windowType);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_default_size", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetDefaultSize(this IntPtr window, int width, int height);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_move", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Move(this IntPtr window, int x, int y);
+
+    public static (int, int) GetPosition(this IntPtr window)
     {
-        #region Events
-        
-        public event EventHandler<DeleteEventArgs> Delete
-        { 
-            add 
-            {
-                delete += value;
-                deleteFunc = () => 
-                {
-                    var dea = new DeleteEventArgs();
-                    delete?.Invoke(this, dea);
-                    return dea.Cancel;  
-                };
-                Raw.Gtk.SignalConnect<BoolFunc>(handle, "delete_event", deleteFunc);// true cancels the destroy request!
-            }
-            remove 
-            {
-                delete -= value;
-                Raw.Gtk.SignalDisconnect<BoolFunc>(handle, "delete_event", deleteFunc);
-                deleteFunc = null;
-            }
-        }
-        event EventHandler<DeleteEventArgs> delete;
-        BoolFunc deleteFunc;
-
-        public event EventHandler<ConfigureEventArgs> Configure
-        { 
-            add 
-            {
-                configure += value;
-                configureFunc = (w, e) => 
-                {
-                    var evt = Marshal.PtrToStructure<Raw.ConfigureEvent>(e);
-                    var cea = new ConfigureEventArgs()
-                    {
-                        EventType = (GdkEventType)evt.EventType,
-                        Height = evt.Height,
-                        Width = evt.Width,
-                        SendEvent = evt.SendEvent != 0,
-                        X = evt.X,
-                        Y = evt.Y
-
-                    };
-                    configure?.Invoke(this, cea);
-                    return false;
-                };
-                Raw.Gtk.SignalConnect<ConfigureEventFunc>(handle, "configure_event", configureFunc);
-            }
-            remove 
-            {
-                configure -= value;
-                Raw.Gtk.SignalDisconnect<ConfigureEventFunc>(handle, "configure_event", configureFunc);
-                configureFunc = null;
-            }
-        }
-        event EventHandler<ConfigureEventArgs> configure;
-        ConfigureEventFunc configureFunc;
-
-        public event EventHandler<NotifyEventArgs> LeaveNotify
-        { 
-            add 
-            {
-                leaveNotify += value;
-                leaveNotifyFunc = (a, b, c) => 
-                {
-                    var dea = new NotifyEventArgs();
-                    leaveNotify?.Invoke(this, dea);
-                    return dea.Cancel;  
-                };
-                Raw.Gtk.SignalConnect<NotifyEventFunc>(handle, "leave-notify_event", leaveNotifyFunc);// true cancels the destroy request!
-            }
-            remove 
-            {
-                leaveNotify -= value;
-                Raw.Gtk.SignalDisconnect<NotifyEventFunc>(handle, "leave-notify_event", leaveNotifyFunc);
-                leaveNotify = null;
-            }
-        }
-        event EventHandler<NotifyEventArgs> leaveNotify;
-        NotifyEventFunc leaveNotifyFunc;
-
-        #endregion
-
-        public (int, int) Size 
-        { 
-            get  
-            {
-                Raw.Window.GetSize(handle, out var w, out var h);
-                return (w, h);
-            }
-        }       
-
-        public Window() : base(new GObject(Raw.Window.New(WindowType.TopLevel))) {}
-        public Window(GObject obj) : base(obj) {}
-        public void SetTitle(string title) => Raw.Window.SetTitle(handle, title);
-        public void ShowAll() => Raw.Widget.ShowAll(handle);
-        public void SetDefaultSize(int width, int height) => Raw.Window.SetDefaultSize(handle, width, height);
-        public void Maximize() => Raw.Window.Maximize(handle);
-        public bool IsMaximized() => Raw.Window.IsMaximized(handle);
-        public void Move(int x, int y) => Raw.Window.Move(handle, x, y);
-        public void Resize(int width, int height) => Raw.Window.Resize(handle, width, height);
-        public (int, int) GetPosition() 
-        {
-            Raw.Window.GetPosition(handle, out var x, out var y);
-            return (x, y);
-        } 
-
-        public void SetIcon(Pixbuf icon) => Raw.Window.SetIcon(handle, icon.handle);
-
-        public void SetIconFromResource(string path) 
-        {
-            using var pixbuf = Pixbuf.FromResource(path);
-            SetIcon(pixbuf);
-        } 
-
-        public void SetIconFromCSharpResource(string path) 
-        {
-            var resIcon = System.Reflection.Assembly
-                .GetEntryAssembly()
-                ?.GetManifestResourceStream(path);
-            using var ms = new GtkDotNet.MemoryStream(resIcon);
-            using var pixbuf = Pixbuf.FromStream(ms);
-            SetIcon(pixbuf);
-        } 
-
-        public void Close() => Raw.Window.Close(handle);
-
-        delegate bool BoolFunc();
-        delegate bool ConfigureEventFunc(IntPtr widget, IntPtr evt);
-        delegate bool NotifyEventFunc(IntPtr widget, IntPtr evt, IntPtr _);
+        GetPosition(window, out var x, out var y);
+        return (x, y);
     }
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_close", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Close(this IntPtr window);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_modal", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetModal(this IntPtr window, bool set);
+        
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_title", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetTitle(this IntPtr window, string title);
+
+    public static (int, int) GetSize(this IntPtr window)
+    {
+        GetSize(window, out var w, out var h);
+        return (w, h);
+    }        
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_maximize", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Maximize(this IntPtr window);        
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_is_maximized", CallingConvention = CallingConvention.Cdecl)]
+    public extern static bool IsMaximized(this IntPtr window);        
+    
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_transient_for", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetTransientFor(this IntPtr window, IntPtr parent);  
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_child", CallingConvention = CallingConvention.Cdecl)]
+    public extern static bool SetChild(this IntPtr window, IntPtr child);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_application", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetApplication(this IntPtr window, IntPtr application);
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_icon_name", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetIconName(this IntPtr window, string name);  
+
+    /// <summary>
+    /// Sets the window icon. It uses an icon contained as DotNet resource
+    /// </summary>
+    /// <param name="window"></param>
+    /// <param name="resourceIconPath">DotNet resource path of the icon</param>
+    public static void SetIconFromDotNetResource(IntPtr window, string resourceIconPath)
+    {
+        var themeDir = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "Gtk4DotNet", 
+                    Assembly
+                        .GetCallingAssembly()
+                        .GetName()
+                        .Name);
+        var iconDir = Path.Combine(themeDir, "hicolor", "48x48", "apps");
+        Directory.CreateDirectory(iconDir);
+
+        var resIcon = System.Reflection.Assembly
+            .GetEntryAssembly()
+            ?.GetManifestResourceStream(resourceIconPath);
+        using var iconFile = File.OpenWrite(Path.Combine(iconDir, "icon.png"));
+        resIcon.CopyTo(iconFile);
+
+        var theme = Display.IconThemeForDisplay(Widget.GetDisplay(window));
+        IconTheme.AddSearchPath(theme, themeDir); 
+        window.SetIconName("icon");
+    }
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_get_size", CallingConvention = CallingConvention.Cdecl)]
+    extern static void GetSize(IntPtr window, out int width, out int height);  
+
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_get_position", CallingConvention = CallingConvention.Cdecl)]
+    extern static void GetPosition(IntPtr window, out int x, out int y);
 }
+
+
+

@@ -1,17 +1,12 @@
 using System;
 
-namespace GtkDotNet
+namespace GtkDotNet;
+
+[Flags]
+public enum IconLookup
 {
-    [Flags]
-    public enum IconLookup
-    {
-        None = 0,
-        NoSvg = 1,
-        ForceSvg = 2,
-        UseBuildin = 4,
-        GenericFallback = 8,
-        ForceSize = 16,
-        ForceRegular = 32,
-        ForceSymbolic = 64,
-    }
+    None = 0,
+    ForceRegular = 1,
+    ForceSymbolic = 2,
+    Preload = 4,
 }

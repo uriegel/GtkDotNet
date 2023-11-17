@@ -1,9 +1,8 @@
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public enum LineCap
 {
-    public enum LineCap
-    {
-        Butt,
-        Round,
-        Square
-    }
+    Butt,
+    Round,
+    Square
 }

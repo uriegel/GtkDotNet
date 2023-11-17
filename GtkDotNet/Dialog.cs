@@ -1,70 +1,13 @@
 using System;
+using System.Runtime.InteropServices;
 
-namespace GtkDotNet
+namespace GtkDotNet;
+public static class Dialog
 {
-    public class Dialog : IDisposable
-    {
-        public enum FileChooserAction
-        {
-            Open,
-            Save, 
-            SelectFolder,
-            CreateFolder
-        }
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_dialog_new", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr New();
 
-        public enum ResponseId 
-        {
-            None = -1,
-            Reject = -2,
-            Accept = -3,
-            DeleteEvent = -4,
-            Ok = -5,
-            Cancel = -6,
-            Close = -7,
-            Yes = -8,
-            No = -9,
-            Apply = -10,
-            Help = -11            
-        }
-
-        public ResponseId Run() => GtkDotNet.Raw.Dialog.Run(handle);
-        protected Dialog(IntPtr handle) => this.handle = handle;
-
-        protected readonly IntPtr handle;
-
-        #region IDisposable 
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // dispose managed state (managed objects)
-                }
-
-                // free unmanaged resources (unmanaged objects) and override finalizer
-                // set large fields to null
-                GtkDotNet.Raw.Widget.Destroy(handle);
-                disposedValue = true;
-            }
-        }
-
-        ~Dialog()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: false);
-        }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-        
-        bool disposedValue;
-
-        #endregion
-    }
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_dialog_new_with_buttons", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr New(string title, IntPtr parent, DialogFlags flags, string firstButton, string secondButton = null, string thirdButton = null);
 }
+

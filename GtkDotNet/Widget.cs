@@ -1,95 +1,83 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public static class Widget
 {
-    public class Widget : GObject
-    {
-        #region Events
-        
-        public event EventHandler<KeyEventArgs> KeyPress
-        { 
-            add 
-            {
-                keyPress += value;
-                keyPressFunc = (w, e) => 
-                {
-                    var evt = Marshal.PtrToStructure<EventKey>(e);
-                    var kea = new KeyEventArgs(evt);
-                    keyPress?.Invoke(this, kea);
-                    return kea.Cancel;  
-                };
-                Raw.Gtk.SignalConnect<KeyPressEventFunc>(handle, "key_press_event", keyPressFunc);
-            }
-            remove 
-            {
-                keyPress -= value;
-                Raw.Gtk.SignalDisconnect<KeyPressEventFunc>(handle, "key_press_event", keyPressFunc);
-                keyPressFunc = null;
-            }
-        }
-        event EventHandler<KeyEventArgs> keyPress;
-        KeyPressEventFunc keyPressFunc;
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_show", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Show(this IntPtr widget);
 
-        public event EventHandler Activate
-        { 
-            add 
-            {
-                activate += value;
-                activateFunc = () => activate?.Invoke(this, EventArgs.Empty);
-                Raw.Gtk.SignalConnect<Action>(handle, "activate", activateFunc);
-            }
-            remove 
-            {
-                activate -= value;
-                Raw.Gtk.SignalDisconnect<Action>(handle, "activate", activateFunc);
-                activateFunc = null;
-            }
-        }
-        event EventHandler activate;
-        Action activateFunc;
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_hide", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Hide(this IntPtr widget);
 
-        public event EventHandler<DragDataGetEventArgs> DragDataGet
-        { 
-            add 
-            {
-                dragDataGet += value;
-                dragDataGetFunc = (widget, context, selectionData, info, time, _) 
-                    => dragDataGet?.Invoke(this, new DragDataGetEventArgs(){ SelectionData = new SelectionData(selectionData) });
-                Raw.Gtk.SignalConnect<DragDataGetEventFunc>(handle, "drag-data-get", dragDataGetFunc);
-            }
-            remove 
-            {
-                dragDataGet -= value;
-                Raw.Gtk.SignalDisconnect<DragDataGetEventFunc>(handle, "drag-data-get", dragDataGetFunc);
-                dragDataGetFunc = null;
-            }
-        }
-        event EventHandler<DragDataGetEventArgs> dragDataGet;
-        DragDataGetEventFunc dragDataGetFunc;
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_visible", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetVisible(this IntPtr widget, bool visible);
+    
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_visible", CallingConvention = CallingConvention.Cdecl)]
+    public extern static bool GetVisible(this IntPtr widget);
 
-        #endregion
-        
-        public bool Visible 
-        {
-            get => Raw.Widget.GetVisible(handle); 
-            set => Raw.Widget.SetVisible(handle, value);  
-        }
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_size_request", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetSizeRequest(this IntPtr widget, int width, int height);
 
-        public Widget(GObject obj) : base(obj) {}
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_width", CallingConvention = CallingConvention.Cdecl)]
+    public extern static int GetWidth(this IntPtr widget);
+    
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_height", CallingConvention = CallingConvention.Cdecl)]
+    public extern static int GetHeight(this IntPtr widget);
 
-        public void SetSizeRequest(int width, int height) => Raw.Widget.SetSizeRequest(handle, width, height);
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_destroy", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Destroy(this IntPtr widget);
 
-        public void GrabFocus() => Raw.Widget.GrabFocus(handle);
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_grab_focus", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void GrabFocus(this IntPtr widget);
 
-        public int GetAllocatedWidth() => Raw.Widget.GetAllocatedWidth(handle);
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_allocated_width", CallingConvention = CallingConvention.Cdecl)]
+    public extern static int GetAllocatedWidth(this IntPtr widget);
 
-        public int GetAllocatedHeight() => Raw.Widget.GetAllocatedHeight(handle);
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_allocated_height", CallingConvention = CallingConvention.Cdecl)]
+    public extern static int GetAllocatedHeight(this IntPtr widget);
 
-        public void StartDrag(TargetList targetList, Raw.DragDrop.DragActions dragActions, int button, int x, int y) 
-            => Raw.DragDrop.Begin(handle, targetList.handle, dragActions, button, IntPtr.Zero, x, y);
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_queue_draw", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void QueueDraw(this IntPtr widget);
 
-        delegate bool KeyPressEventFunc(IntPtr widget, IntPtr evt);
-        delegate void DragDataGetEventFunc(IntPtr widget, IntPtr context, IntPtr selectionData, int info, int time, IntPtr _);
-    }
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_halign", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetHAlign(this IntPtr widget, Align align);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_valign", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetVAlign(this IntPtr widget, Align align);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_add_controller", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void AddController(this IntPtr widget, IntPtr eventController);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_native", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetNative(this IntPtr widget);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_hexpand", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetHExpand(this IntPtr widget, bool expand);
+    
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_vexpand", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetVExpand(this IntPtr widget, bool expand);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_set_sensitive", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetSensitive(this IntPtr widget, bool sensitive);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_first_child", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetFirstChild(this IntPtr widget);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_style_context", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetStyleContext(this IntPtr widget);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_parent", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetParent(this IntPtr widget);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_add_css_class", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void AddCssClass(this IntPtr widget, string cssClass);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_remove_css_class", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void RemoveCssClass(this IntPtr widget, string cssClass);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_get_display", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr GetDisplay(this IntPtr widget);
 }
+

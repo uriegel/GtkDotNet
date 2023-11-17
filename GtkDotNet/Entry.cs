@@ -1,15 +1,13 @@
+using System;
 using System.Runtime.InteropServices;
 
-namespace GtkDotNet
+namespace GtkDotNet;
+
+public static class Entry
 {
-    public class Entry : Container
-    {
-        public string Text
-        {
-            get => Marshal.PtrToStringUTF8(Raw.Entry.GetText(handle));
-            set => Raw.Entry.SetText(handle, value);
-        }
-        
-        public Entry(GObject obj) : base(obj) {}
-    }
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_entry_set_text", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void EntrySetText(this IntPtr headerBar, string text);
+
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_entry_get_text", CallingConvention = CallingConvention.Cdecl)]
+    extern static IntPtr EntryGetText(this IntPtr headerBar);
 }
