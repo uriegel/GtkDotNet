@@ -15,7 +15,7 @@
 		<PackageReleaseNotes>Beginning...</PackageReleaseNotes>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageTags>DotNet GTK4</PackageTags>
+		<PackageTags>DotNet GTK</PackageTags>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
