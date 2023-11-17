@@ -7,23 +7,16 @@ var sseEventSource = WebView.CreateEventSource<Event>();
 StartEvents(sseEventSource.Send);
 
 WebView
-    .Create()
+    .Create()   
     .InitialBounds(600, 800)
     .ResourceIcon("icon")
     .Title("Commander")
     .QueryString(() => $"?theme={Application.Dispatch(() => GtkSettings.GetDefault().GetString("gtk-theme-name")).Result}")
-    
-    
-    
-    
-    //.SaveBounds()
-
-
-
+    .SaveBounds()
     .DefaultContextMenuEnabled()
     .OnStarted(() => Console.WriteLine("Now started"))
     //.DebugUrl("http://localhost:3000")
-    .Url($"file://{Directory.GetCurrentDirectory()}/webroot/index.html")
+    .Url($"file://{Directory.GetCurrentDirectory()}/../6-WebView/webroot/index.html")
     .ConfigureHttp(http => http
         .ResourceWebroot("webroot", "/web")
         .UseSse("sse/test", sseEventSource)

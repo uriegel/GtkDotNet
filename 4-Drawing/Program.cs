@@ -30,7 +30,7 @@ return Application.Run("org.gtk.example", app =>
                             var nativeSurface = Native.GetSurface(widget.GetNative());
                             if (nativeSurface != IntPtr.Zero)
                             {
-                                surface = Cairo.SurfaceCreateSimilar(nativeSurface, CairoContent.Color, widget.GetWidth(), widget.GetHeight());
+                                surface = Cairo.SurfaceCreateSimilar(nativeSurface, CairoContent.Color, widget.GetSize().Item1, widget.GetSize().Item2);
                                 ClearSurface();
                             }
                         }))
