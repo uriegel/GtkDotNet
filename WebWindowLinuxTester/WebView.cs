@@ -110,7 +110,7 @@ public class WebView : WebWindowNetCore.Base.WebView
                                     .SideEffectChoose(Window.IsMaximized(w) == false,
                                         _ => { WebKit.RunJavascript(wk,
                                             $$"""
-                                                localStorage.setItem('window-bounds', JSON.stringify({width: {{w.GetSize().Item1}}, height: {{w.GetSize().Item2}}}))
+                                                localStorage.setItem('window-bounds', JSON.stringify({width: {{w.GetWidth()}}, height: {{w.GetHeight()}}}))
                                                 localStorage.setItem('isMaximized', false)
                                             """);},
                                     _ => { WebKit.RunJavascript(wk, $"localStorage.setItem('isMaximized', true)"); }

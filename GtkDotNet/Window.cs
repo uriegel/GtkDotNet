@@ -16,6 +16,12 @@ public static class Window
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_move", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Move(this IntPtr window, int x, int y);
 
+    public static int GetWidth(this IntPtr window)
+        => window.GetSize().Item1;
+
+    public static int GetHeight(this IntPtr window)
+        => window.GetSize().Item2;
+
     public static (int, int) GetPosition(this IntPtr window)
     {
         GetPosition(window, out var x, out var y);
