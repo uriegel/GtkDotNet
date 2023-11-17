@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Gtk4DotNet\Gtk4DotNet.csproj" />
+    <ProjectReference Include="..\GtkDotNet\GtkDotNet.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
