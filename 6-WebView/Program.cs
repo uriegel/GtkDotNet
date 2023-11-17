@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Data.SqlTypes;
+using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 using GtkDotNet;
 
 using LinqTools;
@@ -24,37 +26,14 @@ return Application.Run("org.gtk.example", app =>
                                 if (text == "dragStart")
                                 {
                                     Console.WriteLine("dragStart ja");
-//                                    w.StartDrag(new TargetList(new TargetEntry("text/uri-list", GtkDotNet.Raw.TargetEntry.Flags.Default, 14)), GtkDotNet.Raw.DragDrop.DragActions.Copy, 1, -1, -1);
+                                    w.StartDrag(DragActions.Copy | DragActions.Move);
                                 }
                             }))
                         .SideEffect(wk => wk.LoadUri($"file://{Directory.GetCurrentDirectory()}/webroot/index.html"))
                 ))
-
-
-
+                .SideEffect(w => w.SignalConnect<DragDataGetEventFunc>("drag-data-get", (w, c, selectionData, info, time, _) => 
+                    selectionData.DataSetUris(new[] { "file:///home/uwe/test"})))
                 .Show()
     );
 
-//         .SideEffect(n => {
-//             var affe = 
-//             Application.Dispatch(() =>
-//             GtkSettings.GetDefault()
-//                 .GetString("gtk-theme-name")).Result;
-//         })
-
-
-
-//         .SideEffect(w => 
-//         {
-//             var test = Application.Dispatch(() => 
-//                     GtkSettings.GetDefault().GetString("gtk-theme-name")).Result;
-//         })
-//         .Show());
-
-// enum PlatformType
-// {
-//     Kde,
-//     Gnome,
-//     Windows
-// }
-
+delegate void DragDataGetEventFunc(IntPtr widget, IntPtr context, IntPtr selectionData, int info, int time, IntPtr _);

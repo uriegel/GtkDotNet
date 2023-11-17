@@ -14,17 +14,6 @@ public static class DragDrop
     }
 
     [Flags]
-    public enum DragActions
-    {
-        Default = 1,
-        Copy = 2,
-        Move = 4,
-        Link = 8,
-        Private = 0x10,
-        Ask = 0x20
-    }
-
-    [Flags]
     public enum ModifierType
     {
         ShiftMask = 1,
@@ -43,38 +32,13 @@ public static class DragDrop
 
     }
 
-    public static void BeginDragDrop(this IntPtr widget, string identifier)
-    {
-        var ds = NewDragSource();
-        ds.SignalConnect<DragPrepareDelegate>("prepare", (s, x, y, w) =>
-        {
-            GSList list = new();
-
-            GValue.Nix nix = new();
-            list.Data = GValue.Init(nix, GType.String);
-            GValue.SetString(list.Data, "Affenkopf");
-            var mist = GValue.GetString(list.Data);
-            var misti = Marshal.PtrToStringUni(mist);
-
-//            GDK_TYPE_FILE_LIST
-            return IntPtr.Zero;
-        });
-        ds.SignalConnect<DragBeginDelegate>("drag-begin", (s, x, y) =>
-        {
-
-        });
-        widget.AddController(ds);
-    }
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_drag_dest_set", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetDestination(IntPtr widget, DefaultDestination defaultDestination, IntPtr targets, int targetCount, DragActions actions);
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_drag_dest_unset", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void UnSet(IntPtr widget);
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_drag_source_set", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void SetSource(IntPtr widget, DefaultDestination defaultDestination, IntPtr targets, int targetCount, DragActions actions);
     
-    [DllImport(Globals.LibGtk, EntryPoint = "gtk_drag_source_new", CallingConvention = CallingConvention.Cdecl)]
-    extern static IntPtr NewDragSource();
-
-    [DllImport(Globals.LibGtk, EntryPoint = "gdk_content_provider_new_typed", CallingConvention = CallingConvention.Cdecl)]
-    extern static IntPtr NewTypeContentProvider();
-
-    [DllImport(Globals.LibGtk, EntryPoint = "gtk_widget_add_controller", CallingConvention = CallingConvention.Cdecl)]
-    extern static IntPtr AddController(IntPtr widget, IntPtr controller);
-       
-    delegate IntPtr DragPrepareDelegate(IntPtr source, double x, double y, IntPtr widget);
-    delegate void DragBeginDelegate(IntPtr source, IntPtr s, IntPtr o);
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_drag_begin_with_coordinates", CallingConvention = CallingConvention.Cdecl)]
+    public extern static void Begin(IntPtr widget, IntPtr targetList, DragActions actions, int button, IntPtr zero, int x, int y);
 }

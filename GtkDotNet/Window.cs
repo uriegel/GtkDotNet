@@ -43,6 +43,25 @@ public static class Window
         return (w, h);
     }        
 
+    /// <summary>
+    /// Sets the window icon. It uses an icon contained as DotNet resource
+    /// </summary>
+    /// <param name="window"></param>
+    /// <param name="resourceIconPath">DotNet resource path of the icon</param>
+    public static void SetIconFromDotNetResource(IntPtr window, string resourceIconPath)
+    {
+        var resIcon = Assembly
+                        .GetEntryAssembly()
+                        ?.GetManifestResourceStream(resourceIconPath);
+        using var ms = new IconMemoryStream(resIcon);
+        using var pixbuf = IconPixbuf.FromStream(ms);
+        window.SetIcon(pixbuf.handle);
+    }
+
+    public static void StartDrag(this IntPtr window, DragActions dragActions, string id = "text/uri-list")
+        => StartDrag(window, new TargetList(new TargetEntry(id, TargetEntry.Flags.Default, 1)), dragActions, 1, -1, 1); 
+
+
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_maximize", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Maximize(this IntPtr window);        
 
@@ -61,24 +80,11 @@ public static class Window
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_icon_name", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetIconName(this IntPtr window, string name);  
 
+    static void StartDrag(this IntPtr window, TargetList targetList, DragActions dragActions, int button, int x, int y) 
+        => DragDrop.Begin(window, targetList.handle, dragActions, button, IntPtr.Zero, x, y);
+
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_icon", CallingConvention = CallingConvention.Cdecl)]
     extern static bool SetIcon(this IntPtr window, IntPtr pixbuf);
-
-
-    /// <summary>
-    /// Sets the window icon. It uses an icon contained as DotNet resource
-    /// </summary>
-    /// <param name="window"></param>
-    /// <param name="resourceIconPath">DotNet resource path of the icon</param>
-    public static void SetIconFromDotNetResource(IntPtr window, string resourceIconPath)
-    {
-        var resIcon = Assembly
-                        .GetEntryAssembly()
-                        ?.GetManifestResourceStream(resourceIconPath);
-        using var ms = new IconMemoryStream(resIcon);
-        using var pixbuf = IconPixbuf.FromStream(ms);
-        window.SetIcon(pixbuf.handle);
-    }
 
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_get_size", CallingConvention = CallingConvention.Cdecl)]
     extern static void GetSize(IntPtr window, out int width, out int height);  
