@@ -1,3 +1,4 @@
+using WebWindowNetCore;
 using WebWindowNetCore.Data;
 
 public class WebViewBuilder : WebWindowNetCore.Base.WebViewBuilder

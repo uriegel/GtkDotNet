@@ -1,19 +1,22 @@
 ﻿using LinqTools;
 using AspNetExtensions;
+using WebWindowNetCore;
+using GtkDotNet;
 
 var sseEventSource = WebView.CreateEventSource<Event>();
 StartEvents(sseEventSource.Send);
 
 WebView
     .Create()
-    .InitialBounds(60, 800)
+    .InitialBounds(600, 800)
     .ResourceIcon("icon")
     .Title("Commander")
-    .QueryString("?theme=adwaita")
+    .QueryString(() => $"?theme={Application.Dispatch(() => GtkSettings.GetDefault().GetString("gtk-theme-name")).Result}")
     .SaveBounds()
-    .DebugUrl("http://localhost:3000")
-    .Url("http://localhost:3000")
-    //.Url($"file://{Directory.GetCurrentDirectory()}/webroot/index.html")
+    .DefaultContextMenuEnabled()
+    .OnStarted(() => Console.WriteLine("Now started"))
+    //.DebugUrl("http://localhost:3000")
+    .Url($"file://{Directory.GetCurrentDirectory()}/webroot/index.html")
     .ConfigureHttp(http => http
         .ResourceWebroot("webroot", "/web")
         .UseSse("sse/test", sseEventSource)
@@ -26,7 +29,7 @@ WebView
     .DebuggingEnabled()
 #endif            
     .Build()
-    .Run("de.uriegel.WebWindowLinuxTester");    
+    .Run("de.uriegel.Commander");    
 
 void StartEvents(Action<Event> onChanged)   
 {
@@ -45,3 +48,7 @@ void StartEvents(Action<Event> onChanged)
 }
 
 record Event(string Content);
+
+// TODO https://webkitgtk.org/reference/webkit2gtk/2.28.2/WebKitURISchemeRequest.html
+// TODO Windows Version: https://learn.microsoft.com/en-us/dotnet/api/microsoft.web.webview2.core.corewebview2.webresourcerequested?view=webview2-dotnet-1.0.1587.40
+// TODO Favicon in Webroot, Property obsolet

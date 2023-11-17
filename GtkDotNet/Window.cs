@@ -46,7 +46,7 @@ public static class Window
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_transient_for", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetTransientFor(this IntPtr window, IntPtr parent);  
 
-    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_child", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_container_add", CallingConvention = CallingConvention.Cdecl)]
     public extern static bool SetChild(this IntPtr window, IntPtr child);
 
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_application", CallingConvention = CallingConvention.Cdecl)]

@@ -5,7 +5,7 @@ namespace GtkDotNet;
 
 public static class Widget
 {
-    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_show", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_show_all", CallingConvention = CallingConvention.Cdecl)]
     public extern static void Show(this IntPtr widget);
 
     [DllImport(Globals.LibGtk, EntryPoint="gtk_widget_hide", CallingConvention = CallingConvention.Cdecl)]
