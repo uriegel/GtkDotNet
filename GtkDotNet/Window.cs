@@ -55,6 +55,10 @@ public static class Window
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_icon_name", CallingConvention = CallingConvention.Cdecl)]
     public extern static void SetIconName(this IntPtr window, string name);  
 
+    [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_set_icon", CallingConvention = CallingConvention.Cdecl)]
+    extern static bool SetIcon(this IntPtr window, IntPtr pixbuf);
+
+
     /// <summary>
     /// Sets the window icon. It uses an icon contained as DotNet resource
     /// </summary>
@@ -62,25 +66,12 @@ public static class Window
     /// <param name="resourceIconPath">DotNet resource path of the icon</param>
     public static void SetIconFromDotNetResource(IntPtr window, string resourceIconPath)
     {
-        var themeDir = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    "Gtk4DotNet", 
-                    Assembly
-                        .GetCallingAssembly()
-                        .GetName()
-                        .Name);
-        var iconDir = Path.Combine(themeDir, "hicolor", "48x48", "apps");
-        Directory.CreateDirectory(iconDir);
-
-        var resIcon = System.Reflection.Assembly
-            .GetEntryAssembly()
-            ?.GetManifestResourceStream(resourceIconPath);
-        using var iconFile = File.OpenWrite(Path.Combine(iconDir, "icon.png"));
-        resIcon.CopyTo(iconFile);
-
-        var theme = Display.IconThemeForDisplay(Widget.GetDisplay(window));
-        IconTheme.AddSearchPath(theme, themeDir); 
-        window.SetIconName("icon");
+        var resIcon = Assembly
+                        .GetEntryAssembly()
+                        ?.GetManifestResourceStream(resourceIconPath);
+        using var ms = new IconMemoryStream(resIcon);
+        using var pixbuf = IconPixbuf.FromStream(ms);
+        window.SetIcon(pixbuf.handle);
     }
 
     [DllImport(Globals.LibGtk, EntryPoint = "gtk_window_get_size", CallingConvention = CallingConvention.Cdecl)]
@@ -90,5 +81,108 @@ public static class Window
     extern static void GetPosition(IntPtr window, out int x, out int y);
 }
 
+class IconMemoryStream : IDisposable
+{
+    public IconMemoryStream(Stream inputStream)
+    {
+        var bytes = GObject.Malloc((int)inputStream.Length);
+        unsafe
+        {
+            var nativeSpan = new Span<byte>(bytes.ToPointer(), (int)inputStream.Length);
+            inputStream.Read(nativeSpan);
+        }
+        handle = NewInputStreamFromData(bytes, (int)inputStream.Length, 
+            data => GObject.Free(data));
+    }
 
+    [DllImport(Globals.LibGtk, EntryPoint = "g_memory_input_stream_new_from_data", CallingConvention = CallingConvention.Cdecl)]
+    static extern IntPtr NewInputStreamFromData(IntPtr data, int length, NotifyFree free);
 
+    delegate void NotifyFree(IntPtr request);
+
+    internal IntPtr handle { get; private set; }
+
+    #region IDisposable
+
+    bool disposedValue;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                // Verwalteten Zustand (verwaltete Objekte) bereinigen
+            }
+
+            // Nicht verwaltete Ressourcen (nicht verwaltete Objekte) freigeben und Finalizer überschreiben
+            // Große Felder auf NULL setzen
+            GObject.Unref(handle);
+            handle = IntPtr.Zero;
+            disposedValue = true;
+        }
+    }
+
+    // Finalizer nur überschreiben, wenn "Dispose(bool disposing)" Code für die Freigabe nicht verwalteter Ressourcen enthält
+    ~IconMemoryStream()
+    {
+        // Ändern Sie diesen Code nicht. Fügen Sie Bereinigungscode in der Methode "Dispose(bool disposing)" ein.
+        Dispose(disposing: false);
+    }
+
+    public void Dispose()
+    {
+        // Ändern Sie diesen Code nicht. Fügen Sie Bereinigungscode in der Methode "Dispose(bool disposing)" ein.
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    #endregion
+}
+
+class IconPixbuf: IDisposable
+{
+    public static IconPixbuf FromStream(IconMemoryStream inutStream) 
+        => new IconPixbuf(NewFromStream(inutStream.handle, IntPtr.Zero, IntPtr.Zero));
+
+    IconPixbuf(IntPtr pixbuf) => handle = pixbuf;
+
+    [DllImport(Globals.LibGtk, EntryPoint="gdk_pixbuf_new_from_stream", CallingConvention = CallingConvention.Cdecl)]
+    extern static IntPtr NewFromStream(IntPtr gstream, IntPtr cancellable, IntPtr err);
+
+    internal IntPtr handle;
+
+    #region IDisposable
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                // dispose managed state (managed objects)
+            }
+
+            // free unmanaged resources (unmanaged objects) and override finalizer
+            // set large fields to null
+            GObject.Unref(handle);
+            disposedValue = true;
+        }
+    }
+
+    // override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+    ~IconPixbuf() 
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        => Dispose(disposing: false);
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    bool disposedValue;
+
+    #endregion
+}

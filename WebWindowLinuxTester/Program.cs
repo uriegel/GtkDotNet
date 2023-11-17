@@ -12,7 +12,14 @@ WebView
     .ResourceIcon("icon")
     .Title("Commander")
     .QueryString(() => $"?theme={Application.Dispatch(() => GtkSettings.GetDefault().GetString("gtk-theme-name")).Result}")
-    .SaveBounds()
+    
+    
+    
+    
+    //.SaveBounds()
+
+
+
     .DefaultContextMenuEnabled()
     .OnStarted(() => Console.WriteLine("Now started"))
     //.DebugUrl("http://localhost:3000")

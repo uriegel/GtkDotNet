@@ -8,6 +8,9 @@ public static class GObject
     [DllImport(Globals.LibGtk, EntryPoint="g_object_ref", CallingConvention = CallingConvention.Cdecl)]
     public extern static IntPtr Ref(this IntPtr obj);
 
+    [DllImport(Globals.LibGtk, EntryPoint="g_malloc", CallingConvention = CallingConvention.Cdecl)]
+    public extern static IntPtr Malloc(int bytes);
+
     /// <summary>
     /// Increase the reference count of object, and possibly remove the [floating][floating-ref] reference, 
     /// if object has a floating reference. 
